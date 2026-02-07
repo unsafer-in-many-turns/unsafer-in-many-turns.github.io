@@ -36,6 +36,7 @@
     /* Figures */
     figure { margin:24px 0; }
     figure img { width:100%; border:1px solid #e0e0e0; border-radius:4px; }
+    figure.small img { width:75%; margin:0 auto; display:block; }
     figcaption { font-size:0.85rem; color:#666; margin-top:6px; text-align:center; }
 
     /* Two column figures */
@@ -182,7 +183,7 @@
   <div class="container">
     <h2>How Vulnerable Are Agents Under Multi-Turn Interactions?</h2>
     <p class="lede">All models show safety degradation in multi-turn settings. Attack Success Rate (ASR) increases by <strong>16.1% on average</strong>, with Claude-4.5-Sonnet showing the largest jump (+27.1%). Notably, stronger capability does not imply better safety: DeepSeek-v3.2 achieves top capability scores among open-source models but exhibits 85.4% ASR.</p>
-    <figure>
+    <figure class="small">
       <img src="assets/figures/vulnerability_grouped_bar.png" alt="Single vs multi-turn ASR"/>
       <figcaption>Safety degradation from single-turn to multi-turn settings across models.</figcaption>
     </figure>
@@ -212,7 +213,7 @@
   <div class="container">
     <h2>Defense Results</h2>
     <p class="lede">ToolShield reduces ASR by <strong>30% on average</strong> across multi-turn interactions. Claude-4.5-Sonnet shows the largest improvement, dropping from 72% to 22% (−50%). The defense introduces <strong>zero false positives</strong> on 170 benign tasks.</p>
-    <figure>
+    <figure class="small">
       <img src="assets/figures/defense_asr_comparison.png" alt="Defense ASR comparison"/>
       <figcaption>Defense effectiveness across models.</figcaption>
     </figure>
