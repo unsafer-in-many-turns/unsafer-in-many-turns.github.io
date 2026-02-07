@@ -168,14 +168,14 @@
   <div class="analysis-section">
     <h2>📊 Attack Subcategories Analysis</h2>
     <p class="description">
-      Our Multi-Turn Attack Taxonomy (MTA) decomposes harmful tasks into 8 distinct subcategories based on three dimensions: Format (Addition vs. Decomposition), Method (Mapping, Wrapping, Composition, Identity), and Target (Data Files vs. Environment States). Below we analyze how different attack subcategories perform in multi-turn settings and how ToolShield defends against them.
+      Our Multi-Turn Attack Taxonomy (MTA) decomposes harmful tasks into 8 distinct subcategories based on three dimensions: Format (Addition vs. Decomposition), Method (Mapping, Wrapping, Composition, Identity), and Target (Data Files vs. Environment States). Below we analyze how different attack subcategories perform in multi-turn settings and how ToolShield defends against them. Interestingly, environment-targeting attacks had both the highest ASR and the highest RR with Defense. This indicates that ToolShield effectively learns to counter the most dangerous transformation patterns
     </p>
 
     <div class="heatmap-grid">
       <div class="heatmap-item">
         <h3>Multi-Turn Attack Success</h3>
         <p>
-          Attack Success Rate (ASR) for each subcategory across models. Darker colors indicate higher success rates. Addition-based attacks (especially Wrapping × Data) show consistently high effectiveness.
+          Attack Success Rate (ASR) for each subcategory across models. Darker colors indicate higher success rates.
         </p>
         <img src="assets/figures/taxonomy_heatmap_attack.png" alt="Attack subcategory heatmap"/>
       </div>
@@ -183,7 +183,7 @@
       <div class="heatmap-item">
         <h3>ToolShield Defense Effectiveness</h3>
         <p>
-          Refusal Rate (RR) for each subcategory with ToolShield defense. Darker colors indicate better defense. ToolShield shows strong performance across all subcategories, particularly against Wrapping-based attacks.
+          Refusal Rate (RR) for each subcategory with ToolShield defense. Darker colors indicate better defense.
         </p>
         <img src="assets/figures/taxonomy_heatmap_defense.png" alt="Defense subcategory heatmap"/>
       </div>
