@@ -42,9 +42,10 @@
       border-radius:4px;
     }
     figure.wide img {
-      max-width:850px;
+      max-width:100%;
     }
     figcaption { font-size:0.85rem; color:#666; margin-top:12px; text-align:center; max-width:720px; margin-left:auto; margin-right:auto; }
+    figure.wide figcaption { max-width:100%; }
 
     /* Two column figures */
     .two-col { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin:28px 0; }
@@ -135,8 +136,8 @@
 <!-- Taxonomy -->
 <section>
   <div class="container">
-    <h2>How Do We Attack?</h2>
-    <p>We propose a principled taxonomy that transforms single-turn harmful tasks into multi-turn attack sequences. The taxonomy operates along three dimensions: <strong>Format</strong> (Addition vs. Decomposition), <strong>Method</strong> (Mapping, Wrapping, Composition, Identity), and <strong>Target</strong> (Data Files vs. Environment States) — yielding 8 attack subcategories.</p>
+    <h2>Multi-Turn Attack Taonomy (MTA)</h2>
+    <p>We propose a principled taxonomy that transforms single-turn harmful tasks into multi-turn attack sequences. The taxonomy operates along three dimensions: <strong>Format</strong> (Addition vs. Decomposition), <strong>Method</strong> (Mapping, Wrapping, Composition, Identity), and <strong>Target</strong> (Data Files vs. Environment States), yielding 8 attack subcategories.</p>
     <figure class="wide">
       <img src="assets/figures/Taxonomy.png" alt="Taxonomy diagram"/>
       <figcaption>Multi-Turn Attack Taxonomy: transforming single-turn harms into multi-turn sequences.</figcaption>
@@ -148,13 +149,13 @@
 <section class="tint">
   <div class="container">
     <h2>MT-AgentRisk Benchmark</h2>
-    <p><strong>MT-AgentRisk</strong> contains 365 tasks across 5 tools, averaging 3.19 turns per task, covering all 8 attack subcategories.</p>
+    <p>Applying MTA on the existing single-turn harmful tasks, <strong>MT-AgentRisk</strong> contains 365 tasks across 5 tools, averaging 3.19 turns per task, covering all 8 attack subcategories.</p>
     <div class="tools-list">
-      <span>📁 Filesystem (70)</span>
-      <span>🌐 Playwright (140)</span>
+      <span>📁 MCP-Filesystem (70)</span>
+      <span>🌐 MCP-Playwright (140)</span>
       <span>💻 Terminal (70)</span>
-      <span>🗄️ PostgreSQL (70)</span>
-      <span>📝 Notion (15)</span>
+      <span>🗄️ MCP-PostgreSQL (70)</span>
+      <span>📝 MCP-Notion (15)</span>
     </div>
     <p style="font-size:0.85rem; color:#666;">Sources: OpenAgentSafety, SafeArena, P2SQL, MCPMark</p>
   </div>
@@ -163,7 +164,7 @@
 <!-- Results -->
 <section>
   <div class="container">
-    <h2>How Vulnerable Are Current Agents?</h2>
+    <h2>How Vulnerable Are Current Agents Under Multi-Turn Interactions?</h2>
     <p>All models show safety degradation in multi-turn settings. Attack Success Rate (ASR) increases by <strong>16.1% on average</strong>, with Claude-4.5-Sonnet showing the largest jump (+27.1%). Notably, stronger capability does not imply better safety — DeepSeek-v3.2 achieves top capability scores but exhibits 85.4% ASR.</p>
     <figure>
       <img src="assets/figures/vulnerability_grouped_bar.png" alt="Single vs multi-turn ASR"/>
