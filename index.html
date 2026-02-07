@@ -63,6 +63,7 @@
 
     /* Table */
     table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.9rem; }
+    table.small { width:75%; margin:16px auto; }
     th, td { padding:8px 12px; border:1px solid #ddd; text-align:center; }
     th { background:#f0f0f0; font-weight:600; }
     td:first-child { text-align:left; }
@@ -133,7 +134,7 @@
   <div class="container">
     <h2>Why Multi-Turn Agent Safety?</h2>
     <p class="lede">Existing benchmarks test either single-turn tool agents or multi-turn chat — but never both. Real-world attacks can distribute harmful intent across multiple benign-looking turns.</p>
-    <table>
+    <table class="small">
       <thead>
         <tr><th>Benchmark</th><th>Multi-Turn</th><th>Tool Usage</th></tr>
       </thead>
