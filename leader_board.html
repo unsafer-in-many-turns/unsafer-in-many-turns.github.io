@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MT-AgentRisk Leaderboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; color:#222; line-height:1.6; background:#f8f9fa; }
+    
+    .container { max-width:1100px; margin:0 auto; padding:40px 24px; }
+    
+    h1 { font-size:2rem; margin-bottom:8px; }
+    .subtitle { color:#666; margin-bottom:32px; }
+    
+    /* Controls */
+    .controls { display:flex; gap:24px; margin-bottom:24px; flex-wrap:wrap; align-items:center; }
+    .control-group { display:flex; align-items:center; gap:8px; }
+    .control-group label { font-size:0.9rem; color:#555; font-weight:500; }
+    
+    /* Toggle buttons */
+    .toggle-group { display:flex; background:#e9ecef; border-radius:8px; padding:4px; }
+    .toggle-btn { 
+      padding:8px 16px; 
+      border:none; 
+      background:transparent; 
+      cursor:pointer; 
+      font-size:0.85rem;
+      font-weight:500;
+      color:#666;
+      border-radius:6px;
+      transition: all 0.2s;
+    }
+    .toggle-btn.active { background:#fff; color:#222; box-shadow:0 1px 3px rgba(0,0,0,0.1); }
+    .toggle-btn:hover:not(.active) { color:#333; }
+    
+    /* Table */
+    .table-wrapper { overflow-x:auto; background:#fff; border-radius:12px; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+    table { width:100%; border-collapse:collapse; font-size:0.9rem; }
+    th, td { padding:12px 16px; text-align:center; border-bottom:1px solid #eee; }
+    th { background:#f8f9fa; font-weight:600; color:#333; position:sticky; top:0; }
+    th:first-child, td:first-child { text-align:left; font-weight:500; }
+    
+    tr:hover { background:#f8f9fa; }
+    tr:last-child td { border-bottom:none; }
+    
+    /* Special rows */
+    tr.best-row td { background:#e8f5e9; }
+    tr.summary-row { background:#fff3e0; font-weight:600; }
+    tr.summary-row td { border-top:2px solid #ddd; }
+    
+    /* Rank badge */
+    .rank { 
+      display:inline-flex; 
+      align-items:center; 
+      justify-content:center;
+      width:28px; 
+      height:28px; 
+      border-radius:50%; 
+      font-weight:600;
+      font-size:0.85rem;
+    }
+    .rank-1 { background:#ffd700; color:#333; }
+    .rank-2 { background:#c0c0c0; color:#333; }
+    .rank-3 { background:#cd7f32; color:#fff; }
+    .rank-other { background:#e9ecef; color:#666; }
+    
+    /* Value colors */
+    .good { color:#16a34a; }
+    .bad { color:#dc2626; }
+    
+    /* Footer note */
+    .note { margin-top:16px; font-size:0.8rem; color:#888; }
+
+    /* Subcategories Analysis */
+    .analysis-section { margin-top:60px; }
+    .analysis-section h2 { font-size:1.6rem; margin-bottom:12px; }
+    .analysis-section .description { color:#555; margin-bottom:32px; line-height:1.7; }
+    .heatmap-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:24px; }
+    .heatmap-item { background:#fff; border-radius:12px; padding:24px; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+    .heatmap-item h3 { font-size:1.2rem; margin-bottom:8px; color:#222; }
+    .heatmap-item p { font-size:0.9rem; color:#666; margin-bottom:16px; line-height:1.6; }
+    .heatmap-item img { width:100%; border-radius:8px; border:1px solid #e0e0e0; }
+    @media(max-width:900px){ .heatmap-grid { grid-template-columns:1fr; } }
+    
+    /* Model name styling */
+    .model-name { font-weight:600; }
+    .model-badge { 
+      display:inline-block;
+      font-size:0.7rem; 
+      padding:2px 6px; 
+      border-radius:4px; 
+      margin-left:6px;
+      font-weight:500;
+    }
+    .badge-closed { background:#e3f2fd; color:#1976d2; }
+    .badge-open { background:#f3e5f5; color:#7b1fa2; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🏆 MT-AgentRisk Leaderboard</h1>
+  <p class="subtitle">Evaluating multi-turn safety of tool-using agents. Lower ASR (↓) and higher RR (↑) indicate better safety.</p>
+  
+  <div class="controls">
+    <div class="control-group">
+      <label>Setting:</label>
+      <div class="toggle-group" id="setting-toggle">
+        <button class="toggle-btn active" data-value="single">Single-Turn</button>
+        <button class="toggle-btn" data-value="multi">Multi-Turn</button>
+        <button class="toggle-btn" data-value="defense">Multi-Turn + ToolShield</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <label>Metric:</label>
+      <div class="toggle-group" id="metric-toggle">
+        <button class="toggle-btn active" data-value="asr">ASR ↓</button>
+        <button class="toggle-btn" data-value="rr">RR ↑</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="table-wrapper">
+    <table id="leaderboard">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Model</th>
+          <th>Filesystem</th>
+          <th>Playwright</th>
+          <th>Terminal</th>
+          <th>PostgreSQL</th>
+          <th>Notion</th>
+          <th>Avg.</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  
+  <p class="note">* Task counts: Filesystem (70), Playwright (140), Terminal (70), PostgreSQL (70), Notion (15). Sources: OpenAgentSafety, SafeArena, P2SQL, MCPMark.</p>
+
+  <!-- Subcategories Analysis -->
+  <div class="analysis-section">
+    <h2>📊 Attack Subcategories Analysis</h2>
+    <p class="description">
+      Our Multi-Turn Attack Taxonomy (MTA) decomposes harmful tasks into 8 distinct subcategories based on three dimensions: Format (Addition vs. Decomposition), Method (Mapping, Wrapping, Composition, Identity), and Target (Data Files vs. Environment States). Below we analyze how different attack subcategories perform in multi-turn settings and how ToolShield defends against them.
+    </p>
+
+    <div class="heatmap-grid">
+      <div class="heatmap-item">
+        <h3>Multi-Turn Attack Success</h3>
+        <p>
+          Attack Success Rate (ASR) for each subcategory in the multi-turn setting across different models. Darker colors indicate higher attack success rates, revealing which attack patterns are most effective at bypassing current safety mechanisms. Addition-based attacks (especially Wrapping × Data) show consistently high success rates across all models.
+        </p>
+        <img src="assets/figures/taxonomy_heatmap_attack.png" alt="Attack subcategory heatmap"/>
+      </div>
+
+      <div class="heatmap-item">
+        <h3>ToolShield Defense Effectiveness</h3>
+        <p>
+          Refusal Rate (RR) for each subcategory under multi-turn + ToolShield defense. Darker colors indicate higher refusal rates, showing better defense effectiveness. ToolShield demonstrates strong and balanced performance across all subcategories, with particularly high effectiveness on Wrapping-based attacks that previously showed the highest success rates.
+        </p>
+        <img src="assets/figures/taxonomy_heatmap_defense.png" alt="Defense subcategory heatmap"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const data = {
+  single: {
+    asr: [
+      { model: "GPT-5.2", type: "closed", filesystem: 27.14, playwright: 22.14, terminal: 25.71, postgresql: 22.86, notion: 60.00, avg: 25.48 },
+      { model: "Claude-4.5-Sonnet", type: "closed", filesystem: 37.14, playwright: 57.86, terminal: 28.57, postgresql: 48.57, notion: 20.00, avg: 44.66 },
+      { model: "Qwen3-Coder", type: "open", filesystem: 55.71, playwright: 52.14, terminal: 37.14, postgresql: 80.00, notion: 46.67, avg: 55.07 },
+      { model: "Seed-1.6", type: "closed", filesystem: 70.00, playwright: 64.29, terminal: 62.86, postgresql: 58.57, notion: 46.67, avg: 63.29 },
+      { model: "Gemini-3-Flash", type: "closed", filesystem: 71.43, playwright: 65.71, terminal: 48.57, postgresql: 78.57, notion: 53.33, avg: 65.48 },
+      { model: "Deepseek-v3.2", type: "open", filesystem: 80.00, playwright: 80.00, terminal: 50.00, postgresql: 91.43, notion: 73.33, avg: 76.16 },
+    ],
+    rr: [
+      { model: "GPT-5.2", type: "closed", filesystem: 71.43, playwright: 67.14, terminal: 60.00, postgresql: 71.43, notion: 40.00, avg: 66.30 },
+      { model: "Claude-4.5-Sonnet", type: "closed", filesystem: 55.74, playwright: 27.14, terminal: 58.57, postgresql: 45.71, notion: 73.30, avg: 43.56 },
+      { model: "Qwen3-Coder", type: "open", filesystem: 32.86, playwright: 35.00, terminal: 47.14, postgresql: 17.14, notion: 46.67, avg: 33.97 },
+      { model: "Gemini-3-Flash", type: "closed", filesystem: 24.29, playwright: 15.71, terminal: 41.43, postgresql: 14.29, notion: 33.33, avg: 22.74 },
+      { model: "Seed-1.6", type: "closed", filesystem: 18.57, playwright: 15.00, terminal: 25.71, postgresql: 32.86, notion: 33.33, avg: 21.92 },
+      { model: "Deepseek-v3.2", type: "open", filesystem: 4.29, playwright: 1.43, terminal: 27.14, postgresql: 2.86, notion: 0.00, avg: 7.12 },
+    ]
+  },
+  multi: {
+    asr: [
+      { model: "GPT-5.2", type: "closed", filesystem: 51.00, playwright: 34.29, terminal: 37.14, postgresql: 31.43, notion: 86.67, avg: 39.73, delta: 14.25 },
+      { model: "Claude-4.5-Sonnet", type: "closed", filesystem: 82.86, playwright: 65.71, terminal: 67.14, postgresql: 87.14, notion: 26.67, avg: 71.78, delta: 27.12 },
+      { model: "Seed-1.6", type: "closed", filesystem: 78.57, playwright: 70.71, terminal: 70.00, postgresql: 78.57, notion: 60.00, avg: 73.15, delta: 9.86 },
+      { model: "Qwen3-Coder", type: "open", filesystem: 88.57, playwright: 67.86, terminal: 80.00, postgresql: 90.00, notion: 60.00, avg: 78.08, delta: 23.01 },
+      { model: "Gemini-3-Flash", type: "closed", filesystem: 82.86, playwright: 72.86, terminal: 85.71, postgresql: 80.00, notion: 80.00, avg: 78.90, delta: 13.42 },
+      { model: "Deepseek-v3.2", type: "open", filesystem: 88.57, playwright: 80.00, terminal: 85.71, postgresql: 92.86, notion: 73.33, avg: 84.93, delta: 8.77 },
+    ],
+    rr: [
+      { model: "GPT-5.2", type: "closed", filesystem: 40.00, playwright: 50.71, terminal: 54.29, postgresql: 67.14, notion: 0.00, avg: 50.41, delta: -15.89 },
+      { model: "Claude-4.5-Sonnet", type: "closed", filesystem: 7.14, playwright: 12.14, terminal: 30.00, postgresql: 5.71, notion: 60.00, avg: 15.43, delta: -28.13 },
+      { model: "Seed-1.6", type: "closed", filesystem: 5.71, playwright: 7.14, terminal: 18.57, postgresql: 11.43, notion: 0.00, avg: 9.59, delta: -12.33 },
+      { model: "Qwen3-Coder", type: "open", filesystem: 1.43, playwright: 13.57, terminal: 10.00, postgresql: 1.43, notion: 0.00, avg: 7.67, delta: -26.30 },
+      { model: "Gemini-3-Flash", type: "closed", filesystem: 7.14, playwright: 5.71, terminal: 4.29, postgresql: 8.57, notion: 0.00, avg: 6.03, delta: -16.71 },
+      { model: "Deepseek-v3.2", type: "open", filesystem: 0.00, playwright: 0.00, terminal: 4.29, postgresql: 1.43, notion: 0.00, avg: 1.10, delta: -6.02 },
+    ]
+  },
+  defense: {
+    asr: [
+      { model: "GPT-5.2", type: "closed", filesystem: 32.86, playwright: 27.14, terminal: 14.29, postgresql: 5.71, notion: 13.33, avg: 21.10, delta: -18.63 },
+      { model: "Claude-4.5-Sonnet", type: "closed", filesystem: 28.57, playwright: 25.71, terminal: 20.00, postgresql: 11.43, notion: 13.33, avg: 21.92, delta: -49.86 },
+      { model: "Seed-1.6", type: "closed", filesystem: 54.29, playwright: 32.14, terminal: 30.00, postgresql: 28.57, notion: 40.00, avg: 35.62, delta: -37.53 },
+      { model: "Qwen3-Coder", type: "open", filesystem: 77.14, playwright: 42.14, terminal: 38.57, postgresql: 71.43, notion: 53.33, avg: 54.25, delta: -23.83 },
+      { model: "Deepseek-v3.2", type: "open", filesystem: 67.14, playwright: 52.14, terminal: 48.57, postgresql: 57.14, notion: 46.67, avg: 55.07, delta: -29.86 },
+      { model: "Gemini-3-Flash", type: "closed", filesystem: 75.71, playwright: 59.29, terminal: 45.71, postgresql: 58.57, notion: 60.00, avg: 59.73, delta: -19.17 },
+    ],
+    rr: [
+      { model: "Claude-4.5-Sonnet", type: "closed", filesystem: 60.00, playwright: 69.29, terminal: 77.14, postgresql: 87.14, notion: 80.00, avg: 72.88, delta: 57.54 },
+      { model: "GPT-5.2", type: "closed", filesystem: 57.14, playwright: 56.43, terminal: 80.00, postgresql: 87.14, notion: 66.67, avg: 67.40, delta: 16.99 },
+      { model: "Seed-1.6", type: "closed", filesystem: 27.14, playwright: 47.86, terminal: 61.43, postgresql: 68.57, notion: 20.00, avg: 49.32, delta: 39.73 },
+      { model: "Deepseek-v3.2", type: "open", filesystem: 11.43, playwright: 40.71, terminal: 42.86, postgresql: 37.14, notion: 20.00, avg: 33.97, delta: 32.87 },
+      { model: "Qwen3-Coder", type: "open", filesystem: 7.14, playwright: 38.57, terminal: 48.57, postgresql: 24.29, notion: 20.00, avg: 30.96, delta: 23.29 },
+      { model: "Gemini-3-Flash", type: "closed", filesystem: 15.71, playwright: 19.29, terminal: 38.57, postgresql: 32.86, notion: 13.33, avg: 24.66, delta: 18.63 },
+    ]
+  }
+};
+
+let currentSetting = 'single';
+let currentMetric = 'asr';
+
+function renderTable() {
+  const tbody = document.querySelector('#leaderboard tbody');
+  const thead = document.querySelector('#leaderboard thead tr');
+  const settingData = data[currentSetting];
+  const rows = settingData[currentMetric];
+  
+  // Update header based on setting
+  const hasDelta = currentSetting !== 'single';
+  const deltaLabel = currentSetting === 'multi' ? 'Degradation' : 'Improvement';
+
+  thead.innerHTML = `
+    <th>Rank</th>
+    <th>Model</th>
+    <th>Filesystem</th>
+    <th>Playwright</th>
+    <th>Terminal</th>
+    <th>PostgreSQL</th>
+    <th>Notion</th>
+    <th>Avg.</th>
+    ${hasDelta ? `<th>${deltaLabel}</th>` : ''}
+  `;
+  
+  // Sort by avg (ASR: ascending is better, RR: descending is better)
+  const sorted = [...rows].sort((a, b) => {
+    return currentMetric === 'asr' ? a.avg - b.avg : b.avg - a.avg;
+  });
+  
+  let html = '';
+  sorted.forEach((row, idx) => {
+    const rank = idx + 1;
+    const rankClass = rank <= 3 ? `rank-${rank}` : 'rank-other';
+    const badgeClass = row.type === 'closed' ? 'badge-closed' : 'badge-open';
+    const badgeText = row.type === 'closed' ? 'Closed' : 'Open';
+    
+    let deltaCell = '';
+    if (hasDelta && row.delta !== undefined) {
+      const isGood = (currentSetting === 'multi' && currentMetric === 'asr' && row.delta > 0) ||
+                     (currentSetting === 'multi' && currentMetric === 'rr' && row.delta < 0) ||
+                     (currentSetting === 'defense' && currentMetric === 'asr' && row.delta < 0) ||
+                     (currentSetting === 'defense' && currentMetric === 'rr' && row.delta > 0);
+      const colorClass = currentSetting === 'defense' ? 'good' : 'bad';
+      const sign = row.delta > 0 ? '+' : '';
+      deltaCell = `<td class="${colorClass}">${sign}${row.delta.toFixed(1)}</td>`;
+    } else if (hasDelta) {
+      deltaCell = '<td>-</td>';
+    }
+    
+    html += `
+      <tr class="${rank === 1 ? 'best-row' : ''}">
+        <td><span class="rank ${rankClass}">${rank}</span></td>
+        <td><span class="model-name">${row.model}</span><span class="model-badge ${badgeClass}">${badgeText}</span></td>
+        <td>${row.filesystem.toFixed(1)}</td>
+        <td>${row.playwright.toFixed(1)}</td>
+        <td>${row.terminal.toFixed(1)}</td>
+        <td>${row.postgresql.toFixed(1)}</td>
+        <td>${row.notion.toFixed(1)}</td>
+        <td><strong>${row.avg.toFixed(1)}</strong></td>
+        ${deltaCell}
+      </tr>
+    `;
+  });
+  
+  tbody.innerHTML = html;
+}
+
+// Event listeners
+document.querySelectorAll('#setting-toggle .toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#setting-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentSetting = btn.dataset.value;
+    renderTable();
+  });
+});
+
+document.querySelectorAll('#metric-toggle .toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#metric-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentMetric = btn.dataset.value;
+    renderTable();
+  });
+});
+
+// Initial render
+renderTable();
+</script>
+
+</body>
+</html>
