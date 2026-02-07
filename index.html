@@ -1,514 +1,244 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Unsafer in Many Turns: Benchmarking and Defending Multi-Turn Safety Risks in Tool-Using Agents"
-    />
-    <title>MT-AgentRisk/ToolShield</title>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MT-AgentRisk / ToolShield</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; color:#222; line-height:1.6; }
+    a { color:#1a6dd4; text-decoration:none; }
+    a:hover { text-decoration:underline; }
 
-    <!-- Typography: serif for headings, sans for body (academic feel, clean).-->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap"
-      rel="stylesheet"
-    />
+    .container { max-width:860px; margin:0 auto; padding:0 24px; }
 
-    <link rel="stylesheet" href="assets/styles.css" />
-    <script defer src="assets/script.js"></script>
-  </head>
-  <body>
-    <a class="skip-link" href="#hero">Skip to content</a>
+    /* Hero */
+    .hero { text-align:center; padding:60px 24px 40px; background:#1a1a2e; color:#fff; }
+    .hero h1 { font-size:2.2rem; margin-bottom:8px; }
+    .hero .subtitle { font-size:1.1rem; color:#ccc; margin-bottom:20px; }
+    .hero .authors { font-size:0.95rem; color:#aaa; margin-bottom:4px; }
+    .hero .affiliations { font-size:0.85rem; color:#888; margin-bottom:24px; }
+    .badges { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .badge { display:inline-flex; align-items:center; gap:6px; background:#2a2a4a; color:#fff; padding:8px 16px; border-radius:6px; font-size:0.9rem; }
+    .badge:hover { background:#3a3a5a; text-decoration:none; }
 
-    <header class="site-header" data-js="header">
-      <nav class="nav" aria-label="Primary">
-        <a class="brand" href="#hero" aria-label="MT-AgentRisk home">
-          <span class="brand__mark" aria-hidden="true"></span>
-          <span class="brand__text">MT-AgentRisk</span>
-        </a>
+    /* Sections */
+    section { padding:48px 0; }
+    section.tint { background:#f7f8fa; }
+    h2 { font-size:1.5rem; margin-bottom:12px; }
+    .lede { color:#555; margin-bottom:24px; }
 
-        <button class="nav__toggle" type="button" data-js="nav-toggle" aria-expanded="false">
-          Menu
-        </button>
+    /* Figures */
+    figure { margin:24px 0; }
+    figure img { width:100%; border:1px solid #e0e0e0; border-radius:4px; }
+    figcaption { font-size:0.85rem; color:#666; margin-top:6px; text-align:center; }
 
-        <div class="nav__links" data-js="nav-links">
-          <a class="nav__link" href="#teaser">Teaser</a>
-          <a class="nav__link" href="#gap">The Gap</a>
-          <a class="nav__link" href="#taxonomy">Taxonomy</a>
-          <a class="nav__link" href="#bench-results">Benchmark &amp; Results</a>
-          <a class="nav__link" href="#toolshield-method">ToolShield Method</a>
-          <a class="nav__link" href="#toolshield-results">ToolShield Results</a>
-          <a class="nav__link" href="#cost">Cost</a>
-          <a class="nav__link" href="#citation">Citation</a>
-        </div>
-      </nav>
-    </header>
+    /* Two column figures */
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    @media(max-width:640px){ .two-col { grid-template-columns:1fr; } }
 
-    <main>
-      <!-- Section 1: Hero -->
-      <section id="hero" class="section section--hero">
-        <div class="container hero">
-          <div class="hero__grid">
-            <div class="hero__copy">
-              <h1 class="hero__title">MT-AgentRisk/ToolShield</h1>
-              <p class="hero__subtitle">Benchmarking and Defending Multi-Turn Safety Risks in Tool-Using Agents</p>
+    /* Table */
+    table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.9rem; }
+    th, td { padding:8px 12px; border:1px solid #ddd; text-align:center; }
+    th { background:#f0f0f0; font-weight:600; }
+    td:first-child { text-align:left; }
+    .row-ours { background:#e8f4fd; font-weight:600; }
+    .yes { color:#16a34a; }
+    .no { color:#dc2626; }
 
-              <p class="hero__meta">
-                <span class="meta__label">Authors:</span>
-                Xu Li, Simon Yu, Minzhou Pan, Yiyou Sun, Bo Li, Dawn Song, Xue Lin, Weiyan Shi
-              </p>
-              <p class="hero__meta">
-                <span class="meta__label">Affiliations:</span>
-                Northeastern University, UC Berkeley, UIUC, Virtue AI
-              </p>
+    /* Key findings */
+    .findings { margin:20px 0; }
+    .findings p { margin-bottom:8px; padding-left:16px; border-left:3px solid #1a6dd4; }
 
-              <div class="badges" role="list" aria-label="Quick links">
-                <a
-                  class="badge"
-                  role="listitem"
-                  href="https://arxiv.org/search/?query=MT-AgentRisk&searchtype=all"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <span class="badge__emoji" aria-hidden="true">📄</span>
-                  <span class="badge__text">Paper</span>
-                </a>
-                <a class="badge" role="listitem" href="https://github.com/" target="_blank" rel="noreferrer">
-                  <span class="badge__emoji" aria-hidden="true">💻</span>
-                  <span class="badge__text">GitHub</span>
-                </a>
-                <a
-                  class="badge"
-                  role="listitem"
-                  href="https://huggingface.co/datasets?search=MT-AgentRisk"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <span class="badge__emoji" aria-hidden="true">🤗</span>
-                  <span class="badge__text">Dataset</span>
-                </a>
-              </div>
-            </div>
+    /* Steps */
+    ol.steps { padding-left:20px; margin:16px 0; }
+    ol.steps li { margin-bottom:6px; }
 
-            <div class="hero__panel" aria-label="Hero highlight panel">
-              <div class="hero__panel-inner">
-                <div class="pill">Multi-turn safety benchmark + defense</div>
-                <div class="hero__mini">
-                  <div class="mini-stat">
-                    <div class="mini-stat__value">+16.1%</div>
-                    <div class="mini-stat__label">Avg ASR increase (multi-turn)</div>
-                  </div>
-                  <div class="mini-stat">
-                    <div class="mini-stat__value">−30%</div>
-                    <div class="mini-stat__label">Avg ASR reduction (ToolShield)</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="hero-divider" aria-hidden="true"></div>
-      </section>
+    /* Dimension list */
+    .dim { margin:8px 0; }
+    .dim strong { display:inline-block; width:70px; }
 
-      <!-- Section 2: Teaser / Key Finding -->
-      <section id="teaser" class="section">
-        <div class="container">
-          <header class="section__header">
-            <h2 class="section__title">Teaser / Key Finding</h2>
-            <p class="section__lede">
-              Capability and safety are misaligned for today&apos;s agents. Multi-turn interactions expose critical
-              vulnerabilities.
-            </p>
-          </header>
+    /* Stats row */
+    .stats-row { display:flex; gap:24px; flex-wrap:wrap; margin:20px 0; }
+    .stat { text-align:center; flex:1; min-width:120px; }
+    .stat .val { font-size:1.8rem; font-weight:700; color:#1a6dd4; }
+    .stat .label { font-size:0.85rem; color:#666; }
 
-          <div class="two-col">
-            <figure class="fig">
-              <div class="fig__box" role="img" aria-label="Figure 1: Teaser overview (PNG)">
-                <img
-                  class="fig__media"
-                  src="assets/figures/fig_1_v4.png"
-                  alt="Figure 1: Single-turn vs multi-turn attack and ToolShield defense overview"
-                  loading="lazy"
-                />
-                <div class="fig__fallback" aria-hidden="true">
-                  <div class="fig__label">[Figure 1: `fig_1_v4.png`]</div>
-                  <div class="fig__caption">Place the file at `assets/figures/fig_1_v4.png`.</div>
-                </div>
-              </div>
-              <figcaption class="fig__caption">Overview: multi-turn attacks vs ToolShield defense.</figcaption>
-            </figure>
+    /* BibTeX */
+    pre.bib { background:#f0f0f0; padding:16px; border-radius:6px; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; }
 
-            <div class="stats">
-              <div class="stat stat--big">
-                <div class="stat__value">16.1%</div>
-                <div class="stat__label">average ASR increase in multi-turn settings</div>
-              </div>
-              <div class="stat stat--big">
-                <div class="stat__value">30%</div>
-                <div class="stat__label">average ASR reduction with ToolShield</div>
-              </div>
-              <div class="callout">
-                Multi-turn interactions let harmful intent hide across benign-looking turns, slipping past single-turn
-                defenses.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    /* Footer */
+    footer { text-align:center; padding:24px; color:#999; font-size:0.85rem; border-top:1px solid #eee; }
+  </style>
+</head>
+<body>
 
-      <!-- Section 3: The Gap -->
-      <section id="gap" class="section section--tint">
-        <div class="container">
-          <header class="section__header">
-            <h2 class="section__title">Why Multi-Turn Agent Safety?</h2>
-            <p class="section__lede">
-              Existing safety benchmarks test either single-turn tool agents or multi-turn chat, never both. As agents
-              engage in multi-turn interactions with diverse tools, harmful intent can be distributed across
-              benign-looking turns, evading current safety mechanisms.
-            </p>
-          </header>
+<!-- Hero -->
+<div class="hero">
+  <h1>MT-AgentRisk / ToolShield</h1>
+  <p class="subtitle">Unsafer in Many Turns: Benchmarking and Defending Multi-Turn Safety Risks in Tool-Using Agents</p>
+  <p class="authors">Xu Li, Simon Yu, Minzhou Pan, Yiyou Sun, Bo Li, Dawn Song, Xue Lin, Weiyan Shi</p>
+  <p class="affiliations">Northeastern University &nbsp;·&nbsp; UC Berkeley &nbsp;·&nbsp; UIUC &nbsp;·&nbsp; Virtue AI</p>
+  <div class="badges">
+    <a class="badge" href="#">📄 Paper</a>
+    <a class="badge" href="#">💻 GitHub</a>
+    <a class="badge" href="#">🤗 Dataset</a>
+  </div>
+</div>
 
-          <div class="card">
-            <div class="card__title">Benchmark Coverage Comparison</div>
-            <div class="table-wrap" role="region" aria-label="Benchmark comparison table" tabindex="0">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Benchmark</th>
-                    <th>Multi-Turn</th>
-                    <th>Tool Usage</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>MHJ</td>
-                    <td class="cell-yes">✓</td>
-                    <td class="cell-no">✗</td>
-                  </tr>
-                  <tr>
-                    <td>SafeDialBench</td>
-                    <td class="cell-yes">✓</td>
-                    <td class="cell-no">✗</td>
-                  </tr>
-                  <tr>
-                    <td>RedTeamCUA</td>
-                    <td class="cell-no">✗</td>
-                    <td class="cell-yes">✓</td>
-                  </tr>
-                  <tr>
-                    <td>SafeArena</td>
-                    <td class="cell-no">✗</td>
-                    <td class="cell-mid">Browser only</td>
-                  </tr>
-                  <tr>
-                    <td>OpenAgentSafety</td>
-                    <td class="cell-mid">✗*</td>
-                    <td class="cell-yes">✓</td>
-                  </tr>
-                  <tr>
-                    <td>MCP-Safety</td>
-                    <td class="cell-no">✗</td>
-                    <td class="cell-yes">✓</td>
-                  </tr>
-                  <tr class="row-ours">
-                    <td><strong>MT-AgentRisk (Ours)</strong></td>
-                    <td class="cell-yes"><strong>✓</strong></td>
-                    <td class="cell-yes"><strong>✓</strong></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <p class="micro">
-              *Marked per cited setting differences; adjust the footnote wording to match the paper.
-            </p>
-          </div>
-        </div>
-      </section>
+<!-- Teaser -->
+<section>
+  <div class="container">
+    <h2>Overview</h2>
+    <p class="lede">Capability and safety are misaligned for today's agents. Multi-turn interactions expose critical vulnerabilities — attack success rates jump 16.1% on average. ToolShield, our training-free defense, reduces ASR by 30% through self-exploration.</p>
+    <figure>
+      <img src="assets/figures/fig_1_v4-3.png" alt="Overview figure"/>
+      <figcaption>As agents' capabilities grow, their safety lags behind. MT-AgentRisk benchmarks this gap; ToolShield closes it.</figcaption>
+    </figure>
+  </div>
+</section>
 
-      <!-- Section 4: Attack Taxonomy (MAT) -->
-      <section id="taxonomy" class="section">
-        <div class="container">
-          <header class="section__header">
-            <h2 class="section__title">Multi-Turn Attack Taxonomy</h2>
-            <p class="section__lede">
-              We propose a principled taxonomy that decomposes single-turn harmful tasks into multi-turn attack
-              sequences across 3 dimensions:
-            </p>
-          </header>
+<!-- The Gap -->
+<section class="tint">
+  <div class="container">
+    <h2>Why Multi-Turn Agent Safety?</h2>
+    <p class="lede">Existing benchmarks test either single-turn tool agents or multi-turn chat — never both.</p>
+    <table>
+      <thead>
+        <tr><th>Benchmark</th><th>Multi-Turn</th><th>Tool Usage</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>MHJ</td><td class="yes">✓</td><td class="no">✗</td></tr>
+        <tr><td>SafeDialBench</td><td class="yes">✓</td><td class="no">✗</td></tr>
+        <tr><td>RedTeamCUA</td><td class="no">✗</td><td class="yes">✓</td></tr>
+        <tr><td>SafeArena</td><td class="no">✗</td><td>Browser only</td></tr>
+        <tr><td>OpenAgentSafety</td><td>✗*</td><td class="yes">✓</td></tr>
+        <tr><td>MCP-Safety</td><td class="no">✗</td><td class="yes">✓</td></tr>
+        <tr class="row-ours"><td>MT-AgentRisk (Ours)</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-          <div class="bullets">
-            <div class="bullet">
-              <div class="bullet__k">Format</div>
-              <div class="bullet__v">How the transformation is structured (Addition vs. Decomposition)</div>
-            </div>
-            <div class="bullet">
-              <div class="bullet__k">Method</div>
-              <div class="bullet__v">How it is performed (Mapping, Wrapping, Composition, Identity)</div>
-            </div>
-            <div class="bullet">
-              <div class="bullet__k">Target</div>
-              <div class="bullet__v">What is manipulated (Data Files vs. Environment States)</div>
-            </div>
-          </div>
+<!-- Taxonomy -->
+<section>
+  <div class="container">
+    <h2>Multi-Turn Attack Taxonomy</h2>
+    <p class="lede">A principled taxonomy that decomposes single-turn harmful tasks into multi-turn attack sequences across 3 dimensions:</p>
+    <p class="dim"><strong>Format:</strong> How the transformation is structured (Addition vs. Decomposition)</p>
+    <p class="dim"><strong>Method:</strong> How it is performed (Mapping, Wrapping, Composition, Identity)</p>
+    <p class="dim"><strong>Target:</strong> What is manipulated (Data Files vs. Environment States)</p>
+    <p style="color:#666; font-size:0.9rem; margin-top:12px;">This yields 8 attack subcategories, preserving the same harmful objective across multiple benign-appearing turns.</p>
+    <figure>
+      <img src="assets/figures/taxonomy.png" alt="Taxonomy diagram"/>
+      <figcaption>Multi-Turn Attack Taxonomy (MAT): format × method × target.</figcaption>
+    </figure>
+  </div>
+</section>
 
-          <p class="micro">
-            This yields 8 attack subcategories. The taxonomy preserves the same harmful objective while distributing it
-            across multiple benign-appearing turns.
-          </p>
+<!-- Benchmark & Results -->
+<section class="tint">
+  <div class="container">
+    <h2>Benchmark & Results</h2>
+    <div class="stats-row">
+      <div class="stat"><div class="val">365</div><div class="label">Tasks</div></div>
+      <div class="stat"><div class="val">5</div><div class="label">Tools</div></div>
+      <div class="stat"><div class="val">3.19</div><div class="label">Avg Turns</div></div>
+      <div class="stat"><div class="val">8</div><div class="label">Attack Types</div></div>
+    </div>
+    <div class="findings">
+      <p>All models show safety degradation in multi-turn settings, with <strong>ASR rising 16.1% on average</strong>.</p>
+      <p><strong>Claude-4.5-Sonnet degrades the most (+27.1%)</strong>, revealing critical vulnerability behind multi-turn interactions.</p>
+      <p><strong>Stronger capability ≠ better safety</strong> — DeepSeek-v3.2 tops capability benchmarks but shows 85.4% ASR.</p>
+    </div>
+    <figure>
+      <img src="assets/figures/vulnerability_grouped_bar.png" alt="Single vs multi-turn ASR"/>
+      <figcaption>Safety degradation from single-turn to multi-turn settings across models.</figcaption>
+    </figure>
+  </div>
+</section>
 
-          <figure class="fig fig--wide">
-            <div class="fig__box" role="img" aria-label="Figure 2: Taxonomy (PNG)">
-              <img
-                class="fig__media"
-                src="assets/figures/Taxonomy.png"
-                alt="Figure 2: Multi-Turn Attack Taxonomy (MAT) diagram"
-                loading="lazy"
-              />
-              <div class="fig__fallback" aria-hidden="true">
-                <div class="fig__label">[Figure 2: `Taxonomy.png`]</div>
-                <div class="fig__caption">Place the file at `assets/figures/Taxonomy.png`.</div>
-              </div>
-            </div>
-            <figcaption class="fig__caption">Taxonomy: format, method, target.</figcaption>
-          </figure>
-        </div>
-      </section>
+<!-- ToolShield Method -->
+<section>
+  <div class="container">
+    <h2>ToolShield: Self-Exploration Defense</h2>
+    <p class="lede">A training-free, tool-agnostic defense. When encountering a new tool, the agent:</p>
+    <ol class="steps">
+      <li><strong>Generates</strong> test cases through structured risk reasoning</li>
+      <li><strong>Executes</strong> them in a sandbox to observe behavior</li>
+      <li><strong>Distills</strong> safety experiences from execution traces</li>
+      <li><strong>Applies</strong> experiences during deployment</li>
+    </ol>
+    <p style="color:#666; font-size:0.9rem; margin-top:12px;">No weight updates. No tool-specific engineering. Just leveraging the agent's own capability to learn safe behavior.</p>
+    <figure>
+      <img src="assets/figures/pipeline.png" alt="ToolShield pipeline"/>
+      <figcaption>ToolShield self-exploration pipeline: synthesize → execute → distill → deploy.</figcaption>
+    </figure>
+  </div>
+</section>
 
-      <!-- Section 5: Benchmark & Results (merged) -->
-      <section id="bench-results" class="section section--tint">
-        <div class="container">
-          <header class="section__header">
-            <h2 class="section__title">Benchmark &amp; Results</h2>
-          </header>
+<!-- ToolShield Results -->
+<section class="tint">
+  <div class="container">
+    <h2>ToolShield Results</h2>
+    <div class="findings">
+      <p>Reduces ASR by <strong>30% on average</strong> across multi-turn interactions.</p>
+      <p><strong>Claude-4.5-Sonnet:</strong> ASR drops from 72% → 22% (−50%).</p>
+      <p><strong>Zero false positives</strong> on 170 benign tasks.</p>
+    </div>
 
-          <div class="stat-grid" role="list" aria-label="Benchmark stats">
-            <div class="stat-card" role="listitem">
-              <div class="stat-card__value">365</div>
-              <div class="stat-card__label">Tasks</div>
-            </div>
-            <div class="stat-card" role="listitem">
-              <div class="stat-card__value">5</div>
-              <div class="stat-card__label">Tools</div>
-              <div class="stat-card__meta">Filesystem, Browser/Playwright, PostgreSQL, Terminal, Notion</div>
-            </div>
-            <div class="stat-card" role="listitem">
-              <div class="stat-card__value">3.19</div>
-              <div class="stat-card__label">Avg turns per task</div>
-            </div>
-            <div class="stat-card" role="listitem">
-              <div class="stat-card__value">8</div>
-              <div class="stat-card__label">Attack subcategories</div>
-            </div>
-          </div>
+    <div class="two-col">
+      <figure>
+        <img src="assets/figures/defense_asr_comparison.png" alt="Defense ASR comparison"/>
+        <figcaption>Defense effectiveness across models.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/figures/asr_drop_combined_heatmap.png" alt="Transfer heatmap"/>
+        <figcaption>Cross-model transferability of safety experiences.</figcaption>
+      </figure>
+    </div>
 
-          <div class="findings">
-            <div class="finding">
-              <strong>All models show safety degradation in multi-turn settings</strong>, with ASR rising 16.1% on
-              average.
-            </div>
-            <div class="finding">
-              <strong>Claude-4.5-Sonnet degrades the most (+27.1%)</strong>, revealing critical vulnerability behind
-              multi-turn interactions.
-            </div>
-            <div class="finding">
-              <strong>Stronger capability does not imply better safety</strong> — DeepSeek-v3.2 tops capability
-              benchmarks but shows 85.4% ASR.
-            </div>
-          </div>
+    <figure>
+      <img src="assets/figures/tool_effect_asr.png" alt="Tool-wise effect"/>
+      <figcaption>Tool-agnostic: consistent improvements across all tool categories.</figcaption>
+    </figure>
+  </div>
+</section>
 
-          <figure class="fig fig--wide">
-            <div class="fig__box" role="img" aria-label="Figure: Vulnerability grouped bar (PNG)">
-              <img
-                class="fig__media"
-                src="assets/figures/vulnerability_grouped_bar.png"
-                alt="Single-turn vs multi-turn ASR across models (grouped bar chart)"
-                loading="lazy"
-              />
-              <div class="fig__fallback" aria-hidden="true">
-                <div class="fig__label">[Figure: `vulnerability_grouped_bar.png`]</div>
-                <div class="fig__caption">Place the file at `assets/figures/vulnerability_grouped_bar.png`.</div>
-              </div>
-            </div>
-            <figcaption class="fig__caption">Single-turn vs multi-turn ASR across models.</figcaption>
-          </figure>
-        </div>
-      </section>
+<!-- Cost -->
+<section>
+  <div class="container">
+    <h2>Cost-Effective Safety</h2>
+    <p class="lede">ToolShield's self-exploration is a one-time investment. Defense effectiveness scales with cost.</p>
+    <div class="findings">
+      <p><strong>Claude-4.5-Sonnet:</strong> Highest improvement (50% ASR reduction) at $204.</p>
+      <p><strong>Seed-1.6:</strong> Best cost-effectiveness — 38% improvement at just $13.</p>
+    </div>
+    <figure>
+      <img src="assets/figures/cost_vs_safety_improvement_6models.png" alt="Cost vs ASR reduction"/>
+      <figcaption>Defense effectiveness vs. self-exploration cost.</figcaption>
+    </figure>
+  </div>
+</section>
 
-      <!-- Section 6: ToolShield Method -->
-      <section id="toolshield-method" class="section">
-        <div class="container">
-          <header class="section__header">
-            <h2 class="section__title">ToolShield: Self-Exploration Defense</h2>
-            <p class="section__lede">
-              A training-free, tool-agnostic defense that leverages the agent&apos;s own capabilities. When encountering a
-              new tool, the agent:
-            </p>
-          </header>
-
-          <ol class="steps">
-            <li>Generates test cases through structured risk reasoning</li>
-            <li>Executes them in a sandbox to observe behavior</li>
-            <li>Distills safety experiences from execution traces</li>
-            <li>Updates and applies experiences during deployment</li>
-          </ol>
-
-          <p class="micro">
-            No weight updates. No tool-specific engineering. Just leveraging the agent&apos;s own capability to learn safe
-            behavior through self-exploration.
-          </p>
-
-          <figure class="fig fig--wide">
-            <div class="fig__box" role="img" aria-label="Figure: ToolShield pipeline (PNG)">
-              <img
-                class="fig__media"
-                src="assets/figures/pipeline.png"
-                alt="ToolShield self-exploration pipeline diagram"
-                loading="lazy"
-              />
-              <div class="fig__fallback" aria-hidden="true">
-                <div class="fig__label">[Figure: `pipeline.png`]</div>
-                <div class="fig__caption">Place the file at `assets/figures/pipeline.png`.</div>
-              </div>
-            </div>
-            <figcaption class="fig__caption">Self-exploration pipeline: test, execute, distill, apply.</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <!-- Section 7: ToolShield Results (merged with Generalizability) -->
-      <section id="toolshield-results" class="section section--tint">
-        <div class="container">
-          <header class="section__header">
-            <h2 class="section__title">ToolShield Results</h2>
-          </header>
-
-          <div class="findings">
-            <div class="finding"><strong>Reduces ASR by 30% on average</strong> across multi-turn interactions</div>
-            <div class="finding"><strong>Effective across both open and closed models</strong></div>
-            <div class="finding"><strong>Claude-4.5-Sonnet:</strong> ASR drops from 72% to 22% (−50%)</div>
-            <div class="finding"><strong>Zero false positives</strong> on 170 benign tasks</div>
-          </div>
-
-          <div class="two-col">
-            <figure class="fig">
-              <div class="fig__box" role="img" aria-label="Figure: Defense ASR comparison (PNG)">
-                <img
-                  class="fig__media"
-                  src="assets/figures/defense_asr_comparison.png"
-                  alt="Defense ASR comparison bar chart"
-                  loading="lazy"
-                />
-                <div class="fig__fallback" aria-hidden="true">
-                  <div class="fig__label">[Figure: `defense_asr_comparison.png`]</div>
-                  <div class="fig__caption">Place the file at `assets/figures/defense_asr_comparison.png`.</div>
-                </div>
-              </div>
-              <figcaption class="fig__caption">Defense effectiveness.</figcaption>
-            </figure>
-            <figure class="fig">
-              <div class="fig__box" role="img" aria-label="Figure: Transfer heatmap (PNG)">
-                <img
-                  class="fig__media"
-                  src="assets/figures/asr_drop_combined_heatmap.png"
-                  alt="Cross-model transfer heatmap"
-                  loading="lazy"
-                />
-                <div class="fig__fallback" aria-hidden="true">
-                  <div class="fig__label">[Figure: `asr_drop_combined_heatmap.png`]</div>
-                  <div class="fig__caption">Place the file at `assets/figures/asr_drop_combined_heatmap.png`.</div>
-                </div>
-              </div>
-              <figcaption class="fig__caption">Model-transfer: experiences generated by one model help others.</figcaption>
-            </figure>
-          </div>
-
-          <figure class="fig fig--wide">
-            <div class="fig__box" role="img" aria-label="Figure: Tool-wise effect (PNG)">
-              <img
-                class="fig__media"
-                src="assets/figures/tool_effect_asr.png"
-                alt="Tool-wise effect chart"
-                loading="lazy"
-              />
-              <div class="fig__fallback" aria-hidden="true">
-                <div class="fig__label">[Figure: `tool_effect_asr.png`]</div>
-                <div class="fig__caption">Place the file at `assets/figures/tool_effect_asr.png`.</div>
-              </div>
-            </div>
-            <figcaption class="fig__caption">Tool-agnostic: consistent improvements across tool categories.</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <!-- Section 8: Cost Analysis -->
-      <section id="cost" class="section">
-        <div class="container">
-          <header class="section__header">
-            <h2 class="section__title">Cost-Effective Safety</h2>
-            <p class="section__lede">
-              ToolShield&apos;s self-exploration is a one-time investment. Defense effectiveness scales with generation cost.
-            </p>
-          </header>
-
-          <div class="findings">
-            <div class="finding"><strong>Claude-4.5-Sonnet:</strong> highest improvement (50% ASR reduction) at $204</div>
-            <div class="finding"><strong>Seed-1.6:</strong> best cost-effectiveness, 38% improvement at $13</div>
-          </div>
-
-          <figure class="fig fig--wide">
-            <div class="fig__box" role="img" aria-label="Figure: Cost vs ASR reduction (PNG)">
-              <img
-                class="fig__media"
-                src="assets/figures/cost_vs_asr_reduction_combined.png"
-                alt="Cost vs ASR reduction curve"
-                loading="lazy"
-              />
-              <div class="fig__fallback" aria-hidden="true">
-                <div class="fig__label">[Figure: `cost_vs_asr_reduction_combined.png`]</div>
-                <div class="fig__caption">Place the file at `assets/figures/cost_vs_asr_reduction_combined.png`.</div>
-              </div>
-            </div>
-            <figcaption class="fig__caption">Defense effectiveness vs self-exploration cost.</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <!-- Section 9: Citation -->
-      <section id="citation" class="section section--tint">
-        <div class="container">
-          <header class="section__header">
-            <h2 class="section__title">Citation</h2>
-            <p class="section__lede">If you use MT-AgentRisk or ToolShield, please cite:</p>
-          </header>
-
-          <div class="card">
-            <div class="card__title">BibTeX</div>
-            <pre class="bib" aria-label="BibTeX placeholder"><code>@article{mt-agentrisk-2026,
-  title   = {MT-AgentRisk/ToolShield: Benchmarking and Defending Multi-Turn Safety Risks in Tool-Using Agents},
-  author  = {Li, Xu and Yu, Simon and Pan, Minzhou and Sun, Yiyou and Li, Bo and Song, Dawn and Lin, Xue and Shi, Weiyan},
-  journal = {arXiv},
-  year    = {2026}
+<!-- Citation -->
+<section class="tint">
+  <div class="container">
+    <h2>Citation</h2>
+    <p class="lede">If you use MT-AgentRisk or ToolShield, please cite:</p>
+    <pre class="bib"><code>@inproceedings{li2025mtagentrisk,
+  title   = {Unsafer in Many Turns: Benchmarking and Defending
+             Multi-Turn Safety Risks in Tool-Using Agents},
+  author  = {Li, Xu and Yu, Simon and Pan, Minzhou and Sun, Yiyou
+             and Li, Bo and Song, Dawn and Lin, Xue and Shi, Weiyan},
+  booktitle = {ICML},
+  year    = {2025}
 }</code></pre>
-            <p class="micro">
-              Update venue, year, and arXiv ID once finalized.
-            </p>
-          </div>
-        </div>
-      </section>
-    </main>
+  </div>
+</section>
 
-    <footer class="footer">
-      <div class="container footer__inner">
-        <div class="footer__left">
-          <div class="footer__title">MT-AgentRisk/ToolShield</div>
-        </div>
-        <div class="footer__right">
-          <a class="footer__link" href="#hero">Back to top</a>
-        </div>
-      </div>
-    </footer>
-  </body>
+<footer>MT-AgentRisk / ToolShield &nbsp;·&nbsp; 2025</footer>
+
+</body>
 </html>
