@@ -103,8 +103,8 @@
   </p>
   <div class="badges">
     <a class="badge" href="#">📄 Paper</a>
-    <a class="badge" href="#">💻 GitHub</a>
-    <a class="badge" href="#">🤗 Dataset</a>
+    <a class="badge" href="https://github.com/CHATS-lab/MT-AgentRisk_ToolShield">💻 GitHub</a>
+    <a class="badge" href="https://huggingface.co/datasets/CHATS-Lab/MT-AgentRisk">🤗 Dataset</a>
     <a class="badge" href="leader_board.html">🏆 Leaderboard</a>
   </div>
 </div>
@@ -113,7 +113,7 @@
 <section>
   <div class="container">
     <h2>Overview</h2>
-    <p class="lede">LLM-based agents are becoming increasingly capable, yet their safety lags behind, creating a widening <strong>capability-safety gap</strong>. We present <strong>MT-AgentRisk</strong> (Multi-Turn Agent Risk Benchmark), the first benchmark for multi-turn tool-agent safety, and <strong>ToolShield</strong>, a training-free defense that reduces attack success rate by 30%.</p>
+    <p class="lede">The safety-capability gap in LLM-based agents widens as they engage in multi-turn interactions and employ diverse tools, introducing risks overlooked by existing benchmarks. To systematically scale safety testing in multi-turn, tool-realistic settings, we present <strong>MT-AgentRisk</strong> (Multi-Turn Agent Risk Benchmark), the first benchmark for multi-turn tool-agent safety. To mitigate this gap, we also introduce <strong>ToolShield</strong>, a training-free defense that leverages agents' own capabilities to improve safety.</p>
 
     <div class="two-col">
       <figure>
@@ -129,7 +129,7 @@
     </div>
 
     <h3>Why Multi-Turn Agent Safety?</h3>
-    <p>Existing benchmarks test either single-turn tool agents or multi-turn chat — but never both. Real-world attacks can distribute harmful intent across multiple benign-looking turns.</p>
+    <p>Existing benchmarks test either single-turn tool agents or multi-turn chat, overlooking the complex interplay between tool-use and multi-turn dynamics..</p>
     <table class="small">
       <thead>
         <tr><th>Benchmark</th><th>Multi-Turn</th><th>Tool Usage</th></tr>
@@ -153,7 +153,7 @@
     <h2>MT-AgentRisk Benchmark</h2>
     
     <h3>Multi-Turn Attack Taxonomy (MTA)</h3>
-    <p>We propose a principled taxonomy that transforms single-turn harmful tasks into multi-turn attack sequences. The taxonomy operates along three dimensions: <strong>Format</strong> (Addition vs. Decomposition), <strong>Method</strong> (Mapping, Wrapping, Composition, Identity), and <strong>Target</strong> (Data Files vs. Environment States), yielding 8 attack subcategories.</p>
+    <p>To systematically study this overlooked intersection of multi-turn interactions and tool-use, we propose an attack taxonomy that captures how single-turn harms can be distributed across turns. The taxonomy operates along three dimensions: <strong>Format</strong> (Addition vs. Decomposition), <strong>Method</strong> (Mapping, Wrapping, Composition, Identity), and <strong>Target</strong> (Data Files vs. Environment States), yielding 8 attack subcategories.</p>
     <figure>
       <img src="assets/figures/taxonomy.png" alt="Taxonomy diagram"/>
       <figcaption>Multi-Turn Attack Taxonomy: transforming single-turn harms into multi-turn sequences.</figcaption>
@@ -187,13 +187,13 @@
 <!-- Defense Method -->
 <section class="tint">
   <div class="container">
-    <h2>How Does ToolShield Defend?</h2>
+    <h2>How Does ToolShield Utilize Capability to Improve Safety?</h2>
     <p class="lede"><strong>ToolShield</strong> is a training-free, tool-agnostic defense. When encountering a new tool, the agent:</p>
     <ol class="steps">
       <li><strong>Synthesizes</strong> test cases through structured risk reasoning</li>
       <li><strong>Executes</strong> them in a sandbox to observe behavior</li>
       <li><strong>Distills</strong> safety experiences from execution traces</li>
-      <li><strong>Applies</strong> learned experiences during deployment</li>
+      <li><strong>Applies</strong> summarized experiences during deployment</li>
     </ol>
     <figure>
       <img src="assets/figures/pipeline.png" alt="ToolShield pipeline"/>
@@ -206,15 +206,14 @@
 <section>
   <div class="container">
     <h2>Defense Results</h2>
-    <p class="lede">ToolShield reduces ASR by <strong>30% on average</strong> across multi-turn interactions. Claude-4.5-Sonnet shows the largest improvement, dropping from 72% to 22% (−50%). The defense introduces <strong>zero false positives</strong> on 170 benign tasks.</p>
+    <p class="lede">ToolShield reduces ASR by <strong>30% on average</strong> across 6 models on multi-turn settings. Claude-4.5-Sonnet shows the largest improvement, dropping from 72% to 22% (−50%). More importantly, the injected experiences introduce <strong>zero false positives</strong> on benign tasks.</p>
     <figure class="small">
       <img src="assets/figures/defense_asr_comparison.png" alt="Defense ASR comparison"/>
       <figcaption>Defense effectiveness across models.</figcaption>
     </figure>
 
-    <h3>ToolShield is General & Cost-Effective</h3>
-    <p><strong>Experiences transfer across models:</strong> Safety experiences generated by one model can be effectively applied to others. Stronger models benefit from safety experiences generated by weaker models and vice versa.</p>
-    <p><strong>Cost-effective safety:</strong> ToolShield's self-exploration is a one-time investment. Defense effectiveness scales with cost — Claude-4.5-Sonnet achieves the highest improvement (50% ASR reduction) at $204, while Seed-1.6 offers the best cost-effectiveness with 38% improvement at just $13.</p>
+    <p><strong>ToolShield is General:</strong> Safety experiences generated by one model can be effectively applied to others. Stronger models benefit from safety experiences generated by weaker models and vice versa.</p>
+    <p><strong>ToolShield is Cost-Effective:</strong> ToolShield's self-exploration is a one-time investment. Defense effectiveness scales with cost: Claude-4.5-Sonnet achieves the highest improvement (50% ASR reduction) at $204, while Seed-1.6 offers the best cost-effectiveness with 38% improvement at just $13. However, as shown on the left image, claude can still benefit a lot with the experiences generated using $15 (Gemini-3-Flash)</p>
     <div class="two-col">
       <figure>
         <img src="assets/figures/asr_drop_combined_heatmap.png" alt="Transfer heatmap"/>
@@ -235,7 +234,7 @@
     <p class="lede">An Addition-based attack (Wrapping × Data): the agent refuses the single-turn request but completes the harmful task when decomposed into multiple turns. With ToolShield, the agent recognizes the distributed harm pattern and refuses.</p>
     <figure>
       <img src="assets/figures/Case_Study_1.png" alt="Case study"/>
-      <figcaption>Multi-turn attack bypasses single-turn defense; ToolShield restores safety.</figcaption>
+      <figcaption>Multi-turn attack bypasses single-turn safety awareness; ToolShield restores it.</figcaption>
     </figure>
   </div>
 </section>
@@ -244,12 +243,6 @@
 <section>
   <div class="container">
     <h2>Citation</h2>
-    <pre class="bib">@article{li2026unsafer,
-  title={Unsafer in Many Turns: Benchmarking and Defending Multi-Turn Safety Risks in Tool-Using Agents},
-  author={Li, Xu and Yu, Simon and Pan, Minzhou and Sun, Yiyou and Li, Bo and Song, Dawn and Lin, Xue and Shi, Weiyan},
-  journal={arXiv preprint},
-  year={2026}
-}</pre>
   </div>
 </section>
 
