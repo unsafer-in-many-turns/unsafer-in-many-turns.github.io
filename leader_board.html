@@ -70,6 +70,27 @@
     .good { color:#16a34a; }
     .bad { color:#dc2626; }
     
+    /* Return button */
+    .return-btn {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin-bottom:24px;
+      padding:8px 16px;
+      background:#fff;
+      border:1px solid #ddd;
+      border-radius:8px;
+      color:#555;
+      text-decoration:none;
+      font-size:0.9rem;
+      transition:all 0.2s;
+    }
+    .return-btn:hover {
+      background:#f8f9fa;
+      border-color:#bbb;
+      color:#222;
+    }
+
     /* Footer note */
     .note { margin-top:16px; font-size:0.8rem; color:#888; }
 
@@ -101,6 +122,7 @@
 <body>
 
 <div class="container">
+  <a href="index.html" class="return-btn">← Back to Main Page</a>
   <h1>🏆 MT-AgentRisk Leaderboard</h1>
   <p class="subtitle">Evaluating multi-turn safety of tool-using agents. Lower ASR (↓) and higher RR (↑) indicate better safety.</p>
   
@@ -153,7 +175,7 @@
       <div class="heatmap-item">
         <h3>Multi-Turn Attack Success</h3>
         <p>
-          Attack Success Rate (ASR) for each subcategory in the multi-turn setting across different models. Darker colors indicate higher attack success rates, revealing which attack patterns are most effective at bypassing current safety mechanisms. Addition-based attacks (especially Wrapping × Data) show consistently high success rates across all models.
+          Attack Success Rate (ASR) for each subcategory across models. Darker colors indicate higher success rates. Addition-based attacks (especially Wrapping × Data) show consistently high effectiveness.
         </p>
         <img src="assets/figures/taxonomy_heatmap_attack.png" alt="Attack subcategory heatmap"/>
       </div>
@@ -161,7 +183,7 @@
       <div class="heatmap-item">
         <h3>ToolShield Defense Effectiveness</h3>
         <p>
-          Refusal Rate (RR) for each subcategory under multi-turn + ToolShield defense. Darker colors indicate higher refusal rates, showing better defense effectiveness. ToolShield demonstrates strong and balanced performance across all subcategories, with particularly high effectiveness on Wrapping-based attacks that previously showed the highest success rates.
+          Refusal Rate (RR) for each subcategory with ToolShield defense. Darker colors indicate better defense. ToolShield shows strong performance across all subcategories, particularly against Wrapping-based attacks.
         </p>
         <img src="assets/figures/taxonomy_heatmap_defense.png" alt="Defense subcategory heatmap"/>
       </div>
