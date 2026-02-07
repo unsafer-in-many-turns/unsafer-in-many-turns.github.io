@@ -43,6 +43,23 @@
     .two-col figure { margin:0; }
     @media(max-width:640px){ .two-col { grid-template-columns:1fr; } }
 
+    /* Video */
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 比例 */
+      height: 0;
+      overflow: hidden;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
     /* Table */
     table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.9rem; }
     th, td { padding:8px 12px; border:1px solid #ddd; text-align:center; }
@@ -93,11 +110,20 @@
 <section>
   <div class="container">
     <h2>Overview</h2>
-    <p class="lede">As LLM-based agents become increasingly capable with multi-turn interactions and tool use, their safety lags behind — creating a widening <strong>capability-safety gap</strong>. We present <strong>MT-AgentRisk</strong>, the first benchmark for multi-turn tool-agent safety, and <strong>ToolShield</strong>, a training-free defense that reduces attack success rate by 30%.</p>
-    <figure>
-      <img src="assets/figures/fig_1_v4.png" alt="Overview figure"/>
-      <figcaption>As agents' capabilities grow, their safety lags behind. MT-AgentRisk benchmarks this gap; ToolShield closes it.</figcaption>
-    </figure>
+    <p class="lede">LLM-based agents are becoming increasingly capable, yet their safety lags behind, creating a widening <strong>capability-safety gap</strong>. We present <strong>MT-AgentRisk</strong>, the first benchmark for multi-turn tool-agent safety, and <strong>ToolShield</strong>, a training-free defense that reduces attack success rate by 30%.</p>
+
+    <div class="two-col">
+      <figure>
+        <img src="assets/figures/fig_1_v4.png" alt="Overview figure"/>
+        <figcaption>MT-AgentRisk benchmarks the capability-safety gap; ToolShield closes it.</figcaption>
+      </figure>
+      <figure>
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/3Lvp_W-LJII" title="MT-AgentRisk Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <figcaption>Video overview of MT-AgentRisk and ToolShield.</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -126,8 +152,8 @@
 <!-- Taxonomy -->
 <section>
   <div class="container">
-    <h2>How Do We Attack?</h2>
-    <p class="lede">We propose a principled taxonomy that transforms single-turn harmful tasks into multi-turn attack sequences. The taxonomy operates along three dimensions: <strong>Format</strong> (Addition vs. Decomposition), <strong>Method</strong> (Mapping, Wrapping, Composition, Identity), and <strong>Target</strong> (Data Files vs. Environment States) — yielding 8 attack subcategories.</p>
+    <h2>Multi-Turn Attack Taxonomy (MTA)</h2>
+    <p class="lede">We propose a principled taxonomy that transforms single-turn harmful tasks into multi-turn attack sequences. The taxonomy operates along three dimensions: <strong>Format</strong> (Addition vs. Decomposition), <strong>Method</strong> (Mapping, Wrapping, Composition, Identity), and <strong>Target</strong> (Data Files vs. Environment States), yielding 8 attack subcategories.</p>
     <figure>
       <img src="assets/figures/taxonomy.png" alt="Taxonomy diagram"/>
       <figcaption>Multi-Turn Attack Taxonomy: transforming single-turn harms into multi-turn sequences.</figcaption>
@@ -139,13 +165,13 @@
 <section class="tint">
   <div class="container">
     <h2>MT-AgentRisk Benchmark</h2>
-    <p><strong>MT-AgentRisk</strong> contains 365 tasks across 5 tools, averaging 3.19 turns per task, covering all 8 attack subcategories.</p>
+    <p>Apply MTA on existing single-turn harmful tasks, <strong>MT-AgentRisk</strong> contains 365 tasks across 5 tools, averaging 3.19 turns per task, covering all 8 attack subcategories.</p>
     <div class="tools-list">
-      <span>📁 Filesystem (70)</span>
-      <span>🌐 Playwright (140)</span>
+      <span>📁 MCP-Filesystem (70)</span>
+      <span>🌐 MCP-Playwright (140)</span>
       <span>💻 Terminal (70)</span>
-      <span>🗄️ PostgreSQL (70)</span>
-      <span>📝 Notion (15)</span>
+      <span>🗄️ MCP-PostgreSQL (70)</span>
+      <span>📝 MCP-Notion (15)</span>
     </div>
     <p style="font-size:0.85rem; color:#666;">Sources: OpenAgentSafety, SafeArena, P2SQL, MCPMark</p>
   </div>
@@ -154,8 +180,8 @@
 <!-- Results -->
 <section>
   <div class="container">
-    <h2>How Vulnerable Are Current Agents?</h2>
-    <p class="lede">All models show safety degradation in multi-turn settings. Attack Success Rate (ASR) increases by <strong>16.1% on average</strong>, with Claude-4.5-Sonnet showing the largest jump (+27.1%). Notably, stronger capability does not imply better safety — DeepSeek-v3.2 achieves top capability scores but exhibits 85.4% ASR.</p>
+    <h2>How Vulnerable Are Agents Under Multi-Turn Interactions?</h2>
+    <p class="lede">All models show safety degradation in multi-turn settings. Attack Success Rate (ASR) increases by <strong>16.1% on average</strong>, with Claude-4.5-Sonnet showing the largest jump (+27.1%). Notably, stronger capability does not imply better safety: DeepSeek-v3.2 achieves top capability scores among open-source models but exhibits 85.4% ASR.</p>
     <figure>
       <img src="assets/figures/vulnerability_grouped_bar.png" alt="Single vs multi-turn ASR"/>
       <figcaption>Safety degradation from single-turn to multi-turn settings across models.</figcaption>
