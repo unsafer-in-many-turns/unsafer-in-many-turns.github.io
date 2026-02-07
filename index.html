@@ -41,12 +41,23 @@
       display:block;
       border-radius:4px;
     }
+    figure.wide {
+      max-width:none;
+      width:100vw;
+      position:relative;
+      left:50%;
+      right:50%;
+      margin-left:-50vw;
+      margin-right:-50vw;
+      padding:0 40px;
+    }
     figure.wide img {
-      width:auto !important;
-      max-width:none !important;
+      width:100%;
+      max-width:1200px;
+      margin:0 auto;
     }
     figcaption { font-size:0.85rem; color:#666; margin-top:12px; text-align:center; max-width:720px; margin-left:auto; margin-right:auto; }
-    figure.wide figcaption { max-width:100%; }
+    figure.wide figcaption { max-width:1200px; }
 
     /* Two column figures */
     .two-col { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin:28px 0; }
