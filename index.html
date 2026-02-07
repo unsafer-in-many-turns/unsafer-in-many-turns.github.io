@@ -40,7 +40,7 @@
     figcaption { font-size:0.85rem; color:#666; margin-top:6px; text-align:center; }
 
     /* Two column figures */
-    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items: center; }
     .two-col figure { margin:0; }
     @media(max-width:640px){ .two-col { grid-template-columns:1fr; } }
 
@@ -149,14 +149,16 @@
 <!-- Taxonomy & Benchmark -->
 <section class="tint">
   <div class="container">
-    <h2>Multi-Turn Attack Taxonomy (MTA)</h2>
-    <p class="lede">We propose a principled taxonomy that transforms single-turn harmful tasks into multi-turn attack sequences. The taxonomy operates along three dimensions: <strong>Format</strong> (Addition vs. Decomposition), <strong>Method</strong> (Mapping, Wrapping, Composition, Identity), and <strong>Target</strong> (Data Files vs. Environment States), yielding 8 attack subcategories.</p>
+    <h2>MT-AgentRisk Benchmark</h2>
+    
+    <h3>Multi-Turn Attack Taxonomy (MTA)</h3>
+    <p>We propose a principled taxonomy that transforms single-turn harmful tasks into multi-turn attack sequences. The taxonomy operates along three dimensions: <strong>Format</strong> (Addition vs. Decomposition), <strong>Method</strong> (Mapping, Wrapping, Composition, Identity), and <strong>Target</strong> (Data Files vs. Environment States), yielding 8 attack subcategories.</p>
     <figure>
       <img src="assets/figures/taxonomy.png" alt="Taxonomy diagram"/>
       <figcaption>Multi-Turn Attack Taxonomy: transforming single-turn harms into multi-turn sequences.</figcaption>
     </figure>
 
-    <h3>MT-AgentRisk Benchmark</h3>
+    <h3>Benchmark Statistics</h3>
     <p>Apply MTA on existing single-turn harmful tasks, <strong>MT-AgentRisk</strong> contains 365 tasks across 5 tools, averaging 3.19 turns per task, covering all 8 attack subcategories.</p>
     <div class="tools-list">
       <span>📁 MCP-Filesystem (70)</span>
