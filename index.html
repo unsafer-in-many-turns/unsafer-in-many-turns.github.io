@@ -127,23 +127,6 @@
         <figcaption>Video overview of harmful task state changes.</figcaption>
       </figure>
     </div>
-
-    <h3>Why Multi-Turn Agent Safety?</h3>
-    <p>Existing benchmarks test either single-turn tool agents or multi-turn chat, overlooking the complex interplay between tool-use and multi-turn dynamics..</p>
-    <table class="small">
-      <thead>
-        <tr><th>Benchmark</th><th>Multi-Turn</th><th>Tool Usage</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>MHJ</td><td class="yes">✓</td><td class="no">✗</td></tr>
-        <tr><td>SafeDialBench</td><td class="yes">✓</td><td class="no">✗</td></tr>
-        <tr><td>RedTeamCUA</td><td class="no">✗</td><td class="yes">✓</td></tr>
-        <tr><td>SafeArena</td><td class="no">✗</td><td>Browser only</td></tr>
-        <tr><td>OpenAgentSafety</td><td>✗*</td><td class="yes">✓</td></tr>
-        <tr><td>MCP-Safety</td><td class="no">✗</td><td class="yes">✓</td></tr>
-        <tr class="row-ours"><td>MT-AgentRisk (Ours)</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-      </tbody>
-    </table>
   </div>
 </section>
 
@@ -224,18 +207,6 @@
         <figcaption>Defense effectiveness vs. self-exploration cost.</figcaption>
       </figure>
     </div>
-  </div>
-</section>
-
-<!-- Case Study -->
-<section class="tint">
-  <div class="container">
-    <h2>Case Study</h2>
-    <p class="lede">An Addition-based attack (Wrapping × Data): the agent refuses the single-turn request but completes the harmful task when decomposed into multiple turns. With ToolShield, the agent recognizes the distributed harm pattern and refuses.</p>
-    <figure>
-      <img src="assets/figures/Case_Study_1.png" alt="Case study"/>
-      <figcaption>Multi-turn attack bypasses single-turn safety awareness; ToolShield restores it.</figcaption>
-    </figure>
   </div>
 </section>
 
