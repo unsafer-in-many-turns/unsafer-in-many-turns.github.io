@@ -44,6 +44,37 @@
     .two-col figure { margin:0; }
     @media(max-width:640px){ .two-col { grid-template-columns:1fr; } }
 
+    /* Highlight box for new overview section */
+    .highlight-box {
+      background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+      border: 1px solid #e0e4f0;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 28px 0;
+    }
+    .highlight-box .two-col {
+      align-items: stretch;
+    }
+    .highlight-box figure {
+      display: flex;
+      flex-direction: column;
+    }
+    .highlight-box .fig-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 12px;
+      line-height: 1.4;
+      min-height: 48px;
+    }
+    .highlight-box figure img {
+      flex: 1;
+      object-fit: contain;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #fff;
+    }
+
     /* Video */
     .video-wrapper {
       position: relative;
@@ -115,6 +146,20 @@
   <div class="container">
     <h2>Overview</h2>
     <p class="lede">The safety-capability gap in LLM-based agents widens as they engage in multi-turn interactions and employ diverse tools, introducing risks overlooked by existing benchmarks. To systematically scale safety testing in multi-turn, tool-realistic settings, we present <strong>MT-AgentRisk</strong> (Multi-Turn Agent Risk Benchmark), the first benchmark for multi-turn tool-agent safety. To mitigate this gap, we also introduce <strong>ToolShield</strong>, a training-free defense that leverages agents' own capabilities to improve safety.</p>
+
+    <!-- NEW: Highlight box with two figures -->
+    <div class="highlight-box">
+      <div class="two-col">
+        <figure>
+          <p class="fig-title">Multi-turn interactions and tool usage amplifies agent utility. But the intersections introduce new risk interfaces overlooked by existing benchmarks.</p>
+          <img src="assets/figures/Multi_Turn_Case.png" alt="Multi-turn case study"/>
+        </figure>
+        <figure>
+          <p class="fig-title">Can agents use their own capability to improve safety awareness? <strong style="color:#16a34a;">Yes!</strong></p>
+          <img src="assets/figures/defense_asr_decrease_horizontal.png" alt="Defense ASR decrease"/>
+        </figure>
+      </div>
+    </div>
 
     <div class="two-col">
       <figure>
