@@ -146,11 +146,11 @@
     <h3>Benchmark Statistics</h3>
     <p>Apply MTA on existing single-turn harmful tasks, <strong>MT-AgentRisk</strong> contains 365 tasks across 5 tools, averaging 3.19 turns per task, covering all 8 attack subcategories.</p>
     <div class="tools-list">
-      <span>📁 MCP-Filesystem (70)</span>
-      <span>🌐 MCP-Playwright (140)</span>
+      <span>📁 Filesystem-MCP (70)</span>
+      <span>🌐 Playwright-MCP (140)</span>
       <span>💻 Terminal (70)</span>
-      <span>🗄️ MCP-PostgreSQL (70)</span>
-      <span>📝 MCP-Notion (15)</span>
+      <span>🗄️ PostgreSQL-MCP (70)</span>
+      <span>📝 Notion-MCP (15)</span>
     </div>
     <p style="font-size:0.85rem; color:#666;">Sources: OpenAgentSafety, SafeArena, P2SQL, MCPMark</p>
   </div>
@@ -217,7 +217,7 @@
     <h2>Case Study</h2>
     <p class="lede">An Addition-based attack (Wrapping × Data): the agent refuses the single-turn request but completes the harmful task when decomposed into multiple turns. With ToolShield, the agent recognizes the distributed harm pattern and refuses.</p>
     <figure>
-      <img src="assets/figures/Case_Study_1.png" alt="Case study" style="width:85%; margin:0 auto; display:block;"/>
+      <img src="assets/figures/Case_Study_1.png" alt="Case study" style="width:90%; margin:0 auto; display:block;"/>
       <figcaption>Multi-turn attack bypasses single-turn safety awareness; ToolShield restores it.</figcaption>
     </figure>
   </div>
