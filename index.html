@@ -112,6 +112,63 @@
     .tools-list { margin:20px 0; }
     .tools-list span { display:inline-block; background:#f0f0f0; padding:4px 10px; border-radius:4px; margin:4px 4px 4px 0; font-size:0.85rem; }
 
+    /* Code snippet */
+    .code-block {
+      background:#1a1a2e;
+      border-radius:8px;
+      padding:20px 24px;
+      margin:20px 0;
+      overflow-x:auto;
+      position:relative;
+    }
+    .code-block .code-header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:12px;
+    }
+    .code-block .code-label {
+      font-size:0.8rem;
+      color:#888;
+      font-family:'Inter',sans-serif;
+      letter-spacing:0.5px;
+    }
+    .code-block .code-link {
+      font-size:0.8rem;
+      color:#7eb8ff;
+      text-decoration:none;
+      font-family:'Inter',sans-serif;
+    }
+    .code-block .code-link:hover { text-decoration:underline; }
+    .code-block pre {
+      margin:0;
+      color:#e0e0e0;
+      font-size:0.85rem;
+      line-height:1.6;
+      white-space:pre-wrap;
+    }
+    .code-block pre .comment { color:#6a9955; }
+    .code-block pre .cmd { color:#dcdcaa; }
+    .code-block pre .flag { color:#9cdcfe; }
+    .code-block pre .value { color:#ce9178; }
+
+    /* Dataset link */
+    .dataset-link {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      background:#fff;
+      border:1px solid #e0e0e0;
+      padding:6px 14px;
+      border-radius:6px;
+      font-size:0.85rem;
+      color:#333;
+      text-decoration:none;
+      margin-top:8px;
+      transition:all 0.2s;
+    }
+    .dataset-link:hover { border-color:#1a6dd4; color:#1a6dd4; text-decoration:none; }
+
     /* BibTeX */
     pre.bib { background:#f0f0f0; padding:16px; border-radius:6px; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; }
 
@@ -147,9 +204,8 @@
 <section>
   <div class="container">
     <h2>Overview</h2>
-    <p class="lede">The safety-capability gap in LLM-based agents widens as they engage in multi-turn interactions and employ diverse tools, introducing risks overlooked by existing benchmarks. To systematically scale safety testing in multi-turn, tool-realistic settings, we present <strong>MT-AgentRisk</strong> (Multi-Turn Agent Risk Benchmark), the first benchmark for multi-turn tool-agent safety. To mitigate this gap, we also introduce <strong>ToolShield</strong>, a training-free defense that leverages agents' own capabilities to improve safety.</p>
 
-    <!-- NEW: Highlight box with two figures -->
+    <!-- Highlight box with two figures -->
     <div class="highlight-box">
       <div class="two-col">
         <figure>
@@ -161,19 +217,6 @@
           <img src="assets/figures/defense_asr_decrease_horizontal.png" alt="Defense ASR decrease"/>
         </figure>
       </div>
-    </div>
-
-    <div class="two-col">
-      <figure>
-        <img src="assets/figures/fig_1_v4.png" alt="Overview figure"/>
-        <figcaption>MT-AgentRisk scale up the capability-safety gap evaluation; ToolShield mitigates it.</figcaption>
-      </figure>
-      <figure>
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube.com/embed/3Lvp_W-LJII" title="MT-AgentRisk Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <figcaption>Video overview of harmful task state changes.</figcaption>
-      </figure>
     </div>
   </div>
 </section>
@@ -200,6 +243,7 @@
       <span>📝 Notion-MCP (15)</span>
     </div>
     <p style="font-size:0.85rem; color:#666;">Sources: OpenAgentSafety, SafeArena, P2SQL, MCPMark</p>
+    <a href="https://huggingface.co/datasets/CHATS-Lab/MT-AgentRisk" class="dataset-link">🤗 Download on Hugging Face</a>
   </div>
 </section>
 
@@ -209,7 +253,7 @@
     <h2>How Vulnerable Are Agents Under Multi-Turn Interactions?</h2>
     <p class="lede">All models show safety degradation in multi-turn settings. Attack Success Rate (ASR) increases by <strong>16.1% on average</strong>, with Claude-4.5-Sonnet showing the largest jump (+27.1%). Notably, stronger capability does not imply better safety: DeepSeek-v3.2 achieves top capability scores among open-source models but exhibits 85.4% ASR.</p>
     <figure class="small">
-      <img src="assets/figures/vulnerability_grouped_bar.png" alt="Single vs multi-turn ASR"/>
+      <img src="assets/figures/vulnerability_horizontal.png" alt="Single vs multi-turn ASR"/>
       <figcaption>Safety degradation from single-turn to multi-turn settings across models.</figcaption>
     </figure>
   </div>
@@ -230,6 +274,21 @@
       <img src="assets/figures/pipeline.png" alt="ToolShield pipeline"/>
       <figcaption>ToolShield self-exploration pipeline.</figcaption>
     </figure>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">Quick Start</span>
+        <a class="code-link" href="https://github.com/CHATS-lab/MT-AgentRisk_ToolShield/tree/main">View on GitHub →</a>
+      </div>
+      <pre><span class="comment"># Run the full ToolShield pipeline:</span>
+<span class="comment"># Inspect MCP → Generate Safety Tree → Generate Tests → Distill Experiences → Inject into Agent Context</span>
+
+<span class="cmd">python</span> self_exploration/toolshield.py \
+  <span class="flag">--mcp_name</span> <span class="value">postgres</span> \
+  <span class="flag">--mcp_server</span> <span class="value">http://localhost:9091</span> \
+  <span class="flag">--output_path</span> <span class="value">/mnt/data/MT-AgentRisk_ToolShield/self_exploration/exp_examples</span> \
+  <span class="flag">--agent</span> <span class="value">codex</span></pre>
+    </div>
   </div>
 </section>
 
@@ -264,8 +323,10 @@
     <h2>Case Study</h2>
     <p class="lede">An Addition-based attack (Wrapping × Data): the agent refuses the single-turn request but completes the harmful task when decomposed into multiple turns. With ToolShield, the agent recognizes the distributed harm pattern and refuses.</p>
     <figure>
-      <img src="assets/figures/Case_Study_1.png" alt="Case study" style="width:90%; margin:0 auto; display:block;"/>
-      <figcaption>Multi-turn attack bypasses single-turn safety awareness; ToolShield restores it.</figcaption>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/3Lvp_W-LJII" title="MT-AgentRisk Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <figcaption>Video overview of harmful task state changes.</figcaption>
     </figure>
   </div>
 </section>
