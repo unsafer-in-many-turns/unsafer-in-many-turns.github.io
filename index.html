@@ -227,7 +227,7 @@
     <h2>MT-AgentRisk Benchmark</h2>
     
     <h3>Multi-Turn Attack Taxonomy (MTA)</h3>
-    <p>To systematically study this overlooked intersection of multi-turn interactions and tool-use, we propose an attack taxonomy that captures how single-turn harms can be distributed across turns. The taxonomy operates along three dimensions: <strong>Format</strong> (Addition vs. Decomposition), <strong>Method</strong> (Mapping, Wrapping, Composition, Identity), and <strong>Target</strong> (Data Files vs. Environment States), yielding 8 attack subcategories.</p>
+    <p>Existing benchmarks focus on either single-turn tool-using agents or multi-turn conversations without tools, overlooking the complex interplay between tool-use and multi-turn dynamics. To systematically study this intersection, we propose an attack taxonomy that captures how single-turn harms can be distributed across turns. The taxonomy operates along three dimensions: <strong>Format</strong> (Addition vs. Decomposition), <strong>Method</strong> (Mapping, Wrapping, Composition, Identity), and <strong>Target</strong> (Data Files vs. Environment States), yielding 8 attack subcategories.</p>
     <figure>
       <img src="assets/figures/taxonomy.png" alt="Taxonomy diagram"/>
       <figcaption>Multi-Turn Attack Taxonomy: transforming single-turn harms into multi-turn sequences.</figcaption>
@@ -263,7 +263,7 @@
 <section class="tint">
   <div class="container">
     <h2>How Does ToolShield Utilize Capability to Improve Safety?</h2>
-    <p class="lede"><strong>ToolShield</strong> is a training-free, tool-agnostic defense. When encountering a new tool, the agent:</p>
+    <p class="lede"><strong>ToolShield</strong> is a training-free, tool-agnostic defense. The key insight is that the same capability that enables tool use also enables recognizing tool misuse. When encountering a new tool, the agent:</p>
     <ol class="steps">
       <li><strong>Synthesizes</strong> test cases through structured risk reasoning</li>
       <li><strong>Executes</strong> them in a sandbox to observe behavior</li>
