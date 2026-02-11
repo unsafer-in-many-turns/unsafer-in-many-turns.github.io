@@ -243,7 +243,7 @@
 </div>
 
 <!-- Overview -->
-<section class="tint">
+<section>
   <div class="container">
     <figure>
       <img src="assets/figures/fig1_twitter.png" alt="Single-turn vs multi-turn safety" style="border:none;"/>
@@ -253,7 +253,7 @@
 </section>
 
 <!-- Overview -->
-<section id="overview">
+<section id="overview" class="tint">
   <div class="container">
     <h2>Overview</h2>
     <p>LLM agents derive their power from two core capabilities: multi-turn interactions and tool use. Yet these same capabilities create a critical attack surface. An adversary can distribute harmful intent across a sequence of seemingly benign exchanges. Despite this risk, existing safety benchmarks evaluate either multi-turn conversations or single-turn tool-using agents in isolation — never both.</p>
@@ -266,7 +266,7 @@
 </section>
 
 <!-- Taxonomy & Benchmark -->
-<section id="mt-agentrisk" class="tint">
+<section id="mt-agentrisk">
   <div class="container">
     <h2>MT-AgentRisk Benchmark</h2>
     
@@ -297,7 +297,7 @@
 </section>
 
 <!-- Results -->
-<section>
+<section class="tint">
   <div class="container">
     <h2>How Vulnerable Are Agents Under Multi-Turn Interactions?</h2>
     <p class="lede">All models show safety degradation in multi-turn settings. Attack Success Rate (ASR) increases by <strong>16.1% on average</strong>, with Claude-4.5-Sonnet showing the largest jump (+27.1%). Notably, stronger capability does not imply better safety: DeepSeek-v3.2 achieves top capability scores among open-source models but exhibits 85.4% ASR.</p>
@@ -309,7 +309,7 @@
 </section>
 
 <!-- Defense Method -->
-<section id="toolshield" class="tint">
+<section id="toolshield">
   <div class="container">
     <h2>How Does ToolShield Utilize Capability to Improve Safety?</h2>
     <p class="lede"><strong>ToolShield</strong> is a training-free, tool-agnostic defense. The key insight is that the same capability that enables tool use also enables recognizing tool misuse. When encountering a new tool, the agent:</p>
@@ -342,10 +342,10 @@
 </section>
 
 <!-- Defense Results -->
-<section>
+<section class="tint">
   <div class="container">
     <h2>Defense Results</h2>
-    <p class="lede">ToolShield demonstrates strong effectiveness across both single-turn and multi-turn settings, outperforming all baselines. In the more challenging multi-turn setting, it achieves an average <strong>30% reduction in ASR</strong>. Claude-4.5-Sonnet shows the largest improvement, dropping from 72% to 22% (−50%). More importantly, ToolShield's safety gains come at no cost to normal agent functionality: <strong>zero false positives</strong> on benign tasks.</p>
+    <p class="lede">ToolShield demonstrates strong effectiveness across both single-turn and multi-turn settings, outperforming all baselines. In the more challenging multi-turn setting, it achieves an average <strong>30% safety improvement</strong>. Claude-4.5-Sonnet shows the largest improvement, dropping from 72% to 22% (−50%). More importantly, ToolShield's safety gains come at no cost to normal agent functionality: <strong>zero false positives</strong> on benign tasks.</p>
 
     <figure class="small">
       <img src="assets/figures/web_defense_results.png" alt="Defense results comparison"/>
@@ -368,11 +368,11 @@
 </section>
 
 <!-- Case Study -->
-<section class="tint">
+<section>
   <div class="container">
     <h2>Case Study</h2>
     <p class="lede">An Addition-based attack (Wrapping × Data): the agent refuses the single-turn request but completes the harmful task when decomposed into multiple turns. With ToolShield, the agent recognizes the distributed harm pattern and refuses.</p>
-    <figure>
+    <figure style="width:75%; margin:24px auto;">
       <div class="video-wrapper">
         <iframe src="https://www.youtube.com/embed/bxpreKe1Vvw" title="MT-AgentRisk Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
@@ -382,7 +382,7 @@
 </section>
 
 <!-- Citation -->
-<section>
+<section class="tint">
   <div class="container">
     <h2>Citation</h2>
   </div>
