@@ -331,7 +331,15 @@
       </div>
       <pre><span class="cmd">pip</span> install toolshield
 
-<span class="comment"># Full pipeline: inspect → generate safety tree → test → distill → inject</span>
+<span class="comment"># Use pre-generated experiences (plug-and-play)</span>
+<span class="cmd">toolshield</span> import \
+  <span class="flag">--exp-file</span> <span class="value">experiences/claude-sonnet-4.5/experience_list_claude-sonnet-4.5_fs.json</span> \
+  <span class="flag">--agent</span> <span class="value">claude_code</span>
+
+<span class="comment"># Or generate your own from any MCP server</span>
+<span class="cmd">export</span> <span class="flag">TOOLSHIELD_MODEL_NAME</span>=<span class="value">"anthropic/claude-sonnet-4.5"</span>
+<span class="cmd">export</span> <span class="flag">OPENROUTER_API_KEY</span>=<span class="value">"your-key"</span>
+
 <span class="cmd">toolshield</span> \
   <span class="flag">--mcp_name</span> <span class="value">postgres</span> \
   <span class="flag">--mcp_server</span> <span class="value">http://localhost:9091</span> \
