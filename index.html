@@ -177,15 +177,15 @@
     /* Sidebar */
     .sidebar {
       position:fixed;
-      left:0;
+      right:0;
       top:50%;
       transform:translateY(-50%);
       z-index:100;
       background:#fff;
       border:1px solid #e0e0e0;
-      border-left:none;
-      border-radius:0 8px 8px 0;
-      box-shadow:2px 2px 12px rgba(0,0,0,0.08);
+      border-right:none;
+      border-radius:8px 0 0 8px;
+      box-shadow:-2px 2px 12px rgba(0,0,0,0.08);
       padding:16px 14px;
       display:flex;
       flex-direction:column;
@@ -243,7 +243,7 @@
 </div>
 
 <!-- Overview -->
-<section>
+<section class="tint">
   <div class="container">
     <figure>
       <img src="assets/figures/fig1_twitter.png" alt="Single-turn vs multi-turn safety" style="border:none;"/>
@@ -253,7 +253,7 @@
 </section>
 
 <!-- Overview -->
-<section id="overview" class="tint">
+<section id="overview">
   <div class="container">
     <h2>Overview</h2>
     <p>LLM agents derive their power from two core capabilities: multi-turn interactions and tool use. Yet these same capabilities create a critical attack surface. An adversary can distribute harmful intent across a sequence of seemingly benign exchanges. Despite this risk, existing safety benchmarks evaluate either multi-turn conversations or single-turn tool-using agents in isolation — never both.</p>
