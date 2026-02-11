@@ -174,6 +174,46 @@
     /* BibTeX */
     pre.bib { background:#f0f0f0; padding:16px; border-radius:6px; font-size:0.8rem; overflow-x:auto; white-space:pre-wrap; }
 
+    /* Sidebar */
+    .sidebar {
+      position:fixed;
+      left:0;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:100;
+      background:#fff;
+      border:1px solid #e0e0e0;
+      border-left:none;
+      border-radius:0 8px 8px 0;
+      box-shadow:2px 2px 12px rgba(0,0,0,0.08);
+      padding:16px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .sidebar a {
+      display:block;
+      padding:8px 12px;
+      font-size:0.8rem;
+      font-weight:500;
+      color:#888;
+      text-decoration:none;
+      border-radius:6px;
+      transition:all 0.2s;
+      white-space:nowrap;
+    }
+    .sidebar a:hover {
+      background:#f0f4ff;
+      color:#1a6dd4;
+      text-decoration:none;
+    }
+    .sidebar a.active {
+      background:#eef3ff;
+      color:#1a6dd4;
+      font-weight:600;
+    }
+    @media(max-width:1200px){ .sidebar { display:none; } }
+
     /* Footer */
     footer { text-align:center; padding:24px; color:#999; font-size:0.85rem; border-top:1px solid #eee; }
   </style>
@@ -206,37 +246,37 @@
 <section>
   <div class="container">
     <figure>
-      <img src="assets/figures/fig1_twitter.png" alt="Single-turn vs multi-turn safety"/>
+      <img src="assets/figures/fig1_twitter.png" alt="Single-turn vs multi-turn safety" style="border:none;"/>
       <figcaption>LLM agents successfully refuse a harmful request in a single turn. But after spreading the intent across a sequence of instructions, the agent follows along step by step and deletes all root data.</figcaption>
     </figure>
   </div>
 </section>
 
 <!-- Overview -->
-<section class="tint">
+<section id="overview" class="tint">
   <div class="container">
     <h2>Overview</h2>
     <p>LLM agents derive their power from two core capabilities: multi-turn interactions and tool use. Yet these same capabilities create a critical attack surface. An adversary can distribute harmful intent across a sequence of seemingly benign exchanges. Despite this risk, existing safety benchmarks evaluate either multi-turn conversations or single-turn tool-using agents in isolation — never both.</p>
     <p>We present the first comprehensive study of multi-turn tool-agent safety:</p>
     <ul style="list-style:none; margin:12px 0 0; padding:0;">
-      <li style="margin-bottom:12px; padding-left:16px; border-left:3px solid #1a6dd4;"><strong>MT-AgentRisk</strong> — A comprehensive benchmark with 365 multi-turn sequences, grounded by a decomposition taxonomy describing how we transform existing single-turn harm tasks to multi-turn.</li>
-      <li style="padding-left:16px; border-left:3px solid #1a6dd4;"><strong>ToolShield</strong> — A training-free, tool-agnostic, generalizable self-exploration defense that leverages tool-using agents' own capabilities to improve safety awareness.</li>
+      <li style="margin-bottom:12px; padding-left:16px; border-left:3px solid #1a6dd4;"><strong>MT-AgentRisk</strong>: A comprehensive benchmark with 365 multi-turn sequences, grounded by a decomposition taxonomy describing how we transform existing single-turn harm tasks to multi-turn.</li>
+      <li style="padding-left:16px; border-left:3px solid #1a6dd4;"><strong>ToolShield</strong>: A training-free, tool-agnostic, generalizable self-exploration defense that leverages tool-using agents' own capabilities to improve safety awareness.</li>
     </ul>
   </div>
 </section>
 
 <!-- Taxonomy & Benchmark -->
-<section class="tint">
+<section id="mt-agentrisk" class="tint">
   <div class="container">
     <h2>MT-AgentRisk Benchmark</h2>
     
     <h3>Multi-Turn Attack Taxonomy (MTA)</h3>
     <p>To systematically study the intersection, we propose an attack taxonomy that captures how single-turn harms can be distributed across turns. The taxonomy operates along three dimensions, yielding 8 attack subcategories:</p>
-    <ul style="list-style:none; margin:12px 0 16px; padding:0;">
-      <li style="margin-bottom:8px; padding-left:16px; border-left:3px solid #1a6dd4;"><strong>Format</strong> — How the transformation is structured (Addition vs. Decomposition)</li>
-      <li style="margin-bottom:8px; padding-left:16px; border-left:3px solid #1a6dd4;"><strong>Method</strong> — How it is performed (Mapping, Wrapping, Composition, Identity)</li>
-      <li style="padding-left:16px; border-left:3px solid #1a6dd4;"><strong>Target</strong> — What is manipulated (Data Files vs. Environment States)</li>
-    </ul>
+    <ol style="margin:12px 0 16px; padding-left:20px;">
+      <li style="margin-bottom:8px;"><strong>Format</strong>: How the transformation is structured (Addition vs. Decomposition)</li>
+      <li style="margin-bottom:8px;"><strong>Method</strong>: How it is performed (Mapping, Wrapping, Composition, Identity)</li>
+      <li><strong>Target</strong>: What is manipulated (Data Files vs. Environment States)</li>
+    </ol>
     <figure>
       <img src="assets/figures/taxonomy.png" alt="Taxonomy diagram"/>
       <figcaption>Multi-Turn Attack Taxonomy: transforming single-turn harms into multi-turn sequences.</figcaption>
@@ -269,7 +309,7 @@
 </section>
 
 <!-- Defense Method -->
-<section class="tint">
+<section id="toolshield" class="tint">
   <div class="container">
     <h2>How Does ToolShield Utilize Capability to Improve Safety?</h2>
     <p class="lede"><strong>ToolShield</strong> is a training-free, tool-agnostic defense. The key insight is that the same capability that enables tool use also enables recognizing tool misuse. When encountering a new tool, the agent:</p>
@@ -307,20 +347,20 @@
     <h2>Defense Results</h2>
     <p class="lede">ToolShield demonstrates strong effectiveness across both single-turn and multi-turn settings, outperforming all baselines. In the more challenging multi-turn setting, it achieves an average <strong>30% reduction in ASR</strong>. Claude-4.5-Sonnet shows the largest improvement, dropping from 72% to 22% (−50%). More importantly, ToolShield's safety gains come at no cost to normal agent functionality: <strong>zero false positives</strong> on benign tasks.</p>
 
-    <figure>
+    <figure class="small">
       <img src="assets/figures/web_defense_results.png" alt="Defense results comparison"/>
       <figcaption>ToolShield effectiveness across single-turn and multi-turn settings, compared against baseline defenses.</figcaption>
     </figure>
 
     <p><strong>ToolShield is General:</strong> Safety experiences generated by one model can be effectively applied to others. Stronger models benefit from safety experiences generated by weaker models and vice versa.</p>
     <p><strong>ToolShield is Budget-Flexible:</strong> Across all three models, with the increment on he cost, the Safety Improvement </p>
-    <div class="two-col">
+    <div class="two-col" style="align-items:center;">
       <figure>
         <img src="assets/figures/asr_drop_combined_heatmap.png" alt="Transfer heatmap"/>
         <figcaption>Cross-model transferability of experiences.</figcaption>
       </figure>
-      <figure style="text-align: center;">
-        <img src="assets/figures/cost_vs_asr_reduction_combined.png" alt="Cost vs ASR reduction" style="width: 70%;"/>
+      <figure>
+        <img src="assets/figures/cost_vs_asr_reduction_combined.png" alt="Cost vs ASR reduction"/>
         <figcaption>Defense effectiveness vs. self-exploration cost.</figcaption>
       </figure>
     </div>
@@ -348,7 +388,31 @@
   </div>
 </section>
 
+<!-- Sidebar -->
+<nav class="sidebar">
+  <a href="#overview">Overview</a>
+  <a href="#mt-agentrisk">MT-AgentRisk</a>
+  <a href="#toolshield">ToolShield</a>
+</nav>
+
 <footer>MT-AgentRisk / ToolShield · 2026</footer>
+
+<script>
+const sections = document.querySelectorAll('#overview, #mt-agentrisk, #toolshield');
+const navLinks = document.querySelectorAll('.sidebar a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const top = section.offsetTop - 120;
+    if (window.scrollY >= top) current = section.id;
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+});
+</script>
 
 </body>
 </html>
