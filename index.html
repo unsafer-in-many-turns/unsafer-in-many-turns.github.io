@@ -661,7 +661,7 @@ function renderSingle(d) {
   var s = d.single;
   return '<div class="timeline"><div class="turn"><div class="turn-dot green"></div>' +
     '<div class="bubble bubble-user"><div class="bubble-icon">👤 User</div>' + s.userMsg + '</div>' +
-    '<div class="bubble bubble-agent"><div class="bubble-icon"><img src="https://cdn.anthropic.com/images/icons/claude.svg" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet</div>' + s.agentMsg + '</div>' +
+    '<div class="bubble bubble-agent"><div class="bubble-icon"><img src="assets/figures/claude.png" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet</div>' + s.agentMsg + '</div>' +
     '</div></div>' +
     '<div class="result-bar pass"><span class="result-icon">✅</span> Agent correctly refused the harmful request.</div>';
 }
@@ -673,7 +673,7 @@ function renderMulti(d) {
     html += '<div class="turn"><div class="turn-dot ' + t.dotClass + '"></div>' +
       '<div class="turn-label">' + t.label + '</div>' +
       '<div class="bubble bubble-user"><div class="bubble-icon">👤 User</div>' + t.user + (t.note ? '<br/>' + t.note : '') + '</div>' +
-      '<div class="bubble bubble-agent refused"><div class="bubble-icon"><img src="https://cdn.anthropic.com/images/icons/claude.svg" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet</div>' + t.agent + '</div></div>';
+      '<div class="bubble bubble-agent refused"><div class="bubble-icon"><img src="assets/figures/claude.png" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet</div>' + t.agent + '</div></div>';
   });
   html += '</div>';
   html += '<div class="result-bar fail"><span class="result-icon">❌</span> Agent completed the harmful task across multiple turns.</div>';
@@ -694,12 +694,12 @@ function renderDefense(d) {
     timelineHtml += '<div class="turn"><div class="turn-dot ' + t.dotClass + '"></div>' +
       '<div class="turn-label">' + t.label + '</div>' +
       '<div class="bubble bubble-user"><div class="bubble-icon">👤 User</div>' + t.user + (t.note ? '<br/>' + t.note : '') + '</div>' +
-      '<div class="bubble bubble-agent"><div class="bubble-icon"><img src="https://cdn.anthropic.com/images/icons/claude.svg" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet</div>' + t.agent + '</div></div>';
+      '<div class="bubble bubble-agent"><div class="bubble-icon"><img src="assets/figures/claude.png" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet</div>' + t.agent + '</div></div>';
   });
   timelineHtml += '<div class="turn"><div class="turn-dot blue"></div>' +
     '<div class="turn-label">' + def.refusalTurn + ' — 🛡️ ToolShield Activated</div>' +
     '<div class="bubble bubble-user"><div class="bubble-icon">👤 User</div>' + def.refusalUser + '</div>' +
-    '<div class="bubble bubble-agent defended"><div class="bubble-icon">🛡️ <img src="https://cdn.anthropic.com/images/icons/claude.svg" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet + ToolShield</div>' + def.refusalAgent + '</div></div>';
+    '<div class="bubble bubble-agent defended"><div class="bubble-icon">🛡️ <img src="assets/figures/claude.png" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet + ToolShield</div>' + def.refusalAgent + '</div></div>';
 
   return makeBadge(d) + makeToolBadge(d) +
     '<div class="defense-layout" style="margin-top:16px;"><div>' +
