@@ -1509,9 +1509,25 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
     });
   });
 
-  // Python x-axis: log scale, ticks at [0.16, 0.32, 0.50, 0.80, 1.06], bold for model costs
-  var xTicks = [0.16, 0.32, 0.50, 0.80, 1.06];
-  var boldCosts = {0.16:true, 0.32:true, 1.06:true};
+  // Add markLines to first series to highlight model costs on x-axis
+  series[0].markLine = {
+    silent: true,
+    symbol: 'none',
+    lineStyle: { type: 'dashed', color: '#aaa', width: 1 },
+    label: {
+      position: 'start',
+      fontSize: 13,
+      fontFamily: 'Inter',
+      fontWeight: 'bold',
+      color: '#555',
+      formatter: function(p) { return '$' + p.value.toFixed(2); }
+    },
+    data: [
+      { xAxis: 0.16 },
+      { xAxis: 0.32 },
+      { xAxis: 1.06 }
+    ]
+  };
 
   costAsrShieldChart.setOption({
     title: {
@@ -1528,16 +1544,7 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
       nameTextStyle: { fontSize: 16, fontFamily: 'Inter', fontWeight: 'bold' },
       axisLabel: {
         fontSize: 15, fontFamily: 'Inter',
-        formatter: function(v) {
-          for (var i = 0; i < xTicks.length; i++) {
-            if (Math.abs(v - xTicks[i]) < 0.005) {
-              var label = '$' + xTicks[i].toFixed(2);
-              return boldCosts[xTicks[i]] ? '{bold|' + label + '}' : label;
-            }
-          }
-          return '';
-        },
-        rich: { bold: { fontWeight: 'bold', fontSize: 15, fontFamily: 'Inter' } }
+        formatter: function(v) { return '$' + v.toFixed(2); }
       },
       axisTick: { show: true },
       splitLine: { lineStyle: { type: 'dashed', color: '#e0e0e0' } }
