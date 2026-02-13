@@ -1443,9 +1443,6 @@ defenseBaselineChart.setOption({
 // =============================================
 var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-chart'));
 (function() {
-  // Use log10-transformed x values so we can use a value axis with custom ticks
-  function logX(v) { return Math.log10(v); }
-
   // Data matching Python: costs = [204/193, 38/118, 16/102]
   var models = [
     { name: 'Claude-4.5-Sonnet', cost: 204/193, woRR: 15.34, wRR: 72.88, icon: 'assets/figures/claude.png', color: '#E67E22' },
@@ -1454,32 +1451,27 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
   ];
   var shieldIcon = 'assets/figures/shield.png';
 
-  // Python x-axis ticks: [0.16, 0.32, 0.50, 0.80, 1.06]
-  var xTicks = [0.16, 0.32, 0.50, 0.80, 1.06];
-  var boldCosts = {0.16:true, 0.32:true, 1.06:true};
-
   var series = [];
   models.forEach(function(m) {
-    var lx = logX(m.cost);
     var arrowYStart = m.woRR + 7;
     var arrowYEnd = m.wRR - 7;
 
-    // Dashed upward line
+    // Dashed upward line connecting w/o (bottom) to w/ (top) — model color
     series.push({
-      type: 'line', data: [[lx, arrowYStart], [lx, arrowYEnd]],
+      type: 'line', data: [[m.cost, arrowYStart], [m.cost, arrowYEnd]],
       lineStyle: { type: 'dashed', width: 2.5, color: m.color },
       symbol: 'none', z: 6, tooltip: { show: false }
     });
     // Arrow triangle at top
     series.push({
-      type: 'scatter', data: [[lx, arrowYEnd]],
+      type: 'scatter', data: [[m.cost, arrowYEnd]],
       symbol: 'triangle', symbolSize: 14, z: 7,
       itemStyle: { color: m.color, borderWidth: 0 },
       tooltip: { show: false }
     });
     // w/o defense icon — bottom
     series.push({
-      type: 'scatter', data: [[lx, m.woRR]],
+      type: 'scatter', data: [[m.cost, m.woRR]],
       symbol: 'image://' + m.icon, symbolSize: 44, z: 5,
       tooltip: {
         formatter: function() {
@@ -1489,7 +1481,7 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
     });
     // w/ defense icon — top
     series.push({
-      type: 'scatter', data: [[lx, m.wRR]],
+      type: 'scatter', data: [[m.cost, m.wRR]],
       symbol: 'image://' + m.icon, symbolSize: 44, z: 5,
       tooltip: {
         formatter: function() {
@@ -1499,14 +1491,14 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
     });
     // Shield badge top-right
     series.push({
-      type: 'scatter', data: [[lx, m.wRR]],
+      type: 'scatter', data: [[m.cost, m.wRR]],
       symbol: 'image://' + shieldIcon, symbolSize: 24,
       symbolOffset: [18, -14], z: 8, tooltip: { show: false }
     });
     // Improvement annotation
     var improvement = (m.wRR - m.woRR).toFixed(1);
     series.push({
-      type: 'scatter', data: [[lx, (m.woRR + m.wRR) / 2]],
+      type: 'scatter', data: [[m.cost, (m.woRR + m.wRR) / 2]],
       symbol: 'none',
       label: {
         show: true, formatter: '+' + improvement + '%',
@@ -1517,6 +1509,10 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
     });
   });
 
+  // Python x-axis: log scale, ticks at [0.16, 0.32, 0.50, 0.80, 1.06], bold for model costs
+  var xTicks = [0.16, 0.32, 0.50, 0.80, 1.06];
+  var boldCosts = {0.16:true, 0.32:true, 1.06:true};
+
   costAsrShieldChart.setOption({
     title: {
       text: 'ToolShield Cost per Experience vs. Rejection Rate',
@@ -1525,17 +1521,16 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
     },
     grid: { left: 80, right: 90, top: 45, bottom: 65 },
     xAxis: {
-      type: 'value',
-      min: logX(0.12), max: logX(1.3),
+      type: 'log', logBase: 10,
+      min: 0.12, max: 1.3,
       name: 'ToolShield Cost per Experience ($)',
       nameLocation: 'center', nameGap: 40,
       nameTextStyle: { fontSize: 16, fontFamily: 'Inter', fontWeight: 'bold' },
       axisLabel: {
         fontSize: 15, fontFamily: 'Inter',
-        // Force display only at our custom tick positions
         formatter: function(v) {
           for (var i = 0; i < xTicks.length; i++) {
-            if (Math.abs(v - logX(xTicks[i])) < 0.01) {
+            if (Math.abs(v - xTicks[i]) < 0.005) {
               var label = '$' + xTicks[i].toFixed(2);
               return boldCosts[xTicks[i]] ? '{bold|' + label + '}' : label;
             }
@@ -1544,12 +1539,7 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
         },
         rich: { bold: { fontWeight: 'bold', fontSize: 15, fontFamily: 'Inter' } }
       },
-      axisTick: {
-        show: true,
-        alignWithLabel: true
-      },
-      // Force ticks at exact positions
-      interval: 0.01,
+      axisTick: { show: true },
       splitLine: { lineStyle: { type: 'dashed', color: '#e0e0e0' } }
     },
     yAxis: {
