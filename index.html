@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>MT-AgentRisk / ToolShield</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family:'Inter',sans-serif; color:#222; line-height:1.6; }
@@ -389,6 +390,9 @@
       <li style="margin-bottom:12px; padding-left:16px; border-left:3px solid #1a6dd4;"><strong>MT-AgentRisk</strong>: A comprehensive benchmark with 365 multi-turn sequences, grounded by a decomposition taxonomy describing how we transform existing single-turn harm tasks to multi-turn.</li>
       <li style="padding-left:16px; border-left:3px solid #1a6dd4;"><strong>ToolShield</strong>: A training-free, tool-agnostic, generalizable self-exploration defense that leverages tool-using agents' own capabilities to improve safety awareness.</li>
     </ul>
+
+    <div id="defense-chart" style="width:100%;height:420px;margin:32px 0 0;"></div>
+    <figcaption style="font-size:0.85rem;color:#666;text-align:center;margin-bottom:8px;">ToolShield reduces Attack Success Rate across all models. Hover for details.</figcaption>
 
     <h3 style="margin-top:40px;">Examples</h3>
     <p class="lede">See how multi-turn attacks bypass single-turn safety and how ToolShield defends against them.</p>
@@ -791,6 +795,76 @@ function closeModal() {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeModal();
 });
+
+// Defense ASR Comparison Chart
+var defenseChart = echarts.init(document.getElementById('defense-chart'));
+var models = ['Claude-4.5\nSonnet', 'GPT-5.2', 'Seed-1.6', 'Gemini-3\nFlash', 'Qwen3\nCoder', 'Deepseek\nv3.2'];
+var woDefense = [71.8, 39.7, 73.2, 78.9, 78.1, 84.9];
+var wDefense =  [21.9, 21.1, 35.6, 59.7, 54.3, 55.1];
+var deltas = [-49.9, -18.6, -37.5, -19.2, -23.8, -29.9];
+
+defenseChart.setOption({
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: { type: 'shadow' },
+    formatter: function(params) {
+      var idx = params[0].dataIndex;
+      return '<strong>' + models[idx].replace('\n',' ') + '</strong><br/>' +
+        '<span style="color:#c0713a;">●</span> w/o Defense: ' + woDefense[idx] + '%<br/>' +
+        '<span style="color:#0d7d6c;">●</span> w/ Defense: ' + wDefense[idx] + '%<br/>' +
+        '<span style="color:#dc2626;">Reduction: ' + deltas[idx] + '%</span>';
+    }
+  },
+  legend: {
+    data: ['w/o Defense', 'w/ Defense'],
+    top: 10,
+    textStyle: { fontFamily: 'Inter', fontSize: 13 }
+  },
+  grid: { left: 60, right: 30, top: 50, bottom: 60 },
+  xAxis: {
+    type: 'category',
+    data: models,
+    axisLabel: { fontFamily: 'Inter', fontSize: 11, interval: 0 },
+    axisTick: { alignWithLabel: true }
+  },
+  yAxis: {
+    type: 'value',
+    name: 'Attack Success Rate (%)',
+    nameTextStyle: { fontFamily: 'Inter', fontSize: 12 },
+    max: 100,
+    axisLabel: { fontFamily: 'Inter' }
+  },
+  series: [
+    {
+      name: 'w/o Defense',
+      type: 'bar',
+      barWidth: '28%',
+      data: woDefense,
+      itemStyle: { color: '#c0713a', borderRadius: [3,3,0,0] },
+      label: { show: false }
+    },
+    {
+      name: 'w/ Defense',
+      type: 'bar',
+      barWidth: '28%',
+      data: wDefense,
+      itemStyle: { color: '#0d7d6c', borderRadius: [3,3,0,0] },
+      label: {
+        show: true,
+        position: 'top',
+        formatter: function(p) { return deltas[p.dataIndex] + '%'; },
+        fontFamily: 'Inter',
+        fontSize: 12,
+        fontWeight: 600,
+        color: '#0d7d6c'
+      }
+    }
+  ],
+  animationDuration: 1200,
+  animationEasing: 'cubicOut'
+});
+
+window.addEventListener('resize', function() { defenseChart.resize(); });
 </script>
 
 </body>
