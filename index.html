@@ -487,11 +487,11 @@
         <div style="font-weight:700;font-size:1rem;color:#0173B2;margin-bottom:8px;">📊 Benchmark: MT-AgentRisk</div>
         <div style="font-size:0.88rem;color:#444;line-height:1.55;">A comprehensive benchmark with <strong>365 multi-turn sequences</strong>, grounded by a decomposition taxonomy describing how we transform existing single-turn harm tasks to multi-turn.</div>
         <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
-          <img src="https://img.shields.io/badge/-Filesystem-black?style=flat-square&logo=files&logoColor=white" alt="Filesystem"/>
-          <img src="https://img.shields.io/badge/-PostgreSQL-black?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
+          <img src="https://img.shields.io/badge/-Filesystem--MCP-black?style=flat-square&logo=files&logoColor=white" alt="Filesystem-MCP"/>
+          <img src="https://img.shields.io/badge/-PostgreSQL--MCP-black?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL-MCP"/>
           <img src="https://img.shields.io/badge/-Terminal-black?style=flat-square&logo=gnometerminal&logoColor=white" alt="Terminal"/>
-          <img src="https://img.shields.io/badge/-Chrome-black?style=flat-square&logo=googlechrome&logoColor=white" alt="Chrome"/>
-          <img src="https://img.shields.io/badge/-Notion-black?style=flat-square&logo=notion&logoColor=white" alt="Notion"/>
+          <img src="https://img.shields.io/badge/-Playwright--MCP-black?style=flat-square&logo=googlechrome&logoColor=white" alt="Playwright-MCP"/>
+          <img src="https://img.shields.io/badge/-Notion--MCP-black?style=flat-square&logo=notion&logoColor=white" alt="Notion-MCP"/>
         </div>
       </div>
       <div style="background:#fff;border:1.5px solid #029E73;border-radius:12px;padding:20px;position:relative;overflow:hidden;">
@@ -499,8 +499,8 @@
         <div style="font-weight:700;font-size:1rem;color:#029E73;margin-bottom:8px;">🛡️ Defense: ToolShield</div>
         <div style="font-size:0.88rem;color:#444;line-height:1.55;">A training-free, tool-agnostic, generalizable self-exploration defense that leverages tool-using agents' own capabilities to improve safety awareness.</div>
         <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
-          <img src="https://img.shields.io/badge/Single--Turn📈_Safe-1E6F5C?style=flat-square" alt="Single-Turn"/>
-          <img src="https://img.shields.io/badge/Multi--Turn📈_Safe-1E6F5C?style=flat-square" alt="Multi-Turn"/>
+          <img src="https://img.shields.io/badge/Single--Turn Safety📈-1E6F5C?style=flat-square" alt="Single-Turn"/>
+          <img src="https://img.shields.io/badge/Multi--Turn Safety📈-1E6F5C?style=flat-square" alt="Multi-Turn"/>
         </div>
       </div>
     </div>
@@ -566,19 +566,25 @@
         </div>
       </div>
     </div>
-    <figure>
-      <img src="assets/figures/taxonomy.png" alt="Taxonomy diagram"/>
-      <figcaption>Multi-Turn Attack Taxonomy: transforming single-turn harms into multi-turn sequences.</figcaption>
-    </figure>
+    <div style="display:flex;align-items:center;gap:12px;cursor:pointer;margin:16px 0 8px;" onclick="toggleTaxonomyFig()">
+      <span style="font-weight:600;font-size:0.95rem;color:#222;">Taxonomy Diagram</span>
+      <span id="taxonomy-fig-toggle-icon" style="font-size:0.85rem;color:#1a6dd4;font-weight:600;">▶ Show</span>
+    </div>
+    <div id="taxonomy-fig-collapsible" style="display:none;">
+      <figure>
+        <img src="assets/figures/taxonomy.png" alt="Taxonomy diagram"/>
+        <figcaption>Multi-Turn Attack Taxonomy: transforming single-turn harms into multi-turn sequences.</figcaption>
+      </figure>
+    </div>
 
     <h3>Benchmark Statistics</h3>
     <p>Apply MTA on existing single-turn harmful tasks, <strong>MT-AgentRisk</strong> contains 365 tasks across 5 tools, averaging 3.19 turns per task, covering all 8 attack subcategories. (Click the tool icon below to view more examples)</p>
     <div class="tools-list">
-      <span onclick="showToolExample('filesystem')">📁 Filesystem-MCP (70)</span>
-      <span onclick="showToolExample('playwright')">🌐 Playwright-MCP (140)</span>
-      <span onclick="showToolExample('terminal')">💻 Terminal (70)</span>
-      <span onclick="showToolExample('postgresql')">🗄️ PostgreSQL-MCP (70)</span>
-      <span onclick="showToolExample('notion')">📝 Notion-MCP (15)</span>
+      <span onclick="showToolExample('filesystem')"><img src="https://img.shields.io/badge/-Filesystem--MCP-black?style=flat-square&logo=files&logoColor=white" alt="Filesystem-MCP" style="vertical-align:middle;margin-right:4px;"/> (70)</span>
+      <span onclick="showToolExample('playwright')"><img src="https://img.shields.io/badge/-Playwright--MCP-black?style=flat-square&logo=googlechrome&logoColor=white" alt="Playwright-MCP" style="vertical-align:middle;margin-right:4px;"/> (140)</span>
+      <span onclick="showToolExample('terminal')"><img src="https://img.shields.io/badge/-Terminal-black?style=flat-square&logo=gnometerminal&logoColor=white" alt="Terminal" style="vertical-align:middle;margin-right:4px;"/> (70)</span>
+      <span onclick="showToolExample('postgresql')"><img src="https://img.shields.io/badge/-PostgreSQL--MCP-black?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL-MCP" style="vertical-align:middle;margin-right:4px;"/> (70)</span>
+      <span onclick="showToolExample('notion')"><img src="https://img.shields.io/badge/-Notion--MCP-black?style=flat-square&logo=notion&logoColor=white" alt="Notion-MCP" style="vertical-align:middle;margin-right:4px;"/> (15)</span>
     </div>
     <p style="font-size:0.85rem; color:#666;">Sources: OpenAgentSafety, SafeArena, P2SQL, MCPMark</p>
     <a href="https://huggingface.co/datasets/CHATS-Lab/MT-AgentRisk" class="dataset-link">🤗 Download on Hugging Face</a>
@@ -631,10 +637,16 @@
         <div class="step-desc">Experiences injected into the agent's context during deployment</div>
       </div>
     </div>
-    <figure>
-      <img src="assets/figures/pipeline.png" alt="ToolShield pipeline"/>
-      <figcaption>ToolShield self-exploration pipeline.</figcaption>
-    </figure>
+    <div style="display:flex;align-items:center;gap:12px;cursor:pointer;margin:16px 0 8px;" onclick="togglePipelineFig()">
+      <span style="font-weight:600;font-size:0.95rem;color:#222;">Pipeline Diagram</span>
+      <span id="pipeline-fig-toggle-icon" style="font-size:0.85rem;color:#1a6dd4;font-weight:600;">▶ Show</span>
+    </div>
+    <div id="pipeline-fig-collapsible" style="display:none;">
+      <figure>
+        <img src="assets/figures/pipeline.png" alt="ToolShield pipeline"/>
+        <figcaption>ToolShield self-exploration pipeline.</figcaption>
+      </figure>
+    </div>
 
     <div id="quick-start" class="code-block">
       <div class="code-header">
@@ -766,7 +778,7 @@
 
     <p><strong>ToolShield is Budget-Flexible:</strong> Higher investment in experience generation yields greater safety improvements, with Claude achieving the best cost-effectiveness ratio.</p>
 
-    <div id="cost-asr-shield-chart" style="width:85%;height:450px;margin:24px auto;"></div>
+    <div id="cost-asr-shield-chart" style="width:90%;height:480px;margin:24px auto;"></div>
     <p style="font-size:0.85rem;color:#666;text-align:center;margin-top:-8px;">Cost per experience vs. ASR: model icons show w/o defense, shielded icons show w/ ToolShield.</p>
 
     <p><strong>ToolShield is General:</strong> Safety experiences generated by one model can be effectively applied to others. Stronger models benefit from safety experiences generated by weaker models and vice versa.</p>
@@ -1092,6 +1104,30 @@ function toggleExpExamples() {
   }
 }
 
+function toggleTaxonomyFig() {
+  var el = document.getElementById('taxonomy-fig-collapsible');
+  var icon = document.getElementById('taxonomy-fig-toggle-icon');
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    icon.textContent = '▼ Hide';
+  } else {
+    el.style.display = 'none';
+    icon.textContent = '▶ Show';
+  }
+}
+
+function togglePipelineFig() {
+  var el = document.getElementById('pipeline-fig-collapsible');
+  var icon = document.getElementById('pipeline-fig-toggle-icon');
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    icon.textContent = '▼ Hide';
+  } else {
+    el.style.display = 'none';
+    icon.textContent = '▶ Show';
+  }
+}
+
 // Experience Example Tabs
 function switchExpTool(idx) {
   document.querySelectorAll('.exp-tool-tabs button').forEach(function(b, j) {
@@ -1406,28 +1442,29 @@ defenseBaselineChart.setOption({
 // =============================================
 var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-chart'));
 (function() {
+  // Data matching Python exactly: costs = [204/193, 38/118, 16/102]
   var models = [
-    { name: 'Gemini-3-Flash', cost: 16/102, woASR: 78.90, wASR: 59.73, icon: 'assets/figures/gemini.png', color: '#2ECC71' },
-    { name: 'Qwen3-Coder',   cost: 38/118, woASR: 78.08, wASR: 54.25, icon: 'assets/figures/qwen.png',   color: '#3498DB' },
-    { name: 'Claude-4.5-Sonnet', cost: 204/193, woASR: 71.78, wASR: 21.92, icon: 'assets/figures/claude.png', color: '#E74C3C' }
+    { name: 'Claude-4.5-Sonnet', cost: 204/193, woASR: 71.78, wASR: 21.92, icon: 'assets/figures/claude.png', color: '#E67E22' },
+    { name: 'Qwen3-Coder',      cost: 38/118,  woASR: 78.08, wASR: 54.25, icon: 'assets/figures/qwen.png',   color: '#9B59B6' },
+    { name: 'Gemini-3-Flash',   cost: 16/102,  woASR: 78.90, wASR: 59.73, icon: 'assets/figures/gemini.png', color: '#3498DB' }
   ];
   var shieldIcon = 'assets/figures/shield.png';
 
   var series = [];
-  models.forEach(function(m, idx) {
-    // Dashed line connecting w/o and w/ points
+  models.forEach(function(m) {
+    // Dashed line connecting w/o and w/ points — model color
     series.push({
       type: 'line', data: [[m.cost, m.woASR], [m.cost, m.wASR]],
-      lineStyle: { type: 'dashed', width: 2, color: '#999' },
+      lineStyle: { type: 'dashed', width: 2, color: m.color },
       symbol: 'none', z: 1,
       tooltip: { show: false }
     });
-    // w/o defense point (model icon)
+    // w/o defense point (model icon) — top
     series.push({
       type: 'scatter',
       data: [[m.cost, m.woASR]],
       symbol: 'image://' + m.icon,
-      symbolSize: 36,
+      symbolSize: 44,
       z: 3,
       tooltip: {
         formatter: function() {
@@ -1435,12 +1472,13 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
         }
       }
     });
-    // w/ defense point (shield icon)
+    // w/ defense point (model icon + shield overlay) — bottom
+    // ECharts can't composite images, so show model icon with shield beside it
     series.push({
       type: 'scatter',
       data: [[m.cost, m.wASR]],
-      symbol: 'image://' + shieldIcon,
-      symbolSize: 30,
+      symbol: 'image://' + m.icon,
+      symbolSize: 44,
       z: 3,
       tooltip: {
         formatter: function() {
@@ -1448,7 +1486,17 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
         }
       }
     });
-    // Improvement annotation
+    // Small shield badge next to w/ defense point
+    series.push({
+      type: 'scatter',
+      data: [[m.cost, m.wASR]],
+      symbol: 'image://' + shieldIcon,
+      symbolSize: 24,
+      symbolOffset: [18, 14],
+      z: 4,
+      tooltip: { show: false }
+    });
+    // Improvement annotation — model color
     var improvement = (m.woASR - m.wASR).toFixed(1);
     series.push({
       type: 'scatter',
@@ -1456,51 +1504,58 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
       symbol: 'none',
       label: {
         show: true,
-        formatter: '-' + improvement + '%',
+        formatter: '\u2212' + improvement + '%',
         position: 'right',
-        distance: 8,
-        fontSize: 13,
+        distance: 22,
+        fontSize: 16,
         fontWeight: 'bold',
         fontFamily: 'Inter',
-        color: '#1E6F5C',
-        backgroundColor: '#f0fdf4',
-        borderColor: '#bbf7d0',
-        borderWidth: 1,
-        borderRadius: 4,
-        padding: [3, 6]
+        color: m.color
       },
       tooltip: { show: false }
     });
   });
 
+  // X-axis: log scale with specific ticks matching Python
+  var xTicks = [0.16, 0.32, 0.50, 0.80, 1.06];
+  var boldCosts = [0.16, 0.32, 1.06];
+
   costAsrShieldChart.setOption({
     title: {
-      text: 'Cost per Experience vs. ASR',
-      left: 'center', top: 8,
-      textStyle: { fontSize: 15, fontWeight: 'bold', fontFamily: 'Inter' }
+      text: 'ToolShield Cost per Experience vs. ASR',
+      left: 'center', top: 5,
+      textStyle: { fontSize: 18, fontWeight: 'bold', fontFamily: 'Inter' }
     },
-    grid: { left: 65, right: 80, top: 50, bottom: 55 },
+    grid: { left: 80, right: 90, top: 45, bottom: 65 },
     xAxis: {
       type: 'log', logBase: 10,
-      min: 0.1, max: 1.5,
-      name: 'Cost per Experience ($)',
-      nameLocation: 'center', nameGap: 35,
-      nameTextStyle: { fontSize: 13, fontFamily: 'Inter' },
-      axisLabel: { fontSize: 12, fontFamily: 'Inter', formatter: '${value}' },
-      splitLine: { lineStyle: { type: 'dashed', color: '#e8e8e8' } }
+      min: 0.13, max: 1.3,
+      name: 'ToolShield Cost per Experience ($)',
+      nameLocation: 'center', nameGap: 40,
+      nameTextStyle: { fontSize: 16, fontFamily: 'Inter', fontWeight: 'bold' },
+      axisLabel: {
+        fontSize: 15, fontFamily: 'Inter',
+        formatter: function(v) {
+          return '$' + v.toFixed(2);
+        },
+        rich: {}
+      },
+      axisTick: { show: true },
+      splitLine: { lineStyle: { type: 'dashed', color: '#e0e0e0' } }
     },
     yAxis: {
       type: 'value',
       min: 10, max: 90,
-      name: 'ASR (%)',
-      nameTextStyle: { fontSize: 13, fontFamily: 'Inter' },
-      axisLabel: { fontSize: 12, fontFamily: 'Inter', formatter: '{value}%' },
-      splitLine: { lineStyle: { type: 'dashed', color: '#e8e8e8' } }
+      interval: 20,
+      name: 'Attack Success Rate (%)',
+      nameTextStyle: { fontSize: 16, fontFamily: 'Inter', fontWeight: 'bold' },
+      axisLabel: { fontSize: 15, fontFamily: 'Inter', formatter: '{value}%' },
+      splitLine: { lineStyle: { type: 'dashed', color: '#e0e0e0' } }
     },
     tooltip: { trigger: 'item' },
+    series: series,
     animationDuration: 1200
   });
-  costAsrShieldChart.setOption({ series: series });
 })();
 </script>
 
