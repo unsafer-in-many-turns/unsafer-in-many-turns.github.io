@@ -575,7 +575,7 @@
 </section>
 
 <!-- Results -->
-<section class="tint">
+<section id="benchmark-results" class="tint">
   <div class="container">
     <h2>How Vulnerable Are Agents Under Multi-Turn Interactions?</h2>
     <p class="lede">All models show safety degradation in multi-turn settings. Attack Success Rate (ASR) increases by <strong>16.1% on average</strong>, with Claude-4.5-Sonnet showing the largest jump (+27.1%). Notably, stronger capability does not imply better safety: DeepSeek-v3.2 achieves top capability scores among open-source models but exhibits 85.4% ASR.</p>
@@ -735,7 +735,7 @@
 </section>
 
 <!-- Defense Results -->
-<section class="tint">
+<section id="defense-results" class="tint">
   <div class="container">
     <h2>Defense Results</h2>
     <p class="lede">ToolShield demonstrates strong effectiveness across both single-turn and multi-turn settings, outperforming all baselines. In the more challenging multi-turn setting, it achieves an average <strong>30% safety improvement</strong>. Claude-4.5-Sonnet shows the largest improvement, dropping from 72% to 22% (−50%). More importantly, ToolShield's safety gains come at no cost to normal agent functionality: <strong>zero false positives</strong> on benign tasks.</p>
@@ -798,13 +798,15 @@
 <nav class="sidebar">
   <a href="#overview">Overview</a>
   <a href="#mt-agentrisk">MT-AgentRisk</a>
+  <a href="#benchmark-results">Benchmark Results</a>
   <a href="#toolshield">ToolShield</a>
+  <a href="#defense-results">Defense Results</a>
 </nav>
 
 <footer>MT-AgentRisk / ToolShield · 2026</footer>
 
 <script>
-const sections = document.querySelectorAll('#overview, #mt-agentrisk, #toolshield');
+const sections = document.querySelectorAll('#overview, #mt-agentrisk, #benchmark-results, #toolshield, #defense-results');
 const navLinks = document.querySelectorAll('.sidebar a');
 
 window.addEventListener('scroll', () => {
