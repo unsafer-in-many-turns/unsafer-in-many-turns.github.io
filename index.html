@@ -1337,7 +1337,7 @@ function initHeatmap(elId, rawData, titleText) {
         show: true,
         formatter: function(p) { return p.data[2].toFixed(1); },
         fontSize: 14, fontWeight: 'bold', fontFamily: 'Inter',
-        color: function(p) { return p.data[2] <= -45 ? '#fff' : '#222'; }
+        color: function(p) { return p.data[2] >= -45 ? '#222' : '#fff'; }
       },
       itemStyle: { borderColor: '#fff', borderWidth: 2 }
     }]
