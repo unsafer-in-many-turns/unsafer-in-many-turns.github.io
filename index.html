@@ -352,6 +352,7 @@
     .step-num.c2 { background:#DE8F05; }
     .step-num.c3 { background:#029E73; }
     .step-num.c4 { background:#CC78BC; }
+    .step-num.c5 { background:#D55E00; }
     .step-card .step-title { font-size:0.95rem; font-weight:700; color:#222; margin-bottom:4px; }
     .step-card .step-desc { font-size:0.8rem; color:#666; line-height:1.4; }
     .step-arrow { display:flex; align-items:center; padding:0 6px; color:#bbb; font-size:1.4rem; margin-top:18px; }
@@ -369,7 +370,6 @@
       background:#fff; border:1.5px solid #e5e7eb; border-radius:10px;
     }
     .taxonomy-row:last-child { margin-bottom:0; }
-    .taxonomy-icon { font-size:1.3rem; flex-shrink:0; }
     .taxonomy-label { font-weight:700; font-size:0.92rem; color:#222; min-width:72px; }
     .taxonomy-desc { font-size:0.82rem; color:#888; margin-right:auto; }
     .taxonomy-chips { display:flex; gap:6px; flex-wrap:wrap; }
@@ -377,9 +377,9 @@
       display:inline-block; padding:4px 12px; border-radius:16px;
       font-size:0.8rem; font-weight:600;
     }
-    .chip-blue { background:#e0f2fe; color:#0369a1; }
-    .chip-orange { background:#fff7ed; color:#c2410c; }
-    .chip-green { background:#ecfdf5; color:#047857; }
+    .chip-red { background:#fee2e2; color:#dc2626; }
+    .chip-blue { background:#dbeafe; color:#2563eb; }
+    .chip-gray { background:#f3f4f6; color:#4b5563; }
 
     /* Footer */
     footer { text-align:center; padding:24px; color:#999; font-size:0.85rem; border-top:1px solid #eee; }
@@ -433,12 +433,43 @@
 <section id="overview" class="tint">
   <div class="container">
     <h2>Overview</h2>
-    <p>LLM agents derive their power from two core capabilities: multi-turn interactions and tool use. Yet these same capabilities create a critical attack surface. An adversary can distribute harmful intent across a sequence of seemingly benign exchanges. Despite this risk, existing safety benchmarks evaluate either multi-turn conversations or single-turn tool-using agents in isolation — never both.</p>
+
+    <!-- Problem Statement Visual -->
+    <div style="display:flex;gap:16px;margin:20px 0 28px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;background:#fff;border:1.5px solid #e5e7eb;border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:2rem;margin-bottom:8px;">🔄</div>
+        <div style="font-weight:700;font-size:0.95rem;color:#222;margin-bottom:4px;">Multi-Turn Interactions</div>
+        <div style="font-size:0.82rem;color:#666;">Distribute harmful intent across seemingly benign exchanges</div>
+      </div>
+      <div style="display:flex;align-items:center;font-size:1.5rem;color:#bbb;padding:0 4px;">+</div>
+      <div style="flex:1;min-width:200px;background:#fff;border:1.5px solid #e5e7eb;border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:2rem;margin-bottom:8px;">🛠️</div>
+        <div style="font-weight:700;font-size:0.95rem;color:#222;margin-bottom:4px;">Tool Use</div>
+        <div style="font-size:0.82rem;color:#666;">Execute real-world actions via file systems, browsers, databases</div>
+      </div>
+      <div style="display:flex;align-items:center;font-size:1.5rem;color:#bbb;padding:0 4px;">=</div>
+      <div style="flex:1;min-width:200px;background:#fef2f2;border:1.5px solid #fecaca;border-radius:12px;padding:20px;text-align:center;">
+        <div style="font-size:2rem;margin-bottom:8px;">⚠️</div>
+        <div style="font-weight:700;font-size:0.95rem;color:#dc2626;margin-bottom:4px;">Critical Attack Surface</div>
+        <div style="font-size:0.82rem;color:#666;">Existing benchmarks evaluate these in isolation — never both</div>
+      </div>
+    </div>
+
     <p>We present the first comprehensive study of multi-turn tool-agent safety:</p>
-    <ul style="list-style:none; margin:12px 0 0; padding:0;">
-      <li style="margin-bottom:12px; padding-left:16px; border-left:3px solid #1a6dd4;"><strong>MT-AgentRisk</strong>: A comprehensive benchmark with 365 multi-turn sequences, grounded by a decomposition taxonomy describing how we transform existing single-turn harm tasks to multi-turn.</li>
-      <li style="padding-left:16px; border-left:3px solid #1a6dd4;"><strong>ToolShield</strong>: A training-free, tool-agnostic, generalizable self-exploration defense that leverages tool-using agents' own capabilities to improve safety awareness.</li>
-    </ul>
+
+    <!-- Contribution Cards -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 0;">
+      <div style="background:#fff;border:1.5px solid #0173B2;border-radius:12px;padding:20px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#0173B2;"></div>
+        <div style="font-weight:700;font-size:1rem;color:#0173B2;margin-bottom:8px;">📊 MT-AgentRisk</div>
+        <div style="font-size:0.88rem;color:#444;line-height:1.55;">A comprehensive benchmark with <strong>365 multi-turn sequences</strong>, grounded by a decomposition taxonomy describing how we transform existing single-turn harm tasks to multi-turn.</div>
+      </div>
+      <div style="background:#fff;border:1.5px solid #029E73;border-radius:12px;padding:20px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#029E73;"></div>
+        <div style="font-weight:700;font-size:1rem;color:#029E73;margin-bottom:8px;">🛡️ ToolShield</div>
+        <div style="font-size:0.88rem;color:#444;line-height:1.55;">A training-free, tool-agnostic, generalizable self-exploration defense that leverages tool-using agents' own capabilities to improve safety awareness.</div>
+      </div>
+    </div>
 
     <h3 style="margin-top:40px;">Examples</h3>
     <p class="lede">See how multi-turn attacks bypass single-turn safety and how ToolShield defends against them.</p>
@@ -470,32 +501,29 @@
     <p>To systematically study the intersection, we propose an attack taxonomy that captures how single-turn harms can be distributed across turns. The taxonomy operates along three dimensions, yielding 8 attack subcategories:</p>
     <div class="taxonomy-grid">
       <div class="taxonomy-row">
-        <span class="taxonomy-icon">📐</span>
         <span class="taxonomy-label">Format</span>
         <span class="taxonomy-desc">How the transformation is structured</span>
         <div class="taxonomy-chips">
-          <span class="taxonomy-chip chip-blue">Addition</span>
+          <span class="taxonomy-chip chip-red">Addition</span>
           <span class="taxonomy-chip chip-blue">Decomposition</span>
         </div>
       </div>
       <div class="taxonomy-row">
-        <span class="taxonomy-icon">🔧</span>
         <span class="taxonomy-label">Method</span>
         <span class="taxonomy-desc">How it is performed</span>
         <div class="taxonomy-chips">
-          <span class="taxonomy-chip chip-orange">Mapping</span>
-          <span class="taxonomy-chip chip-orange">Wrapping</span>
-          <span class="taxonomy-chip chip-orange">Composition</span>
-          <span class="taxonomy-chip chip-orange">Identity</span>
+          <span class="taxonomy-chip chip-red">Mapping</span>
+          <span class="taxonomy-chip chip-red">Wrapping</span>
+          <span class="taxonomy-chip chip-blue">Composition</span>
+          <span class="taxonomy-chip chip-blue">Identity</span>
         </div>
       </div>
       <div class="taxonomy-row">
-        <span class="taxonomy-icon">🎯</span>
         <span class="taxonomy-label">Target</span>
         <span class="taxonomy-desc">What is manipulated</span>
         <div class="taxonomy-chips">
-          <span class="taxonomy-chip chip-green">Data Files</span>
-          <span class="taxonomy-chip chip-green">Environment States</span>
+          <span class="taxonomy-chip chip-gray">Data Files</span>
+          <span class="taxonomy-chip chip-gray">Environment States</span>
         </div>
       </div>
     </div>
@@ -554,8 +582,14 @@
       <div class="step-arrow">→</div>
       <div class="step-card">
         <div class="step-num c4">4</div>
-        <div class="step-title">Apply</div>
-        <div class="step-desc">Summarized experiences during deployment</div>
+        <div class="step-title">Update</div>
+        <div class="step-desc">Experience list updated based on new experiences</div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-card">
+        <div class="step-num c5">5</div>
+        <div class="step-title">Deploy</div>
+        <div class="step-desc">Experiences injected into the agent's context during deployment</div>
       </div>
     </div>
     <figure>
