@@ -335,6 +335,52 @@
     .defense-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;}
     @media(max-width:700px){.defense-layout{grid-template-columns:1fr;}}
 
+    /* Step Pipeline */
+    .step-pipeline { display:flex; align-items:flex-start; gap:0; margin:24px 0; flex-wrap:wrap; justify-content:center; }
+    .step-card {
+      flex:1; min-width:160px; max-width:220px;
+      text-align:center; padding:20px 14px 16px;
+      background:#fff; border:1.5px solid #e5e7eb; border-radius:12px;
+      position:relative;
+    }
+    .step-num {
+      width:36px; height:36px; border-radius:50%;
+      display:inline-flex; align-items:center; justify-content:center;
+      font-size:0.9rem; font-weight:700; color:#fff; margin-bottom:10px;
+    }
+    .step-num.c1 { background:#0173B2; }
+    .step-num.c2 { background:#DE8F05; }
+    .step-num.c3 { background:#029E73; }
+    .step-num.c4 { background:#CC78BC; }
+    .step-card .step-title { font-size:0.95rem; font-weight:700; color:#222; margin-bottom:4px; }
+    .step-card .step-desc { font-size:0.8rem; color:#666; line-height:1.4; }
+    .step-arrow { display:flex; align-items:center; padding:0 6px; color:#bbb; font-size:1.4rem; margin-top:18px; }
+    @media(max-width:700px){
+      .step-pipeline { gap:12px; }
+      .step-arrow { display:none; }
+      .step-card { max-width:100%; }
+    }
+
+    /* Taxonomy Grid */
+    .taxonomy-grid { margin:20px 0; }
+    .taxonomy-row {
+      display:flex; align-items:center; gap:12px;
+      padding:14px 18px; margin-bottom:8px;
+      background:#fff; border:1.5px solid #e5e7eb; border-radius:10px;
+    }
+    .taxonomy-row:last-child { margin-bottom:0; }
+    .taxonomy-icon { font-size:1.3rem; flex-shrink:0; }
+    .taxonomy-label { font-weight:700; font-size:0.92rem; color:#222; min-width:72px; }
+    .taxonomy-desc { font-size:0.82rem; color:#888; margin-right:auto; }
+    .taxonomy-chips { display:flex; gap:6px; flex-wrap:wrap; }
+    .taxonomy-chip {
+      display:inline-block; padding:4px 12px; border-radius:16px;
+      font-size:0.8rem; font-weight:600;
+    }
+    .chip-blue { background:#e0f2fe; color:#0369a1; }
+    .chip-orange { background:#fff7ed; color:#c2410c; }
+    .chip-green { background:#ecfdf5; color:#047857; }
+
     /* Footer */
     footer { text-align:center; padding:24px; color:#999; font-size:0.85rem; border-top:1px solid #eee; }
   </style>
@@ -422,11 +468,37 @@
     
     <h3>Multi-Turn Attack Taxonomy (MTA)</h3>
     <p>To systematically study the intersection, we propose an attack taxonomy that captures how single-turn harms can be distributed across turns. The taxonomy operates along three dimensions, yielding 8 attack subcategories:</p>
-    <ol style="margin:12px 0 16px; padding-left:20px;">
-      <li style="margin-bottom:8px;"><strong>Format</strong>: How the transformation is structured (Addition vs. Decomposition)</li>
-      <li style="margin-bottom:8px;"><strong>Method</strong>: How it is performed (Mapping, Wrapping, Composition, Identity)</li>
-      <li><strong>Target</strong>: What is manipulated (Data Files vs. Environment States)</li>
-    </ol>
+    <div class="taxonomy-grid">
+      <div class="taxonomy-row">
+        <span class="taxonomy-icon">📐</span>
+        <span class="taxonomy-label">Format</span>
+        <span class="taxonomy-desc">How the transformation is structured</span>
+        <div class="taxonomy-chips">
+          <span class="taxonomy-chip chip-blue">Addition</span>
+          <span class="taxonomy-chip chip-blue">Decomposition</span>
+        </div>
+      </div>
+      <div class="taxonomy-row">
+        <span class="taxonomy-icon">🔧</span>
+        <span class="taxonomy-label">Method</span>
+        <span class="taxonomy-desc">How it is performed</span>
+        <div class="taxonomy-chips">
+          <span class="taxonomy-chip chip-orange">Mapping</span>
+          <span class="taxonomy-chip chip-orange">Wrapping</span>
+          <span class="taxonomy-chip chip-orange">Composition</span>
+          <span class="taxonomy-chip chip-orange">Identity</span>
+        </div>
+      </div>
+      <div class="taxonomy-row">
+        <span class="taxonomy-icon">🎯</span>
+        <span class="taxonomy-label">Target</span>
+        <span class="taxonomy-desc">What is manipulated</span>
+        <div class="taxonomy-chips">
+          <span class="taxonomy-chip chip-green">Data Files</span>
+          <span class="taxonomy-chip chip-green">Environment States</span>
+        </div>
+      </div>
+    </div>
     <figure>
       <img src="assets/figures/taxonomy.png" alt="Taxonomy diagram"/>
       <figcaption>Multi-Turn Attack Taxonomy: transforming single-turn harms into multi-turn sequences.</figcaption>
@@ -461,12 +533,31 @@
   <div class="container">
     <h2>How Does ToolShield Utilize Capability to Improve Safety?</h2>
     <p class="lede"><strong>ToolShield</strong> is a training-free, tool-agnostic defense. The key insight is that the same capability that enables tool use also enables recognizing tool misuse. When encountering a new tool, the agent:</p>
-    <ol class="steps">
-      <li><strong>Synthesizes</strong> test cases through structured risk reasoning</li>
-      <li><strong>Executes</strong> them in a sandbox to observe behavior</li>
-      <li><strong>Distills</strong> safety experiences from execution traces</li>
-      <li><strong>Applies</strong> summarized experiences during deployment</li>
-    </ol>
+    <div class="step-pipeline">
+      <div class="step-card">
+        <div class="step-num c1">1</div>
+        <div class="step-title">Synthesize</div>
+        <div class="step-desc">Test cases via structured risk reasoning</div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-card">
+        <div class="step-num c2">2</div>
+        <div class="step-title">Execute</div>
+        <div class="step-desc">Run in sandbox to observe behavior</div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-card">
+        <div class="step-num c3">3</div>
+        <div class="step-title">Distill</div>
+        <div class="step-desc">Safety experiences from execution traces</div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step-card">
+        <div class="step-num c4">4</div>
+        <div class="step-title">Apply</div>
+        <div class="step-desc">Summarized experiences during deployment</div>
+      </div>
+    </div>
     <figure>
       <img src="assets/figures/pipeline.png" alt="ToolShield pipeline"/>
       <figcaption>ToolShield self-exploration pipeline.</figcaption>
