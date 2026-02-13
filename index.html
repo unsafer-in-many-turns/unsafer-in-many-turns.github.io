@@ -957,7 +957,7 @@ defenseChart.setOption({
   },
   legend: {
     data: ['w/o Defense', 'w/ Defense'],
-    top: 30,
+    top: 30, itemGap: 30,
     textStyle: { fontFamily: 'Inter', fontSize: 13 }
   },
   grid: { left: 90, right: 30, top: 65, bottom: 60 },
@@ -1036,7 +1036,7 @@ vulnChart.setOption({
   },
   legend: {
     data: ['Single-Turn', 'Multi-Turn'],
-    top: 10,
+    top: 10, itemGap: 30,
     textStyle: { fontFamily: 'Inter', fontSize: 13 }
   },
   grid: { left: 90, right: 30, top: 50, bottom: 60 },
@@ -1108,7 +1108,7 @@ defenseSingleChart.setOption({
   title: { text: 'Single-Turn Defense (100 tasks subset)', left: 'center', top: 5, textStyle: { fontSize: 12, fontWeight: 'bold', fontFamily: 'Inter' } },
   legend: {
     data: ['w/o Defense', 'w/ Defense'],
-    top: 30,
+    top: 30, itemGap: 24,
     textStyle: { fontFamily: 'Inter', fontSize: 11 }
   },
   grid: { left: 60, right: 20, top: 65, bottom: 40 },
@@ -1214,7 +1214,7 @@ defenseBaselineChart.setOption({
   title: { text: 'Baseline Comparison (100 tasks subset)', left: 'center', top: 5, textStyle: { fontSize: 12, fontWeight: 'bold', fontFamily: 'Inter' } },
   legend: {
     data: blSettings,
-    top: 30,
+    top: 30, itemGap: 16,
     textStyle: { fontFamily: 'Inter', fontSize: 9 },
     itemWidth: 12, itemHeight: 10
   },
@@ -1359,7 +1359,7 @@ function initCostChart(elId, reductionData, titleText) {
     },
     legend: {
       data: costExecutors.map(function(e){ return e.name; }),
-      top: 28, textStyle: { fontSize: 9, fontFamily: 'Inter' },
+      top: 28, itemGap: 16, textStyle: { fontSize: 9, fontFamily: 'Inter' },
       itemWidth: 14, itemHeight: 10
     },
     grid: { left: 55, right: 15, top: 65, bottom: 45 },
