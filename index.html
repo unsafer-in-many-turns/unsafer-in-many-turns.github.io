@@ -1087,12 +1087,12 @@ defenseSingleChart.setOption({
     formatter: function(params) {
       var idx = params[0].dataIndex;
       return '<strong>' + dsSingleModels[idx].replace('\n',' ') + '</strong><br/>' +
-        '<span style="color:#D55E00;">●</span> w/o Defense: ' + dsSingleWo[idx] + '%<br/>' +
-        '<span style="color:#1E6F5C;">●</span> w/ Defense: ' + dsSingleW[idx] + '%<br/>' +
-        '<span style="color:#1E6F5C;">Reduction: ' + dsSingleDeltas[idx] + '%</span>';
+        '<span style="color:#E8945A;">●</span> w/o Defense: ' + dsSingleWo[idx] + '%<br/>' +
+        '<span style="color:#4AA88D;">●</span> w/ Defense: ' + dsSingleW[idx] + '%<br/>' +
+        '<span style="color:#4AA88D;">Reduction: ' + dsSingleDeltas[idx] + '%</span>';
     }
   },
-  title: { text: 'Single-Turn', left: 'center', top: 5, textStyle: { fontSize: 14, fontWeight: 'bold', fontFamily: 'Inter' } },
+  title: { text: 'Single-Turn (100 tasks subset)', left: 'center', top: 5, textStyle: { fontSize: 13, fontWeight: 'bold', fontFamily: 'Inter' } },
   legend: {
     data: ['w/o Defense', 'w/ Defense'],
     top: 30,
@@ -1119,7 +1119,7 @@ defenseSingleChart.setOption({
       barWidth: '28%',
       barGap: '40%',
       data: dsSingleWo,
-      itemStyle: { color: '#D55E00', borderRadius: [3,3,0,0] },
+      itemStyle: { color: '#E8945A', borderRadius: [3,3,0,0] },
       label: { show: false }
     },
     {
@@ -1127,7 +1127,7 @@ defenseSingleChart.setOption({
       type: 'bar',
       barWidth: '28%',
       data: dsSingleW,
-      itemStyle: { color: '#1E6F5C', borderRadius: [3,3,0,0] },
+      itemStyle: { color: '#4AA88D', borderRadius: [3,3,0,0] },
       label: {
         show: true,
         position: 'top',
@@ -1135,7 +1135,7 @@ defenseSingleChart.setOption({
         fontFamily: 'Inter',
         fontSize: 11,
         fontWeight: 600,
-        color: '#1E6F5C'
+        color: '#4AA88D'
       }
     }
   ],
@@ -1198,7 +1198,7 @@ defenseBaselineChart.setOption({
       return html;
     }
   },
-  title: { text: 'Baseline Comparison', left: 'center', top: 5, textStyle: { fontSize: 14, fontWeight: 'bold', fontFamily: 'Inter' } },
+  title: { text: 'Baseline Comparison (100 tasks subset)', left: 'center', top: 5, textStyle: { fontSize: 12, fontWeight: 'bold', fontFamily: 'Inter' } },
   legend: {
     data: blSettings,
     top: 30,
