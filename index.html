@@ -314,7 +314,7 @@
     .bubble-user{background:#fff;border:1px solid #e5e7eb;color:#333;}
     .bubble-agent{background:#f0fdf4;border:1px solid #bbf7d0;color:#333;margin-left:16px;}
     .bubble-agent.refused{background:#fef2f2;border-color:#fecaca;}
-    .bubble-agent.defended{background:#eff6ff;border-color:#bfdbfe;}
+    .bubble-agent.defended{background:#f0fdf4;border-color:#bbf7d0;}
     .bubble-icon{font-size:0.75rem;color:#999;margin-bottom:4px;}
     .hl-red{color:#dc2626;font-weight:600;}
     .hl-bold{font-weight:600;}
@@ -646,12 +646,22 @@
     <p><strong>ToolShield is Budget-Flexible:</strong> Across all three models, with the increment on he cost, the Safety Improvement </p>
     <div class="two-col" style="align-items:center;">
       <div>
-        <div id="heatmap-chart" style="width:100%;height:420px;"></div>
-        <p style="font-size:0.85rem;color:#666;text-align:center;margin-top:4px;">Cross-model transferability of experiences.</p>
+        <div id="heatmap-multi-chart" style="width:100%;height:350px;"></div>
+        <p style="font-size:0.85rem;color:#666;text-align:center;margin-top:4px;">Multi-turn cross-model transferability.</p>
       </div>
       <div>
-        <div id="cost-chart" style="width:100%;height:420px;"></div>
-        <p style="font-size:0.85rem;color:#666;text-align:center;margin-top:4px;">Defense effectiveness vs. self-exploration cost.</p>
+        <div id="cost-multi-chart" style="width:100%;height:350px;"></div>
+        <p style="font-size:0.85rem;color:#666;text-align:center;margin-top:4px;">Multi-turn cost vs. ASR reduction.</p>
+      </div>
+    </div>
+    <div class="two-col" style="align-items:center; margin-top:12px;">
+      <div>
+        <div id="heatmap-single-chart" style="width:100%;height:350px;"></div>
+        <p style="font-size:0.85rem;color:#666;text-align:center;margin-top:4px;">Single-turn cross-model transferability.</p>
+      </div>
+      <div>
+        <div id="cost-single-chart" style="width:100%;height:350px;"></div>
+        <p style="font-size:0.85rem;color:#666;text-align:center;margin-top:4px;">Single-turn cost vs. ASR reduction.</p>
       </div>
     </div>
   </div>
@@ -817,12 +827,12 @@ function renderDefense(d) {
     timelineHtml += '<div class="turn"><div class="turn-dot ' + t.dotClass + '"></div>' +
       '<div class="turn-label">' + t.label + '</div>' +
       '<div class="bubble bubble-user"><div class="bubble-icon">👤 User</div>' + t.user + (t.note ? '<br/>' + t.note : '') + '</div>' +
-      '<div class="bubble bubble-agent"><div class="bubble-icon"><img src="assets/figures/claude.png" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet</div>' + t.agent + '</div></div>';
+      '<div class="bubble bubble-agent"><div class="bubble-icon">🛡️ <img src="assets/figures/claude.png" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet</div>' + t.agent + '</div></div>';
   });
-  timelineHtml += '<div class="turn"><div class="turn-dot blue"></div>' +
-    '<div class="turn-label">' + def.refusalTurn + ' — 🛡️ ToolShield Activated</div>' +
+  timelineHtml += '<div class="turn"><div class="turn-dot green"></div>' +
+    '<div class="turn-label">' + def.refusalTurn + '</div>' +
     '<div class="bubble bubble-user"><div class="bubble-icon">👤 User</div>' + def.refusalUser + '</div>' +
-    '<div class="bubble bubble-agent defended"><div class="bubble-icon">🛡️ <img src="assets/figures/claude.png" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet + ToolShield</div>' + def.refusalAgent + '</div></div>';
+    '<div class="bubble bubble-agent defended"><div class="bubble-icon">🛡️ <img src="assets/figures/claude.png" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet</div>' + def.refusalAgent + '</div></div>';
 
   return makeBadge(d) + makeToolBadge(d) +
     '<div class="defense-layout" style="margin-top:16px;"><div>' +
@@ -933,6 +943,7 @@ var wDefense =  [21.92, 21.10, 35.62, 59.73, 54.25, 55.07];
 var deltas = [-49.9, -18.6, -37.5, -19.2, -23.8, -29.9];
 
 defenseChart.setOption({
+  title: { text: 'Multi-Turn Defense', left: 'center', top: 5, textStyle: { fontSize: 15, fontWeight: 'bold', fontFamily: 'Inter' } },
   tooltip: {
     trigger: 'axis',
     axisPointer: { type: 'shadow' },
@@ -946,10 +957,10 @@ defenseChart.setOption({
   },
   legend: {
     data: ['w/o Defense', 'w/ Defense'],
-    top: 10,
+    top: 30,
     textStyle: { fontFamily: 'Inter', fontSize: 13 }
   },
-  grid: { left: 90, right: 30, top: 50, bottom: 60 },
+  grid: { left: 90, right: 30, top: 65, bottom: 60 },
   xAxis: {
     type: 'category',
     data: models,
@@ -996,8 +1007,10 @@ defenseChart.setOption({
 
 window.addEventListener('resize', function() {
   defenseChart.resize(); vulnChart.resize();
-  if(typeof heatmapChart!=='undefined') heatmapChart.resize();
-  if(typeof costChart!=='undefined') costChart.resize();
+  if(typeof heatmapMultiChart!=='undefined') heatmapMultiChart.resize();
+  if(typeof heatmapSingleChart!=='undefined') heatmapSingleChart.resize();
+  if(typeof costMultiChart!=='undefined') costMultiChart.resize();
+  if(typeof costSingleChart!=='undefined') costSingleChart.resize();
   if(typeof defenseSingleChart!=='undefined') defenseSingleChart.resize();
   if(typeof defenseBaselineChart!=='undefined') defenseBaselineChart.resize();
 });
@@ -1092,7 +1105,7 @@ defenseSingleChart.setOption({
         '<span style="color:#4AA88D;">Reduction: ' + dsSingleDeltas[idx] + '%</span>';
     }
   },
-  title: { text: 'Single-Turn (100 tasks subset)', left: 'center', top: 5, textStyle: { fontSize: 13, fontWeight: 'bold', fontFamily: 'Inter' } },
+  title: { text: 'Single-Turn Defense (100 tasks subset)', left: 'center', top: 5, textStyle: { fontSize: 12, fontWeight: 'bold', fontFamily: 'Inter' } },
   legend: {
     data: ['w/o Defense', 'w/ Defense'],
     top: 30,
@@ -1225,225 +1238,154 @@ defenseBaselineChart.setOption({
 });
 
 // =============================================
-// Combined Heatmap: Single-Turn & Multi-Turn ASR Reduction
+// Heatmap & Cost Chart Data
 // =============================================
-var heatmapChart = echarts.init(document.getElementById('heatmap-chart'));
 var hmModels = ['Claude-4.5\nSonnet', 'Qwen3-\nCoder', 'Gemini-3\nFlash'];
 
-// Single-Turn ASR Change (executor x generator): [Claude, Qwen, Gemini] as generators
-var singleData = [
-  [-40, -38, -32],  // Claude executor
-  [-58, -56, -53],  // Qwen executor
-  [-51, -49, -45],  // Gemini executor
+var hmSingleData = [
+  [-40, -38, -32],
+  [-58, -56, -53],
+  [-51, -49, -45],
 ];
-// Multi-Turn ASR Change
-var multiData = [
-  [-73, -70, -63],  // Claude executor
-  [-25, -21, -21],  // Qwen executor
-  [-25, -25, -23],  // Gemini executor
+var hmMultiData = [
+  [-73, -70, -63],
+  [-25, -21, -21],
+  [-25, -25, -23],
 ];
 
-// Column averages
-var singleColAvg = [
-  ((singleData[0][0]+singleData[1][0]+singleData[2][0])/3).toFixed(0),
-  ((singleData[0][1]+singleData[1][1]+singleData[2][1])/3).toFixed(0),
-  ((singleData[0][2]+singleData[1][2]+singleData[2][2])/3).toFixed(0)
+var costPoints = [16/102, 38/118, 204/193];
+var costExecutors = [
+  { key: 'claude', name: 'Claude-4.5-Sonnet', color: '#E74C3C' },
+  { key: 'gemini', name: 'Gemini-3-Flash', color: '#2ECC71' },
+  { key: 'qwen', name: 'Qwen3-Coder', color: '#3498DB' }
 ];
-var multiColAvg = [
-  ((multiData[0][0]+multiData[1][0]+multiData[2][0])/3).toFixed(0),
-  ((multiData[0][1]+multiData[1][1]+multiData[2][1])/3).toFixed(0),
-  ((multiData[0][2]+multiData[1][2]+multiData[2][2])/3).toFixed(0)
-];
+var costSingleReduction = { claude: [32, 38, 40], gemini: [45, 49, 51], qwen: [53, 56, 58] };
+var costMultiReduction = { claude: [63, 70, 73], gemini: [23, 25, 25], qwen: [21, 21, 25] };
 
-// Build heatmap data: [x, y, value] — x=generator(col), y=executor(row, 0=top)
-var singleHeatData = [];
-var multiHeatData = [];
-for (var r = 0; r < 3; r++) {
-  for (var c = 0; c < 3; c++) {
-    singleHeatData.push([c, r, singleData[r][c]]);
-    multiHeatData.push([c, r, multiData[r][c]]);
-  }
+// Shared Y range for cost charts
+var costYMin = 18, costYMax = 80;
+
+// Helper: build heatmap data and labels for one panel
+function buildHeatmap(rawData) {
+  var heatData = [];
+  for (var r = 0; r < 3; r++)
+    for (var c = 0; c < 3; c++)
+      heatData.push([c, r, rawData[r][c]]);
+  var colAvg = [0,0,0];
+  for (var ci = 0; ci < 3; ci++)
+    colAvg[ci] = ((rawData[0][ci]+rawData[1][ci]+rawData[2][ci])/3).toFixed(0);
+  var xLabels = hmModels.map(function(m,i){ return m.replace('\n',' ') + '\n(Avg: ' + colAvg[i] + '%)'; });
+  return { data: heatData, xLabels: xLabels };
 }
 
-var singleXLabels = hmModels.map(function(m,i){ return m.replace('\n',' ') + '\n(Avg: ' + singleColAvg[i] + '%)'; });
-var multiXLabels = hmModels.map(function(m,i){ return m.replace('\n',' ') + '\n(Avg: ' + multiColAvg[i] + '%)'; });
-
-heatmapChart.setOption({
-  tooltip: {
-    formatter: function(p) {
-      var seriesName = p.seriesIndex === 0 ? 'Single-Turn' : 'Multi-Turn';
-      return seriesName + '<br/>Generator: ' + hmModels[p.data[0]].replace('\n',' ') +
-        '<br/>Executor: ' + hmModels[p.data[1]].replace('\n',' ') +
-        '<br/>ASR Reduction: ' + p.data[2] + '%';
-    }
-  },
-  grid: [
-    { left: '12%', right: '55%', top: 50, bottom: 50 },
-    { left: '55%', right: '2%', top: 50, bottom: 50 }
-  ],
-  xAxis: [
-    {
-      type: 'category', data: singleXLabels, gridIndex: 0,
-      axisLabel: { fontSize: 9, fontFamily: 'Inter', interval: 0 },
-      name: 'Experience Generator', nameLocation: 'center', nameGap: 38, nameTextStyle: { fontSize: 10, fontFamily: 'Inter' },
-      splitArea: { show: true }
-    },
-    {
-      type: 'category', data: multiXLabels, gridIndex: 1,
-      axisLabel: { fontSize: 9, fontFamily: 'Inter', interval: 0 },
-      name: 'Experience Generator', nameLocation: 'center', nameGap: 38, nameTextStyle: { fontSize: 10, fontFamily: 'Inter' },
-      splitArea: { show: true }
-    }
-  ],
-  yAxis: [
-    {
-      type: 'category', data: hmModels, gridIndex: 0, inverse: true,
-      axisLabel: { fontSize: 10, fontFamily: 'Inter' },
-      name: 'Task Executor', nameTextStyle: { fontSize: 10, fontFamily: 'Inter' },
-      splitArea: { show: true }
-    },
-    {
-      type: 'category', data: hmModels, gridIndex: 1, inverse: true,
-      axisLabel: { show: false },
-      splitArea: { show: true }
-    }
-  ],
-  visualMap: {
-    min: -75, max: 0,
-    inRange: { color: ['#00441b', '#006d2c', '#238b45', '#41ab5d', '#74c476', '#a1d99b', '#c7e9c0', '#e5f5e0', '#f7fcf5'] },
-    orient: 'vertical', right: '48%', top: 'center',
-    itemHeight: 150, itemWidth: 12,
-    text: ['0%', '-75%'],
-    textStyle: { fontSize: 9, fontFamily: 'Inter' },
-    formatter: function(v) { return v + '%'; }
-  },
-  title: [
-    { text: 'Single-Turn', left: '22%', top: 8, textStyle: { fontSize: 13, fontWeight: 'bold', fontFamily: 'Inter' } },
-    { text: 'Multi-Turn', left: '68%', top: 8, textStyle: { fontSize: 13, fontWeight: 'bold', fontFamily: 'Inter' } }
-  ],
-  series: [
-    {
-      type: 'heatmap', data: singleHeatData, xAxisIndex: 0, yAxisIndex: 0,
-      label: {
-        show: true,
-        formatter: function(p) { return p.data[2].toFixed(1); },
-        fontSize: 13, fontWeight: 'bold', fontFamily: 'Inter',
-        color: function(p) { return (p.data[2] - (-75)) / 75 < 0.4 ? '#fff' : '#222'; }
-      },
-      itemStyle: { borderColor: '#fff', borderWidth: 2 }
-    },
-    {
-      type: 'heatmap', data: multiHeatData, xAxisIndex: 1, yAxisIndex: 1,
-      label: {
-        show: true,
-        formatter: function(p) { return p.data[2].toFixed(1); },
-        fontSize: 13, fontWeight: 'bold', fontFamily: 'Inter',
-        color: function(p) { return (p.data[2] - (-75)) / 75 < 0.4 ? '#fff' : '#222'; }
-      },
-      itemStyle: { borderColor: '#fff', borderWidth: 2 }
-    }
-  ]
-});
-
-// =============================================
-// Cost vs ASR Reduction (Line Chart, log-log)
-// =============================================
-var costChart = echarts.init(document.getElementById('cost-chart'));
-
-// Original data points: [Gemini, Qwen, Claude] costs per experience
-var costPoints = [16/102, 38/118, 204/193]; // ~0.157, ~0.322, ~1.057
-
-// ASR Reduction (positive = good) — reordered to [Gemini, Qwen, Claude] as generators
-// Executors: Claude, Gemini, Qwen
-var costSingleReduction = {
-  claude:  [32, 38, 40],
-  gemini:  [45, 49, 51],
-  qwen:    [53, 56, 58]
-};
-var costMultiReduction = {
-  claude:  [63, 70, 73],
-  gemini:  [23, 25, 25],
-  qwen:    [21, 21, 25]
-};
-
-// Build series data as [cost, reduction] pairs for each executor, both panels
+// Helper: build cost series
 function buildCostSeries(reductionData) {
   var series = [];
-  var executors = [
-    { key: 'claude', name: 'Claude-4.5-Sonnet', color: '#E74C3C' },
-    { key: 'gemini', name: 'Gemini-3-Flash', color: '#2ECC71' },
-    { key: 'qwen', name: 'Qwen3-Coder', color: '#3498DB' }
-  ];
-  executors.forEach(function(ex) {
+  costExecutors.forEach(function(ex) {
     var data = [];
-    for (var i = 0; i < costPoints.length; i++) {
+    for (var i = 0; i < costPoints.length; i++)
       data.push([costPoints[i], reductionData[ex.key][i]]);
-    }
     series.push({
       name: ex.name, type: 'line', data: data, smooth: true,
       lineStyle: { width: 2.5, color: ex.color },
       itemStyle: { color: ex.color },
-      symbol: 'circle', symbolSize: 8
+      symbol: 'circle', symbolSize: 8, showSymbol: true
     });
   });
   return series;
 }
 
-var singleSeries = buildCostSeries(costSingleReduction);
-var multiSeries = buildCostSeries(costMultiReduction);
-// Assign to second grid
-multiSeries.forEach(function(s) { s.xAxisIndex = 1; s.yAxisIndex = 1; s.showSymbol = true; });
-singleSeries.forEach(function(s) { s.xAxisIndex = 0; s.yAxisIndex = 0; s.showSymbol = true; });
+// Helper: create a single heatmap chart
+function initHeatmap(elId, rawData, titleText) {
+  var chart = echarts.init(document.getElementById(elId));
+  var hm = buildHeatmap(rawData);
+  chart.setOption({
+    title: { text: titleText, left: 'center', top: 5, textStyle: { fontSize: 13, fontWeight: 'bold', fontFamily: 'Inter' } },
+    tooltip: {
+      formatter: function(p) {
+        return 'Generator: ' + hmModels[p.data[0]].replace('\n',' ') +
+          '<br/>Executor: ' + hmModels[p.data[1]].replace('\n',' ') +
+          '<br/>ASR Reduction: ' + p.data[2] + '%';
+      }
+    },
+    grid: { left: '18%', right: '8%', top: 45, bottom: 55 },
+    xAxis: {
+      type: 'category', data: hm.xLabels,
+      axisLabel: { fontSize: 9, fontFamily: 'Inter', interval: 0 },
+      name: 'Experience Generator', nameLocation: 'center', nameGap: 42,
+      nameTextStyle: { fontSize: 10, fontFamily: 'Inter' },
+      splitArea: { show: true }
+    },
+    yAxis: {
+      type: 'category', data: hmModels, inverse: true,
+      axisLabel: { fontSize: 10, fontFamily: 'Inter' },
+      name: 'Task Executor', nameTextStyle: { fontSize: 10, fontFamily: 'Inter' },
+      splitArea: { show: true }
+    },
+    visualMap: {
+      min: -75, max: 0,
+      inRange: { color: ['#00441b', '#006d2c', '#238b45', '#41ab5d', '#74c476', '#a1d99b', '#c7e9c0', '#e5f5e0', '#f7fcf5'] },
+      orient: 'vertical', right: 0, top: 'center',
+      itemHeight: 120, itemWidth: 10,
+      text: ['0%', '-75%'],
+      textStyle: { fontSize: 8, fontFamily: 'Inter' },
+      formatter: function(v) { return v + '%'; }
+    },
+    series: [{
+      type: 'heatmap', data: hm.data,
+      label: {
+        show: true,
+        formatter: function(p) { return p.data[2].toFixed(1); },
+        fontSize: 14, fontWeight: 'bold', fontFamily: 'Inter',
+        color: function(p) { return p.data[2] <= -45 ? '#fff' : '#222'; }
+      },
+      itemStyle: { borderColor: '#fff', borderWidth: 2 }
+    }]
+  });
+  return chart;
+}
 
-costChart.setOption({
-  tooltip: {
-    trigger: 'item',
-    formatter: function(p) {
-      return '<strong>' + p.seriesName + '</strong><br/>Cost: $' + p.data[0].toFixed(2) + '/exp<br/>ASR Reduction: ' + p.data[1] + '%';
-    }
-  },
-  legend: {
-    data: ['Claude-4.5-Sonnet', 'Gemini-3-Flash', 'Qwen3-Coder'],
-    top: 8, textStyle: { fontSize: 10, fontFamily: 'Inter' }
-  },
-  title: [
-    { text: 'Single-Turn', left: '20%', top: 30, textStyle: { fontSize: 12, fontWeight: 'bold', fontFamily: 'Inter' } },
-    { text: 'Multi-Turn', left: '68%', top: 30, textStyle: { fontSize: 12, fontWeight: 'bold', fontFamily: 'Inter' } }
-  ],
-  grid: [
-    { left: '10%', right: '55%', top: 70, bottom: 50 },
-    { left: '58%', right: '3%', top: 70, bottom: 50 }
-  ],
-  xAxis: [
-    {
-      type: 'log', gridIndex: 0, min: 0.1, max: 1.5, logBase: 10,
-      name: 'Cost/Exp ($)', nameLocation: 'center', nameGap: 30,
+// Helper: create a single cost chart
+function initCostChart(elId, reductionData, titleText) {
+  var chart = echarts.init(document.getElementById(elId));
+  var series = buildCostSeries(reductionData);
+  chart.setOption({
+    title: { text: titleText, left: 'center', top: 5, textStyle: { fontSize: 13, fontWeight: 'bold', fontFamily: 'Inter' } },
+    tooltip: {
+      trigger: 'item',
+      formatter: function(p) {
+        return '<strong>' + p.seriesName + '</strong><br/>Cost: $' + p.data[0].toFixed(2) + '/exp<br/>ASR Reduction: ' + p.data[1] + '%';
+      }
+    },
+    legend: {
+      data: costExecutors.map(function(e){ return e.name; }),
+      top: 28, textStyle: { fontSize: 9, fontFamily: 'Inter' },
+      itemWidth: 14, itemHeight: 10
+    },
+    grid: { left: 55, right: 15, top: 65, bottom: 45 },
+    xAxis: {
+      type: 'log', min: 0.1, max: 1.5, logBase: 10,
+      name: 'Cost/Exp ($)', nameLocation: 'center', nameGap: 28,
       nameTextStyle: { fontSize: 10, fontFamily: 'Inter' },
       axisLabel: { fontSize: 9, fontFamily: 'Inter', formatter: '${value}' }
     },
-    {
-      type: 'log', gridIndex: 1, min: 0.1, max: 1.5, logBase: 10,
-      name: 'Cost/Exp ($)', nameLocation: 'center', nameGap: 30,
-      nameTextStyle: { fontSize: 10, fontFamily: 'Inter' },
-      axisLabel: { fontSize: 9, fontFamily: 'Inter', formatter: '${value}' }
-    }
-  ],
-  yAxis: [
-    {
-      type: 'log', gridIndex: 0, min: 18, max: 80, logBase: 10,
+    yAxis: {
+      type: 'log', min: costYMin, max: costYMax, logBase: 10,
       name: 'ASR Reduction (%)', nameTextStyle: { fontSize: 10, fontFamily: 'Inter' },
       axisLabel: { fontSize: 9, fontFamily: 'Inter', formatter: '{value}%' },
       splitLine: { lineStyle: { type: 'dashed', color: '#e0e0e0' } }
     },
-    {
-      type: 'log', gridIndex: 1, min: 18, max: 80, logBase: 10,
-      axisLabel: { show: false },
-      splitLine: { lineStyle: { type: 'dashed', color: '#e0e0e0' } }
-    }
-  ],
-  series: singleSeries.concat(multiSeries),
-  animationDuration: 1200
-});
+    series: series,
+    animationDuration: 1200
+  });
+  return chart;
+}
+
+// Initialize all 4 charts
+var heatmapMultiChart = initHeatmap('heatmap-multi-chart', hmMultiData, 'Multi-Turn');
+var heatmapSingleChart = initHeatmap('heatmap-single-chart', hmSingleData, 'Single-Turn');
+var costMultiChart = initCostChart('cost-multi-chart', costMultiReduction, 'Multi-Turn');
+var costSingleChart = initCostChart('cost-single-chart', costSingleReduction, 'Single-Turn');
 </script>
 
 </body>
