@@ -494,9 +494,13 @@
       </div>
     </div>
 
-    <h3 style="margin-top:40px;">Examples</h3>
-    <p class="lede">See how multi-turn attacks bypass single-turn safety and how ToolShield defends against them.</p>
+    <div style="display:flex;align-items:center;gap:12px;cursor:pointer;margin-top:40px;margin-bottom:8px;" onclick="toggleCaseStudy()">
+      <h3 style="margin:0;">Examples</h3>
+      <span id="case-toggle-icon" style="font-size:0.85rem;color:#1a6dd4;font-weight:600;">▶ Show</span>
+    </div>
+    <p class="lede" style="margin-bottom:16px;">See how multi-turn attacks bypass single-turn safety and how ToolShield defends against them.</p>
 
+    <div id="case-collapsible" style="display:none;">
     <!-- Example Tabs -->
     <div class="example-tabs">
       <button class="active" onclick="switchExample(0)">Example 1</button>
@@ -512,6 +516,7 @@
 
     <!-- Content Area -->
     <div id="case-content" class="case-card"></div>
+    </div>
   </div>
 </section>
 
@@ -1040,6 +1045,19 @@ function closeModal() {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeModal();
 });
+
+// Case Study Toggle
+function toggleCaseStudy() {
+  var el = document.getElementById('case-collapsible');
+  var icon = document.getElementById('case-toggle-icon');
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    icon.textContent = '▼ Hide';
+  } else {
+    el.style.display = 'none';
+    icon.textContent = '▶ Show';
+  }
+}
 
 // Experience Examples Toggle
 function toggleExpExamples() {
