@@ -370,12 +370,14 @@
   </div>
 </div>
 
-<!-- Overview -->
+<!-- Video -->
 <section>
   <div class="container">
-    <figure>
-      <img src="assets/figures/fig1_twitter.png" alt="Single-turn vs multi-turn safety" style="border:none;"/>
-      <figcaption>LLM agents successfully refuse a harmful request in a single turn. But after spreading the intent across a sequence of instructions, the agent follows along step by step and deletes all root data.</figcaption>
+    <figure style="width:75%; margin:24px auto;">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/bxpreKe1Vvw" title="MT-AgentRisk Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <figcaption>Video overview of harmful task state changes.</figcaption>
     </figure>
   </div>
 </section>
@@ -390,9 +392,6 @@
       <li style="margin-bottom:12px; padding-left:16px; border-left:3px solid #1a6dd4;"><strong>MT-AgentRisk</strong>: A comprehensive benchmark with 365 multi-turn sequences, grounded by a decomposition taxonomy describing how we transform existing single-turn harm tasks to multi-turn.</li>
       <li style="padding-left:16px; border-left:3px solid #1a6dd4;"><strong>ToolShield</strong>: A training-free, tool-agnostic, generalizable self-exploration defense that leverages tool-using agents' own capabilities to improve safety awareness.</li>
     </ul>
-
-    <div id="defense-chart" style="width:100%;height:420px;margin:32px 0 0;"></div>
-    <figcaption style="font-size:0.85rem;color:#666;text-align:center;margin-bottom:8px;">ToolShield reduces Attack Success Rate across all models. Hover for details.</figcaption>
 
     <h3 style="margin-top:40px;">Examples</h3>
     <p class="lede">See how multi-turn attacks bypass single-turn safety and how ToolShield defends against them.</p>
@@ -451,10 +450,8 @@
   <div class="container">
     <h2>How Vulnerable Are Agents Under Multi-Turn Interactions?</h2>
     <p class="lede">All models show safety degradation in multi-turn settings. Attack Success Rate (ASR) increases by <strong>16.1% on average</strong>, with Claude-4.5-Sonnet showing the largest jump (+27.1%). Notably, stronger capability does not imply better safety: DeepSeek-v3.2 achieves top capability scores among open-source models but exhibits 85.4% ASR.</p>
-    <figure class="small">
-      <img src="assets/figures/vulnerability_horizontal.png" alt="Single vs multi-turn ASR"/>
-      <figcaption>Safety degradation from single-turn to multi-turn settings across models.</figcaption>
-    </figure>
+    <div id="vulnerability-chart" style="width:85%;height:420px;margin:24px auto;"></div>
+    <p style="font-size:0.85rem;color:#666;text-align:center;margin-top:-12px;">Safety degradation from single-turn to multi-turn settings across models.</p>
   </div>
 </section>
 
@@ -505,6 +502,8 @@
     <h2>Defense Results</h2>
     <p class="lede">ToolShield demonstrates strong effectiveness across both single-turn and multi-turn settings, outperforming all baselines. In the more challenging multi-turn setting, it achieves an average <strong>30% safety improvement</strong>. Claude-4.5-Sonnet shows the largest improvement, dropping from 72% to 22% (−50%). More importantly, ToolShield's safety gains come at no cost to normal agent functionality: <strong>zero false positives</strong> on benign tasks.</p>
 
+    <div id="defense-chart" style="width:100%;height:420px;margin:24px 0;"></div>
+
     <figure>
       <img src="assets/figures/web_defense_results.png" alt="Defense results comparison" style="width:85%; margin:0 auto; display:block;"/>
       <figcaption>ToolShield effectiveness across single-turn and multi-turn settings, compared against baseline defenses.</figcaption>
@@ -525,19 +524,6 @@
   </div>
 </section>
 
-<!-- Case Study -->
-<section>
-  <div class="container">
-    <h2>Case Study</h2>
-    <p class="lede">An Addition-based attack (Wrapping × Data): the agent refuses the single-turn request but completes the harmful task when decomposed into multiple turns. With ToolShield, the agent recognizes the distributed harm pattern and refuses.</p>
-    <figure style="width:75%; margin:24px auto;">
-      <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/embed/bxpreKe1Vvw" title="MT-AgentRisk Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <figcaption>Video overview of harmful task state changes.</figcaption>
-    </figure>
-  </div>
-</section>
 
 <!-- Citation -->
 <section class="tint">
@@ -799,9 +785,9 @@ document.addEventListener('keydown', function(e) {
 // Defense ASR Comparison Chart
 var defenseChart = echarts.init(document.getElementById('defense-chart'));
 var models = ['Claude-4.5\nSonnet', 'GPT-5.2', 'Seed-1.6', 'Gemini-3\nFlash', 'Qwen3\nCoder', 'Deepseek\nv3.2'];
-var woDefense = [71.8, 39.7, 73.2, 78.9, 78.1, 84.9];
-var wDefense =  [21.9, 21.1, 35.6, 59.7, 54.3, 55.1];
-var deltas = [-49.9, -18.6, -37.5, -19.2, -23.8, -29.9];
+var woDefense = [71.78, 39.73, 73.15, 78.90, 78.08, 84.93];
+var wDefense =  [21.92, 21.10, 35.62, 59.73, 54.25, 55.07];
+var deltas = [-49.86, -18.63, -37.53, -19.17, -23.83, -29.86];
 
 defenseChart.setOption({
   tooltip: {
@@ -820,7 +806,7 @@ defenseChart.setOption({
     top: 10,
     textStyle: { fontFamily: 'Inter', fontSize: 13 }
   },
-  grid: { left: 60, right: 30, top: 50, bottom: 60 },
+  grid: { left: 90, right: 30, top: 50, bottom: 60 },
   xAxis: {
     type: 'category',
     data: models,
@@ -864,7 +850,75 @@ defenseChart.setOption({
   animationEasing: 'cubicOut'
 });
 
-window.addEventListener('resize', function() { defenseChart.resize(); });
+window.addEventListener('resize', function() { defenseChart.resize(); vulnChart.resize(); });
+
+// Vulnerability Grouped Bar Chart
+var vulnChart = echarts.init(document.getElementById('vulnerability-chart'));
+var vulnModels = ['Claude-4.5\nSonnet', 'Qwen3\nCoder', 'GPT-5.2', 'Gemini-3\nFlash', 'Seed-1.6', 'Deepseek\nv3.2'];
+var singleTurnASR = [44.66, 55.07, 25.48, 65.48, 63.29, 76.16];
+var multiTurnASR = [71.78, 78.08, 39.73, 78.90, 73.15, 84.93];
+var vulnDeltas = ['+27.1', '+23.0', '+14.3', '+13.4', '+9.9', '+8.8'];
+
+vulnChart.setOption({
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: { type: 'shadow' },
+    formatter: function(params) {
+      var idx = params[0].dataIndex;
+      return '<strong>' + vulnModels[idx].replace('\n',' ') + '</strong><br/>' +
+        '<span style="color:#6b9bd2;">●</span> Single-Turn: ' + singleTurnASR[idx] + '%<br/>' +
+        '<span style="color:#e76f51;">●</span> Multi-Turn: ' + multiTurnASR[idx] + '%<br/>' +
+        '<span style="color:#dc2626;">Degradation: ' + vulnDeltas[idx] + '%</span>';
+    }
+  },
+  legend: {
+    data: ['Single-Turn', 'Multi-Turn'],
+    top: 10,
+    textStyle: { fontFamily: 'Inter', fontSize: 13 }
+  },
+  grid: { left: 90, right: 30, top: 50, bottom: 60 },
+  xAxis: {
+    type: 'category',
+    data: vulnModels,
+    axisLabel: { fontFamily: 'Inter', fontSize: 11, interval: 0 },
+    axisTick: { alignWithLabel: true }
+  },
+  yAxis: {
+    type: 'value',
+    name: 'Attack Success Rate (%)',
+    nameTextStyle: { fontFamily: 'Inter', fontSize: 12 },
+    max: 100,
+    axisLabel: { fontFamily: 'Inter' }
+  },
+  series: [
+    {
+      name: 'Single-Turn',
+      type: 'bar',
+      barWidth: '28%',
+      data: singleTurnASR,
+      itemStyle: { color: '#6b9bd2', borderRadius: [3,3,0,0] },
+      label: { show: false }
+    },
+    {
+      name: 'Multi-Turn',
+      type: 'bar',
+      barWidth: '28%',
+      data: multiTurnASR,
+      itemStyle: { color: '#e76f51', borderRadius: [3,3,0,0] },
+      label: {
+        show: true,
+        position: 'top',
+        formatter: function(p) { return vulnDeltas[p.dataIndex]; },
+        fontFamily: 'Inter',
+        fontSize: 12,
+        fontWeight: 600,
+        color: '#dc2626'
+      }
+    }
+  ],
+  animationDuration: 1200,
+  animationEasing: 'cubicOut'
+});
 </script>
 
 </body>
