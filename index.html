@@ -1472,7 +1472,7 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
     // w/o defense icon — bottom
     series.push({
       type: 'scatter', data: [[m.cost, m.woRR]],
-      symbol: 'image://' + m.icon, symbolSize: 44, z: 5,
+      symbol: 'image://' + m.icon, symbolSize: 56, z: 5,
       tooltip: {
         formatter: function() {
           return '<strong>' + m.name + '</strong><br/>Cost: $' + m.cost.toFixed(2) + '/exp<br/>RR (w/o defense): ' + m.woRR.toFixed(1) + '%';
@@ -1482,7 +1482,7 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
     // w/ defense icon — top
     series.push({
       type: 'scatter', data: [[m.cost, m.wRR]],
-      symbol: 'image://' + m.icon, symbolSize: 44, z: 5,
+      symbol: 'image://' + m.icon, symbolSize: 56, z: 5,
       tooltip: {
         formatter: function() {
           return '<strong>' + m.name + ' + ToolShield</strong><br/>Cost: $' + m.cost.toFixed(2) + '/exp<br/>RR (w/ defense): ' + m.wRR.toFixed(1) + '%';
@@ -1492,8 +1492,8 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
     // Shield badge top-right
     series.push({
       type: 'scatter', data: [[m.cost, m.wRR]],
-      symbol: 'image://' + shieldIcon, symbolSize: 24,
-      symbolOffset: [18, -14], z: 8, tooltip: { show: false }
+      symbol: 'image://' + shieldIcon, symbolSize: 34,
+      symbolOffset: [24, -18], z: 8, tooltip: { show: false }
     });
     // Improvement annotation
     var improvement = (m.wRR - m.woRR).toFixed(1);
