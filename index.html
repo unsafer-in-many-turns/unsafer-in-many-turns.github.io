@@ -1513,13 +1513,13 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
   series[0].markLine = {
     silent: true,
     symbol: 'none',
-    lineStyle: { type: 'dashed', color: '#aaa', width: 1 },
+    lineStyle: { type: 'dashed', color: '#bbb', width: 1 },
     label: {
       position: 'start',
       fontSize: 13,
       fontFamily: 'Inter',
       fontWeight: 'bold',
-      color: '#555',
+      color: '#444',
       formatter: function(p) { return '$' + p.value.toFixed(2); }
     },
     data: [
@@ -1544,7 +1544,13 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
       nameTextStyle: { fontSize: 16, fontFamily: 'Inter', fontWeight: 'bold' },
       axisLabel: {
         fontSize: 15, fontFamily: 'Inter',
-        formatter: function(v) { return '$' + v.toFixed(2); }
+        formatter: function(v) {
+          var modelCosts = [0.16, 0.32, 1.06];
+          for (var i = 0; i < modelCosts.length; i++) {
+            if (Math.abs(v - modelCosts[i]) / modelCosts[i] < 0.2) return '';
+          }
+          return '$' + v.toFixed(2);
+        }
       },
       axisTick: { show: true },
       splitLine: { lineStyle: { type: 'dashed', color: '#e0e0e0' } }
