@@ -4,6 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>MT-AgentRisk / ToolShield</title>
+  <link rel="icon" type="image/png" href="assets/figures/shield.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   <style>
@@ -29,7 +30,7 @@
     section { padding:48px 0; }
     section.tint { background:#f7f8fa; }
     h2 { font-size:1.85rem; margin-bottom:18px; font-weight:700; color:#111; letter-spacing:-0.02em; padding-bottom:10px; border-bottom:2.5px solid #e0e0e0; }
-    h3 { font-size:1.25rem; margin-bottom:10px; color:#222; margin-top:32px; font-weight:700; }
+    h3 { font-size:1.4rem; margin-bottom:12px; color:#222; margin-top:32px; font-weight:700; }
     p { margin-bottom:16px; color:#444; font-size:0.92rem; }
     p:last-child { margin-bottom:0; }
     .lede { color:#444; margin-bottom:24px; font-size:1.0rem; line-height:1.7; font-weight:400; }
@@ -409,6 +410,7 @@
 
 <!-- Hero -->
 <div class="hero">
+  <img src="assets/figures/toolshield_logo.png" alt="ToolShield Logo" style="width:80px;height:80px;margin-bottom:16px;border-radius:12px;"/>
   <p class="project-name">MT-AgentRisk / ToolShield</p>
   <h1>Unsafer in Many Turns: Benchmarking and Defending<br/>Multi-Turn Safety Risks in Tool-Using Agents</h1>
   <p class="authors">
@@ -494,7 +496,7 @@
       </div>
       <div style="background:#fff;border:1.5px solid #029E73;border-radius:12px;padding:20px;position:relative;overflow:hidden;">
         <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#029E73;"></div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;"><span style="font-weight:700;font-size:1.15rem;color:#029E73;">🛡️ Defense: ToolShield</span><a href="https://github.com/CHATS-lab/MT-AgentRisk_ToolShield"><img src="https://img.shields.io/badge/Code-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub" style="vertical-align:middle;"/></a></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;"><span style="font-weight:700;font-size:1.15rem;color:#029E73;"><img src="assets/figures/shield.png" style="width:18px;height:18px;vertical-align:middle;margin-right:2px;" alt="shield"/> Defense: ToolShield</span><a href="https://github.com/CHATS-lab/MT-AgentRisk_ToolShield"><img src="https://img.shields.io/badge/Code-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub" style="vertical-align:middle;"/></a></div>
         <div style="font-size:0.95rem;color:#444;line-height:1.55;">A training-free, tool-agnostic, generalizable self-exploration defense that leverages tool-using agents' own capabilities to improve safety awareness.</div>
         <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
           <img src="https://img.shields.io/badge/Single--Turn Safety📈-1E6F5C?style=flat-square" alt="Single-Turn"/>
@@ -955,11 +957,11 @@ function renderDefense(d) {
   var timelineHtml = '<div class="turn"><div class="turn-dot green"></div>' +
     '<div class="turn-label">' + def.refusalTurn + '</div>' +
     '<div class="bubble bubble-user"><div class="bubble-icon">👤 User</div>' + def.refusalUser + '</div>' +
-    '<div class="bubble bubble-agent defended"><div class="bubble-icon">🛡️ <img src="assets/figures/claude.png" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet</div>' + def.refusalAgent + '</div></div>';
+    '<div class="bubble bubble-agent defended"><div class="bubble-icon"><img src="assets/figures/shield.png" style="width:14px;height:14px;vertical-align:middle;margin-right:2px;" alt="shield"/> <img src="assets/figures/claude.png" style="width:14px;height:14px;vertical-align:middle;margin-right:3px;" alt="Claude"/>Claude-4.5-Sonnet</div>' + def.refusalAgent + '</div></div>';
 
   // Exp panel beside the tool badge
   var expPanel = '<div class="exp-panel">' +
-    '<div class="exp-header">🛡️ Safety Experiences</div>' +
+    '<div class="exp-header"><img src="assets/figures/shield.png" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;" alt="shield"/> Safety Experiences</div>' +
     '<div class="exp-card"><div class="exp-id">' + def.expId + ':</div>' + def.expText + '</div></div>';
 
   return expPanel +
