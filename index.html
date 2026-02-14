@@ -414,7 +414,10 @@
     <img src="assets/figures/toolshield_logo.png" alt="ToolShield Logo" style="width:32px;height:32px;border-radius:6px;"/>
     <span class="project-name" style="margin-bottom:0;">MT-AgentRisk / ToolShield</span>
   </div>
-  <h1>Unsafer in Many Turns: Benchmarking and Defending<br/>Multi-Turn Safety Risks in Tool-Using Agents</h1>
+  <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:0;">
+    <img src="assets/figures/shield.png" alt="Project Logo" style="width:56px;height:56px;"/>
+    <h1 style="margin:0;">Unsafer in Many Turns: Benchmarking and Defending<br/>Multi-Turn Safety Risks in Tool-Using Agents</h1>
+  </div>
   <p class="authors">
     Xu Li<sup>1</sup>, Simon Yu<sup>1</sup>, Minzhou Pan<sup>1,2</sup>, Yiyou Sun<sup>3</sup>, Bo Li<sup>4,2</sup>, Dawn Song<sup>3,2</sup>, Xue Lin<sup>1</sup>, Weiyan Shi<sup>1</sup>
   </p>
@@ -498,7 +501,7 @@
       </div>
       <div style="background:#fff;border:1.5px solid #029E73;border-radius:12px;padding:20px;position:relative;overflow:hidden;">
         <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#029E73;"></div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;"><span style="font-weight:700;font-size:1.15rem;color:#029E73;"><img src="assets/figures/shield.png" style="width:18px;height:18px;vertical-align:middle;margin-right:2px;" alt="shield"/> Defense: ToolShield</span><a href="https://github.com/CHATS-lab/MT-AgentRisk_ToolShield"><img src="https://img.shields.io/badge/Code-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub" style="vertical-align:middle;"/></a></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;"><span style="font-weight:700;font-size:1.15rem;color:#029E73;"><img src="assets/figures/shield.png" style="width:22px;height:22px;vertical-align:middle;margin-right:2px;" alt="shield"/> Defense: ToolShield</span><a href="https://github.com/CHATS-lab/MT-AgentRisk_ToolShield"><img src="https://img.shields.io/badge/Code-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub" style="vertical-align:middle;"/></a></div>
         <div style="font-size:0.95rem;color:#444;line-height:1.55;">A training-free, tool-agnostic, generalizable self-exploration defense that leverages tool-using agents' own capabilities to improve safety awareness.</div>
         <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
           <img src="https://img.shields.io/badge/Single--Turn Safety📈-1E6F5C?style=flat-square" alt="Single-Turn"/>
@@ -1442,9 +1445,9 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
 (function() {
   // Data matching Python: costs = [204/193, 38/118, 16/102]
   var models = [
-    { name: 'Claude-4.5-Sonnet', cost: 204/193, woRR: 15.34, wRR: 72.88, icon: 'assets/figures/claude.png', color: '#E67E22' },
-    { name: 'Qwen3-Coder',      cost: 38/118,  woRR: 7.67,  wRR: 30.96, icon: 'assets/figures/qwen.png',   color: '#9B59B6' },
-    { name: 'Gemini-3-Flash',   cost: 16/102,  woRR: 6.03,  wRR: 24.66, icon: 'assets/figures/gemini.png', color: '#3498DB' }
+    { name: 'Claude-4.5-Sonnet', cost: 204/193, woRR: 15.34, wRR: 72.88, icon: 'assets/figures/claude.png', color: '#E67E22', dashColor: '#A85A10' },
+    { name: 'Qwen3-Coder',      cost: 38/118,  woRR: 7.67,  wRR: 30.96, icon: 'assets/figures/qwen.png',   color: '#9B59B6', dashColor: '#6C3483' },
+    { name: 'Gemini-3-Flash',   cost: 16/102,  woRR: 6.03,  wRR: 24.66, icon: 'assets/figures/gemini.png', color: '#3498DB', dashColor: '#1A5276' }
   ];
   var shieldIcon = 'assets/figures/shield.png';
 
@@ -1456,14 +1459,14 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
     // Dashed upward line connecting w/o (bottom) to w/ (top) — model color
     series.push({
       type: 'line', data: [[m.cost, arrowYStart], [m.cost, arrowYEnd]],
-      lineStyle: { type: 'dashed', width: 2.5, color: m.color },
+      lineStyle: { type: 'dashed', width: 2.5, color: m.dashColor },
       symbol: 'none', z: 6, tooltip: { show: false }
     });
     // Arrow triangle at top
     series.push({
       type: 'scatter', data: [[m.cost, arrowYEnd]],
       symbol: 'triangle', symbolSize: 14, z: 7,
-      itemStyle: { color: m.color, borderWidth: 0 },
+      itemStyle: { color: m.dashColor, borderWidth: 0 },
       tooltip: { show: false }
     });
     // w/o defense icon — bottom
