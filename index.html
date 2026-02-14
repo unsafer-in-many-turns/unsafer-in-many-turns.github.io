@@ -1490,7 +1490,7 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
     series.push({
       type: 'scatter', data: [[m.cost, m.wRR]],
       symbol: 'image://' + shieldIcon, symbolSize: 85,
-      symbolOffset: [24, -18], z: 8, tooltip: { show: false }
+      symbolOffset: [24, -18], z: 1, tooltip: { show: false }
     });
     // Improvement annotation
     var improvement = (m.wRR - m.woRR).toFixed(1);
