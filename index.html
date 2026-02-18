@@ -113,7 +113,7 @@
     ol.steps li { margin-bottom:6px; }
 
     /* Tools inline */
-    .tools-list { margin:20px 0; }
+    .tools-list { margin:20px auto; max-width:920px; }
     .tools-list span { display:inline-block; background:#f0f0f0; padding:4px 10px; border-radius:4px; margin:4px 4px 4px 0; font-size:0.85rem; }
 
     /* Code snippet */
@@ -121,7 +121,8 @@
       background:#1a1a2e;
       border-radius:8px;
       padding:20px 24px;
-      margin:20px 0;
+      margin:20px auto;
+      max-width:920px;
       overflow-x:auto;
       position:relative;
     }
@@ -334,7 +335,7 @@
     @media(max-width:700px){.defense-layout{grid-template-columns:1fr;}}
 
     /* Step Pipeline */
-    .step-pipeline { display:flex; align-items:stretch; gap:0; margin:24px 0; flex-wrap:wrap; justify-content:center; }
+    .step-pipeline { display:flex; align-items:stretch; gap:0; margin:24px auto; flex-wrap:wrap; justify-content:center; max-width:920px; }
     .step-card {
       flex:1 1 0; min-width:140px; max-width:200px;
       text-align:center; padding:20px 12px 16px;
@@ -362,7 +363,7 @@
     }
 
     /* Taxonomy Grid */
-    .taxonomy-grid { margin:20px 0; padding:0 48px; }
+    .taxonomy-grid { margin:20px auto; max-width:920px; }
     .taxonomy-row {
       display:flex; align-items:center; gap:12px;
       padding:14px 18px; margin-bottom:8px;
@@ -381,7 +382,7 @@
     .chip-gray { background:#f3f4f6; color:#4b5563; }
 
     /* Experience Examples */
-    .exp-examples { margin:32px 0 0; }
+    .exp-examples { margin:32px auto 0; max-width:920px; }
     .exp-examples h3 { margin-top:0; }
     .exp-tool-tabs { display:flex; gap:0; border-bottom:2px solid #e5e7eb; margin-bottom:20px; }
     .exp-tool-tabs button {
@@ -460,7 +461,7 @@
     <h2>Overview</h2>
 
     <!-- Problem Statement Visual -->
-    <div style="display:flex;gap:16px;margin:20px 0 28px;flex-wrap:wrap;">
+    <div style="display:flex;gap:16px;margin:20px auto 28px;flex-wrap:wrap;max-width:920px;">
       <div style="flex:1;min-width:200px;background:#fff;border:1.5px solid #e5e7eb;border-radius:12px;padding:20px;text-align:center;">
         <div style="font-size:2.2rem;margin-bottom:10px;">🔄</div>
         <div style="font-weight:700;font-size:1.3rem;color:#222;margin-bottom:8px;">Multi-Turn Interactions</div>
@@ -483,7 +484,7 @@
     <p>We present the first comprehensive study of multi-turn tool-agent safety:</p>
 
     <!-- Contribution Cards -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 0;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px auto 0;max-width:920px;">
       <div style="background:#fff;border:1.5px solid #0173B2;border-radius:12px;padding:20px;position:relative;overflow:hidden;">
         <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#0173B2;"></div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;"><span style="font-weight:700;font-size:1.15rem;color:#0173B2;">📊 Safety Benchmark: MT-AgentRisk</span><a href="https://huggingface.co/datasets/CHATS-Lab/MT-AgentRisk"><img src="https://img.shields.io/badge/🤗_Dataset-FFD21E?style=flat-square" alt="HuggingFace" style="vertical-align:middle;"/></a></div>
@@ -513,7 +514,7 @@
     </div>
     <p class="lede" style="margin-bottom:16px;">See how multi-turn attacks bypass single-turn safety and how ToolShield defends against them.</p>
 
-    <div id="case-collapsible" style="display:none;">
+    <div id="case-collapsible" style="display:none;max-width:920px;margin:0 auto;">
     <!-- Example Tabs -->
     <div class="example-tabs">
       <button class="active" onclick="switchExample(0)">Example 1</button>
@@ -572,11 +573,11 @@
         </div>
       </div>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;cursor:pointer;margin:16px 0 8px;" onclick="toggleTaxonomyFig()">
+    <div style="display:flex;align-items:center;gap:12px;cursor:pointer;margin:16px auto 8px;max-width:920px;" onclick="toggleTaxonomyFig()">
       <span style="font-weight:600;font-size:1.0rem;color:#555;">Datailed Taxonomy Diagram</span>
       <span id="taxonomy-fig-toggle-icon" style="font-size:0.85rem;color:#1a6dd4;font-weight:600;">▶ Show</span>
     </div>
-    <div id="taxonomy-fig-collapsible" style="display:none;">
+    <div id="taxonomy-fig-collapsible" style="display:none;max-width:920px;margin:0 auto;">
       <figure>
         <img src="assets/figures/taxonomy.png" alt="Taxonomy diagram"/>
         <figcaption>Multi-Turn Attack Taxonomy: transforming single-turn harms into multi-turn sequences.</figcaption>
@@ -642,11 +643,11 @@
         <div class="step-desc">Experiences injected into the agent's context during deployment</div>
       </div>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;cursor:pointer;margin:16px 0 8px;" onclick="togglePipelineFig()">
+    <div style="display:flex;align-items:center;gap:12px;cursor:pointer;margin:16px auto 8px;max-width:920px;" onclick="togglePipelineFig()">
       <span style="font-weight:600;font-size:1.0rem;color:#555;">Detailed Pipeline Diagram</span>
       <span id="pipeline-fig-toggle-icon" style="font-size:0.85rem;color:#1a6dd4;font-weight:600;">▶ Show</span>
     </div>
-    <div id="pipeline-fig-collapsible" style="display:none;">
+    <div id="pipeline-fig-collapsible" style="display:none;max-width:920px;margin:0 auto;">
       <figure>
         <img src="assets/figures/pipeline.png" alt="ToolShield pipeline"/>
         <figcaption>ToolShield self-exploration pipeline.</figcaption>
@@ -770,7 +771,7 @@
 
     <div id="defense-chart" style="width:85%;height:420px;margin:24px auto;"></div>
 
-    <div class="two-col" style="align-items:center;">
+    <div class="two-col" style="align-items:center;max-width:920px;margin:0 auto;">
       <div>
         <div id="defense-single-chart" style="width:100%;height:400px;"></div>
         <p style="font-size:0.85rem;color:#666;text-align:center;margin-top:4px;">Single-turn defense effectiveness.</p>
@@ -787,11 +788,11 @@
     <p style="font-size:0.85rem;color:#666;text-align:center;margin-top:-8px;">Cost per experience vs. Rejection Rate: model icons show w/o defense, shielded icons show w/ ToolShield.</p>
 
     <p><strong>ToolShield is General:</strong> Safety experiences generated by one model can be effectively applied to others. Stronger models benefit from safety experiences generated by weaker models and vice versa.</p>
-    <div style="display:flex;align-items:center;gap:12px;cursor:pointer;margin:16px 0 8px;" onclick="toggleTransfer()">
+    <div style="display:flex;align-items:center;gap:12px;cursor:pointer;margin:16px auto 8px;max-width:920px;" onclick="toggleTransfer()">
       <span style="font-weight:600;font-size:1.0rem;color:#555;">Cross-Model Transferability Details</span>
       <span id="transfer-toggle-icon" style="font-size:0.85rem;color:#1a6dd4;font-weight:600;">▶ Show</span>
     </div>
-    <div id="transfer-collapsible" style="display:none;">
+    <div id="transfer-collapsible" style="display:none;max-width:920px;margin:0 auto;">
       <figure>
         <img src="assets/figures/cost_vs_asr_reduction_combined.png" alt="Cross-model transferability and cost scaling" style="width:100%;margin:0 auto;display:block;"/>
         <figcaption>Cross-model transferability and cost vs. ASR reduction across single-turn and multi-turn settings.</figcaption>
