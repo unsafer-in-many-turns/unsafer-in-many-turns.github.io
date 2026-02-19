@@ -33,7 +33,13 @@
     h3 { font-size:1.35rem; margin-bottom:12px; color:#222; margin-top:32px; font-weight:700; }
     p { margin-bottom:16px; color:#444; font-size:1.0rem; }
     p:last-child { margin-bottom:0; }
-    .lede { color:#444; margin-bottom:24px; font-size:1.0rem; line-height:1.7; font-weight:400; }
+    .lede { color:#444; margin-bottom:24px; font-size:1.0rem; line-height:1.7; font-weight:400; max-width:860px; }
+
+    /* Left-accented content blocks */
+    .accent-block { border-left:3px solid #d0d5dd; padding-left:20px; border-radius:2px; }
+    .accent-blue  { border-left-color:#0173B2; }
+    .accent-green { border-left-color:#029E73; }
+    .accent-orange { border-left-color:#DE8F05; }
 
     /* Figures */
     figure { margin:24px 0; }
@@ -120,6 +126,7 @@
     .code-block {
       background:#1a1a2e;
       border-radius:8px;
+      border-left:3px solid #029E73;
       padding:20px 24px;
       margin:20px auto;
       max-width:920px;
@@ -545,7 +552,7 @@
     
     <h3>Multi-Turn Attack Taxonomy (MTA)</h3>
     <p>To systematically study the intersection, we propose an attack taxonomy that captures how single-turn harms can be distributed across turns. The taxonomy operates along three dimensions, yielding 8 attack subcategories:</p>
-    <div class="taxonomy-grid">
+    <div class="taxonomy-grid accent-block accent-blue">
       <div class="taxonomy-row">
         <span class="taxonomy-label">Format</span>
         <span class="taxonomy-desc">How the transformation is structured</span>
@@ -586,7 +593,7 @@
 
     <h3>Benchmark Statistics</h3>
     <p>Apply MTA on existing single-turn harmful tasks, <strong>MT-AgentRisk</strong> contains 365 tasks across 5 tools, averaging 3.19 turns per task, covering all 8 attack subcategories. (Click the tool icon below to view more examples)</p>
-    <div class="tools-list">
+    <div class="tools-list accent-block accent-blue">
       <span onclick="showToolExample('filesystem')"><img src="https://img.shields.io/badge/-Filesystem--MCP-black?style=flat-square&logo=files&logoColor=white" alt="Filesystem-MCP" style="vertical-align:middle;margin-right:4px;"/> (70)</span>
       <span onclick="showToolExample('playwright')"><img src="https://img.shields.io/badge/-Playwright--MCP-black?style=flat-square&logo=googlechrome&logoColor=white" alt="Playwright-MCP" style="vertical-align:middle;margin-right:4px;"/> (140)</span>
       <span onclick="showToolExample('terminal')"><img src="https://img.shields.io/badge/-Terminal-black?style=flat-square&logo=gnometerminal&logoColor=white" alt="Terminal" style="vertical-align:middle;margin-right:4px;"/> (70)</span>
@@ -612,7 +619,7 @@
   <div class="container">
     <h2>How Does ToolShield Improve Safety?</h2>
     <p class="lede"><strong>ToolShield</strong> is a training-free, tool-agnostic defense. The key insight is that the same capability that enables tool use also enables recognizing tool misuse. When encountering a new tool, the agent:</p>
-    <div class="step-pipeline">
+    <div class="step-pipeline accent-block accent-green">
       <div class="step-card">
         <div class="step-num c1">1</div>
         <div class="step-title">Synthesize</div>
@@ -677,7 +684,7 @@
   <span class="flag">--agent</span> <span class="value">codex</span></pre>
     </div>
 
-    <div class="exp-examples">
+    <div class="exp-examples accent-block accent-orange">
       <div style="display:flex;align-items:center;gap:12px;cursor:pointer;margin-bottom:8px;" onclick="toggleExpExamples()">
         <span style="font-weight:600;font-size:1.0rem;color:#555;">Generated Experience Examples</span>
         <span id="exp-toggle-icon" style="font-size:0.85rem;color:#1a6dd4;font-weight:600;transition:transform 0.2s;">▶ Show</span>
