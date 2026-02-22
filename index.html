@@ -1219,6 +1219,8 @@ defenseChart.setOption({
   yAxis: {
     type: 'value',
     name: 'Attack Success Rate (%)',
+    nameLocation: 'middle',
+    nameGap: 40,
     nameTextStyle: { fontFamily: 'Inter', fontSize: 14 },
     max: 100,
     axisLabel: { fontFamily: 'Inter', fontSize: 13 }
@@ -1295,6 +1297,8 @@ vulnChart.setOption({
   yAxis: {
     type: 'value',
     name: 'Attack Success Rate (%)',
+    nameLocation: 'middle',
+    nameGap: 40,
     nameTextStyle: { fontFamily: 'Inter', fontSize: 14 },
     max: 100,
     axisLabel: { fontFamily: 'Inter', fontSize: 13 }
@@ -1367,6 +1371,8 @@ defenseSingleChart.setOption({
   yAxis: {
     type: 'value',
     name: 'ASR (%)',
+    nameLocation: 'middle',
+    nameGap: 35,
     nameTextStyle: { fontFamily: 'Inter', fontSize: 13 },
     max: 100,
     axisLabel: { fontFamily: 'Inter', fontSize: 12 }
@@ -1607,6 +1613,8 @@ var costAsrShieldChart = echarts.init(document.getElementById('cost-asr-shield-c
       min: 0, max: 80,
       splitNumber: 4,
       name: 'Rejection Rate (%)',
+      nameLocation: 'middle',
+      nameGap: 40,
       nameTextStyle: { fontSize: 16, fontFamily: 'Inter', fontWeight: 'bold' },
       axisLabel: { fontSize: 15, fontFamily: 'Inter', formatter: '{value}%' },
       splitLine: { lineStyle: { type: 'dashed', color: '#e0e0e0' } }
